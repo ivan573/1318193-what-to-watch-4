@@ -8,9 +8,12 @@ const HEADER_MOVIE = {
   year: 2014
 };
 
+const MOVIES_LIST = [`Fantastic Beasts: The Crimes of Grindelwald`, `Bohemian Rhapsody`, `Macbeth`];
+
 ReactDOM.render(
     <App
-      headerMovie={HEADER_MOVIE}
+      headerMovie = {HEADER_MOVIE}
+      moviesList = {MOVIES_LIST}
     />,
     document.getElementById(`root`)
 );
