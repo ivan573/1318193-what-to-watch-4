@@ -14,13 +14,11 @@ const App = (props) => {
 };
 
 App.propTypes = {
-  headerMovie: PropTypes.objectOf(
-      PropTypes.shape({
-        title: PropTypes.string.isRequired,
-        genre: PropTypes.string.isRequired,
-        year: PropTypes.number.isRequired,
-      })
-  ).isRequired,
+  headerMovie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+  }),
   moviesList: PropTypes.arrayOf(
       PropTypes.string
   ).isRequired
