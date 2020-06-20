@@ -21,12 +21,9 @@ const MovieCard = (props) => {
 };
 
 const Main = (props) => {
-  const {data} = props;
-  const {headerMovie, moviesList} = data;
-  // eslint-disable-next-line react/prop-types
+  const {headerMovie, moviesList} = props;
   const {title, genre, year} = headerMovie;
 
-  // eslint-disable-next-line react/prop-types
   const movieCards = moviesList.map((it) => {
     return (<MovieCard key={createKey(it)} movieName = {it} />);
   });
@@ -157,19 +154,15 @@ MovieCard.propTypes = {
 };
 
 Main.propTypes = {
-  data: PropTypes.objectOf(
+  headerMovie: PropTypes.objectOf(
       PropTypes.shape({
-        headerMovie: PropTypes.objectOf(
-            PropTypes.shape({
-              title: PropTypes.string.isRequired,
-              genre: PropTypes.string.isRequired,
-              year: PropTypes.number.isRequired
-            })
-        ).isRequired,
-        moviesList: PropTypes.arrayOf(
-            PropTypes.string
-        ).isRequired
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired
       })
+  ).isRequired,
+  moviesList: PropTypes.arrayOf(
+      PropTypes.string
   ).isRequired
 };
 
