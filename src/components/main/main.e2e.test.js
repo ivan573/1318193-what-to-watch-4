@@ -24,7 +24,7 @@ it(`Title is clicked on`, () => {
 
   const title = main.find(`.movie-card__title`);
 
-  title.props().onClick();
+  title.simulate(`click`);
 
-  expect(onTitleClick.mock.calls.length).toBe(1);
+  expect(onTitleClick).toHaveBeenCalledTimes(1);
 });
