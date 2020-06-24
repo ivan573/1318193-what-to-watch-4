@@ -21,7 +21,7 @@ const MovieCard = (props) => {
 };
 
 const Main = (props) => {
-  const {headerMovie, moviesList} = props;
+  const {headerMovie, moviesList, onTitleClick} = props;
   const {title, genre, year} = headerMovie;
 
   const movieCards = moviesList.map((it) => {
@@ -60,7 +60,12 @@ const Main = (props) => {
             </div>
 
             <div className="movie-card__desc">
-              <h2 className="movie-card__title">{title}</h2>
+              <h2
+                className="movie-card__title"
+                onClick={onTitleClick}
+              >
+                {title}
+              </h2>
               <p className="movie-card__meta">
                 <span className="movie-card__genre">{genre}</span>
                 <span className="movie-card__year">{year}</span>
@@ -161,7 +166,8 @@ Main.propTypes = {
   }),
   moviesList: PropTypes.arrayOf(
       PropTypes.string
-  ).isRequired
+  ).isRequired,
+  onTitleClick: PropTypes.func.isRequired
 };
 
 
