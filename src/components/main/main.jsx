@@ -1,32 +1,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const createKey = (name) => {
-  return name.replace(/\s+/g, `-`).replace(/:/g, ``).toLowerCase();
-};
+import MoviesList from "../movies-list/movies-list.jsx";
 
-const MovieCard = (props) => {
-  const {movieName} = props;
-
-  return (
-    <article className="small-movie-card catalog__movies-card">
-      <div className="small-movie-card__image">
-        <img src={`img/` + createKey(movieName) + `.jpg`} alt={movieName} width="280" height="175" />
-      </div>
-      <h3 className="small-movie-card__title">
-        <a className="small-movie-card__link" href="movie-page.html">{movieName}</a>
-      </h3>
-    </article>
-  );
-};
+const cardHoverHandler = () => {};
 
 const Main = (props) => {
   const {headerMovie, moviesList, onTitleClick} = props;
   const {title, genre, year} = headerMovie;
-
-  const movieCards = moviesList.map((it) => {
-    return (<MovieCard key={createKey(it)} movieName = {it} />);
-  });
 
   return (
     <React.Fragment>
@@ -127,9 +108,10 @@ const Main = (props) => {
             </li>
           </ul>
 
-          <div className="catalog__movies-list">
-            {movieCards}
-          </div>
+          <MoviesList
+            moviesList = {moviesList}
+            onCardHover = {cardHoverHandler}
+          />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>
@@ -154,10 +136,6 @@ const Main = (props) => {
   );
 };
 
-MovieCard.propTypes = {
-  movieName: PropTypes.string.isRequired
-};
-
 Main.propTypes = {
   headerMovie: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -165,7 +143,11 @@ Main.propTypes = {
     year: PropTypes.number.isRequired
   }),
   moviesList: PropTypes.arrayOf(
-      PropTypes.string
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired
+      })
   ).isRequired,
   onTitleClick: PropTypes.func.isRequired
 };

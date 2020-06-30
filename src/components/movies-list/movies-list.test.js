@@ -1,22 +1,17 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Main from "./main.jsx";
+import MoviesList from "./movies-list.jsx";
 
-test(`Main matches snapshot`, () => {
+test(`MovieCard matches snapshot`, () => {
   const tree = renderer
-    .create(<Main
-      headerMovie = {{
-        title: `The Grand Budapest Hotel`,
-        genre: `Drama`,
-        year: 2014
-      }}
+    .create(<MoviesList
       moviesList = {[
         {title: `Fantastic Beasts: The Crimes of Grindelwald`, genre: `Kids & Family`, year: 2016},
         {title: `Bohemian Rhapsody`, genre: `Drama`, year: 2018},
         {title: `Macbeth`, genre: `Drama`, year: 2015},
         {title: `Aviator`, genre: `Drama`, year: 2004}
       ]}
-      onTitleClick = {() => {}}
+      onCardHover = {() => {}}
     />).toJSON;
 
   expect(tree).toMatchSnapshot();

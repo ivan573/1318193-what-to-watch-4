@@ -23,7 +23,11 @@ App.propTypes = {
     year: PropTypes.number.isRequired,
   }),
   moviesList: PropTypes.arrayOf(
-      PropTypes.string
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired
+      }).isRequired
   ).isRequired
 };
 

@@ -10,7 +10,12 @@ test(`App matches snapshot`, () => {
         genre: `Drama`,
         year: 2014
       }}
-      moviesList = {[`Fantastic Beasts: The Crimes of Grindelwald`, `Bohemian Rhapsody`, `Macbeth`]}
+      moviesList = {[
+        {title: `Fantastic Beasts: The Crimes of Grindelwald`, genre: `Kids & Family`, year: 2016},
+        {title: `Bohemian Rhapsody`, genre: `Drama`, year: 2018},
+        {title: `Macbeth`, genre: `Drama`, year: 2015},
+        {title: `Aviator`, genre: `Drama`, year: 2004}
+      ]}
     />).toJSON;
 
   expect(tree).toMatchSnapshot();
