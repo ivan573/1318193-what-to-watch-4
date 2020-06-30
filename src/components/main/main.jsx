@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import MoviesList from "../movies-list/movies-list.jsx";
 
-const cardHoverHandler = () => {};
-
 const Main = (props) => {
   const {headerMovie, moviesList, onTitleClick} = props;
   const {title, genre, year} = headerMovie;
@@ -110,7 +108,6 @@ const Main = (props) => {
 
           <MoviesList
             moviesList = {moviesList}
-            onCardHover = {cardHoverHandler}
           />
 
           <div className="catalog__more">

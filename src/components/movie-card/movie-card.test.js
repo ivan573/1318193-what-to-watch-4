@@ -6,7 +6,7 @@ test(`MovieCard matches snapshot`, () => {
   const tree = renderer
     .create(<MovieCard
       key={`aviator`}
-      movieName={`Aviator`}
+      movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
       onCardHover={() => {}}
     />).toJSON;
 

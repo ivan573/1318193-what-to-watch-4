@@ -13,7 +13,7 @@ it(`Mouse is over the card`, () => {
   const movieCard = shallow(
       <MovieCard
         key={`aviator`}
-        movieName={`Aviator`}
+        movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
         onCardHover={onMouseOver}
       />
   );
