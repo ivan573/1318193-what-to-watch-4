@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import MovieCard from "../movie-card/movie-card.jsx";
 
-import {createKey} from "../../utils.js";
-
 class MoviesList extends PureComponent {
   constructor(props) {
     super(props);
@@ -22,7 +20,7 @@ class MoviesList extends PureComponent {
     const movieCards = moviesList.map((it) => {
       return (
         <MovieCard
-          key={createKey(it.title)}
+          key={it.id}
           movie={it}
           onCardHover={this._onCardHover}
         />);
@@ -47,7 +45,9 @@ MoviesList.propTypes = {
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
-        year: PropTypes.number.isRequired
+        year: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
+        src: PropTypes.string.isRequired
       }).isRequired
   ).isRequired
 };
