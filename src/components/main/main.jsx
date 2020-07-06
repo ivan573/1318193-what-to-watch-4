@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import MoviesList from "../movies-list/movies-list.jsx";
 
 const Main = (props) => {
-  const {headerMovie, moviesList, onTitleClick} = props;
+  const {headerMovie, moviesList, onTitleClick, onCardClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -108,6 +108,7 @@ const Main = (props) => {
 
           <MoviesList
             moviesList = {moviesList}
+            onCardClick = {onCardClick}
           />
 
           <div className="catalog__more">
@@ -148,7 +149,8 @@ Main.propTypes = {
         src: PropTypes.string.isRequired
       })
   ).isRequired,
-  onTitleClick: PropTypes.func.isRequired
+  onTitleClick: PropTypes.func.isRequired,
+  onCardClick: PropTypes.func.isRequired
 };
 
 

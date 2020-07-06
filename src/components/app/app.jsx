@@ -1,20 +1,71 @@
-import React from "react";
-import Main from "../main/main.jsx";
+import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+import {Switch, Route, BrowserRouter} from "react-router-dom";
+
+import Main from "../main/main.jsx";
+import MovieInfo from "../movie-info/movie-info.jsx";
 
 const titleClickHandler = () => {};
 
-const App = (props) => {
-  const {headerMovie, moviesList} = props;
+class App extends PureComponent {
+  constructor(props) {
+    super(props);
 
-  return (
-    <Main
-      headerMovie = {headerMovie}
-      moviesList = {moviesList}
-      onTitleClick = {titleClickHandler}
-    />
-  );
-};
+    this.state = {movieToDisplay: null};
+
+    this._movieCardClickHandler = this._movieCardClickHandler.bind(this);
+  }
+
+  render() {
+    return (
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            {this._renderApp()}
+          </Route>
+          <Route exact path="/dev-component">
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    );
+  }
+
+  _renderApp() {
+    const {headerMovie, moviesList} = this.props;
+    const {movieToDisplay} = this.state;
+
+    if (!movieToDisplay) {
+      return (
+        <Main
+          headerMovie = {headerMovie}
+          moviesList = {moviesList}
+          onTitleClick = {titleClickHandler}
+          onCardClick = {this._movieCardClickHandler}
+        />
+      );
+    }
+
+    return (
+      <MovieInfo movie = {this.state.movieToDisplay} />
+    );
+  }
+
+  _movieCardClickHandler(movie) {
+    this.setState({movieToDisplay: movie});
+  }
+}
+
+// const App = (props) => {
+//   const {headerMovie, moviesList} = props;
+
+//   return (
+//     <Main
+//       headerMovie = {headerMovie}
+//       moviesList = {moviesList}
+//       onTitleClick = {titleClickHandler}
+//     />
+//   );
+// };
 
 App.propTypes = {
   headerMovie: PropTypes.shape({
