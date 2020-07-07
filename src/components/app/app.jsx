@@ -11,7 +11,7 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {movieToDisplay: null};
+    this.state = {activeMovie: null};
 
     this._movieCardClickHandler = this._movieCardClickHandler.bind(this);
   }
@@ -32,40 +32,22 @@ class App extends PureComponent {
 
   _renderApp() {
     const {headerMovie, moviesList} = this.props;
-    const {movieToDisplay} = this.state;
+    const {activeMovie} = this.state;
 
-    if (!movieToDisplay) {
-      return (
-        <Main
-          headerMovie = {headerMovie}
-          moviesList = {moviesList}
-          onTitleClick = {titleClickHandler}
-          onCardClick = {this._movieCardClickHandler}
-        />
-      );
-    }
-
-    return (
-      <MovieInfo movie = {this.state.movieToDisplay} />
-    );
+    return activeMovie
+      ? <MovieInfo movie={this.state.activeMovie} />
+      : <Main
+        headerMovie={headerMovie}
+        moviesList={moviesList}
+        onTitleClick={titleClickHandler}
+        onCardClick={this._movieCardClickHandler}
+      />;
   }
 
   _movieCardClickHandler(movie) {
-    this.setState({movieToDisplay: movie});
+    this.setState({activeMovie: movie});
   }
 }
-
-// const App = (props) => {
-//   const {headerMovie, moviesList} = props;
-
-//   return (
-//     <Main
-//       headerMovie = {headerMovie}
-//       moviesList = {moviesList}
-//       onTitleClick = {titleClickHandler}
-//     />
-//   );
-// };
 
 App.propTypes = {
   headerMovie: PropTypes.shape({

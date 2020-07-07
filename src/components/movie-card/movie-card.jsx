@@ -10,7 +10,10 @@ const MovieCard = (props) => {
   };
 
   return (
-    <article className="small-movie-card catalog__movies-card" onMouseOver={() => onCardHover(movie)} onClick={() => onCardClick(movie)}>
+    <article className="small-movie-card catalog__movies-card"
+      onMouseOver={() => onCardHover(movie)}
+      onClick={() => onCardClick(movie)}
+    >
       <div className="small-movie-card__image">
         <img src={movie.src} alt={movie.title} width="280" height="175" />
       </div>

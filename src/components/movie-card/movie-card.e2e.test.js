@@ -56,7 +56,10 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
 
     const title = movieCard.find(`.small-movie-card__link`);
 
-    title.simulate(`click`);
+    title.simulate(`click`, {
+      preventDefault: () => {
+      }
+    });
 
     expect(onCardClick).toHaveBeenCalledTimes(1);
   });
