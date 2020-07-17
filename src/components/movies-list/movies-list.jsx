@@ -18,12 +18,14 @@ class MoviesList extends PureComponent {
   render() {
     const {moviesList, onCardClick} = this.props;
 
+    const activeCard = this.state.activeCard;
+
     const movieCards = moviesList.map((it) => {
       return (
         <MovieCard
           key={it.id}
           movie={it}
-          isActive={it === this.state.activeCard}
+          isActive={it === activeCard}
           onMouseOverCard={this._onMouseOverCard}
           onMouseOutOfCard={this._onMouseOutOfCard}
           onCardClick={onCardClick}
