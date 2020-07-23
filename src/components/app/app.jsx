@@ -5,6 +5,8 @@ import {Switch, Route, BrowserRouter} from "react-router-dom";
 import Main from "../main/main.jsx";
 import MovieInfo from "../movie-info/movie-info.jsx";
 
+const PLAY_DELAY = 1000;
+
 const titleClickHandler = () => {};
 
 class App extends PureComponent {
@@ -45,7 +47,7 @@ class App extends PureComponent {
   }
 
   _movieCardClickHandler(movie) {
-    this.setState({activeMovie: movie});
+    setTimeout(() => this.setState({activeMovie: movie}), PLAY_DELAY);
   }
 }
 
@@ -61,7 +63,8 @@ App.propTypes = {
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
         id: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired
+        image: PropTypes.string.isRequired,
+        preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired
 };

@@ -11,18 +11,23 @@ class MoviesList extends PureComponent {
       activeCard: null
     };
 
-    this._onCardHover = this._onCardHover.bind(this);
+    this._onMouseOverCard = this._onMouseOverCard.bind(this);
+    this._onMouseOutOfCard = this._onMouseOutOfCard.bind(this);
   }
 
   render() {
     const {moviesList, onCardClick} = this.props;
+
+    const activeCard = this.state.activeCard;
 
     const movieCards = moviesList.map((it) => {
       return (
         <MovieCard
           key={it.id}
           movie={it}
-          onCardHover={this._onCardHover}
+          isActive={it === activeCard}
+          onMouseOverCard={this._onMouseOverCard}
+          onMouseOutOfCard={this._onMouseOutOfCard}
           onCardClick={onCardClick}
         />);
     });
@@ -34,9 +39,15 @@ class MoviesList extends PureComponent {
     );
   }
 
-  _onCardHover(movie) {
+  _onMouseOverCard(movie) {
     this.setState({
       activeCard: movie
+    });
+  }
+
+  _onMouseOutOfCard() {
+    this.setState({
+      activeCard: null
     });
   }
 }
@@ -48,7 +59,8 @@ MoviesList.propTypes = {
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
         id: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired
+        image: PropTypes.string.isRequired,
+        preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired,
   onCardClick: PropTypes.func.isRequired

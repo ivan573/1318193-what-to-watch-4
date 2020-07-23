@@ -146,7 +146,8 @@ Main.propTypes = {
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
         id: PropTypes.string.isRequired,
-        src: PropTypes.string.isRequired
+        image: PropTypes.string.isRequired,
+        preview: PropTypes.string.isRequired
       })
   ).isRequired,
   onTitleClick: PropTypes.func.isRequired,

@@ -14,8 +14,10 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
     const movieCard = shallow(
         <MovieCard
           key={`aviator`}
+          isActive={false}
           movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
-          onCardHover={onMouseOver}
+          onMouseOverCard={onMouseOver}
+          onMouseOutOfCard={() => {}}
           onCardClick={() => {}}
         />
     );
@@ -25,21 +27,23 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
     expect(onMouseOver).toHaveBeenCalledTimes(1);
   });
 
-  it(`The card has been clicked on`, () => {
-    const onCardClick = jest.fn();
+  it(`The mouse is out`, () => {
+    const onMouseOut = jest.fn();
 
     const movieCard = shallow(
         <MovieCard
           key={`aviator`}
+          isActive={false}
           movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
-          onCardHover={() => {}}
-          onCardClick={onCardClick}
+          onMouseOverCard={() => {}}
+          onMouseOutOfCard={onMouseOut}
+          onCardClick={() => {}}
         />
     );
 
-    movieCard.simulate(`click`);
+    movieCard.simulate(`mouseout`);
 
-    expect(onCardClick).toHaveBeenCalledTimes(1);
+    expect(onMouseOut).toHaveBeenCalledTimes(1);
   });
 
   it(`The card title has been clicked on`, () => {
@@ -48,8 +52,10 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
     const movieCard = shallow(
         <MovieCard
           key={`aviator`}
+          isActive={false}
           movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
-          onCardHover={() => {}}
+          onMouseOverCard={() => {}}
+          onMouseOutOfCard={() => {}}
           onCardClick={onCardClick}
         />
     );
