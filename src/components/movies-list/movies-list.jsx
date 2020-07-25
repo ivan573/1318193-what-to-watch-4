@@ -3,6 +3,11 @@ import PropTypes from "prop-types";
 
 import MovieCard from "../movie-card/movie-card.jsx";
 
+const modes = {
+  ALL: `ALL`,
+  BY_GENRE: `BY_GENRE`
+};
+
 class MoviesList extends PureComponent {
   constructor(props) {
     super(props);
@@ -16,11 +21,17 @@ class MoviesList extends PureComponent {
   }
 
   render() {
-    const {moviesList, onCardClick} = this.props;
+    const {moviesList, onCardClick, mode} = this.props;
 
     const activeCard = this.state.activeCard;
 
-    const movieCards = moviesList.map((it) => {
+    let movies = moviesList.slice();
+
+    if (mode.mode === modes.BY_GENRE) {
+      movies = movies.filter((movie) => movie.genre === mode.genre && movie.title !== mode.title);
+    }
+
+    const movieCards = movies.map((it) => {
       return (
         <MovieCard
           key={it.id}
@@ -63,7 +74,12 @@ MoviesList.propTypes = {
         preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired,
-  onCardClick: PropTypes.func.isRequired
+  onCardClick: PropTypes.func.isRequired,
+  mode: PropTypes.shape({
+    mode: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    genre: PropTypes.string
+  }).isRequired
 };
 
-export {MoviesList as default};
+export {MoviesList as default, modes};

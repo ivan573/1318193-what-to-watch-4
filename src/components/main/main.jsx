@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import MoviesList from "../movies-list/movies-list.jsx";
+import MoviesList, {modes} from "../movies-list/movies-list.jsx";
 
 const Main = (props) => {
   const {headerMovie, moviesList, onTitleClick, onCardClick} = props;
@@ -109,6 +109,7 @@ const Main = (props) => {
           <MoviesList
             moviesList = {moviesList}
             onCardClick = {onCardClick}
+            mode={{mode: modes.ALL}}
           />
 
           <div className="catalog__more">
