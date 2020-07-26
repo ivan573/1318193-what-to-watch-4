@@ -75,13 +75,13 @@ class MovieInfo extends PureComponent {
                 <nav className="movie-nav movie-card__nav">
                   <ul className="movie-nav__list">
                     <li className={this.state.activeTab === tabOptions.OVERVIEW ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link" onClick={() => this._tabClickHandler(tabOptions.OVERVIEW)}>Overview</a>
+                      <a href="#" className="movie-nav__link" onClick={(evt) => this._tabClickHandler(evt, tabOptions.OVERVIEW)}>Overview</a>
                     </li>
                     <li className={this.state.activeTab === tabOptions.DETAILS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link" onClick={() => this._tabClickHandler(tabOptions.DETAILS)}>Details</a>
+                      <a href="#" className="movie-nav__link" onClick={(evt) => this._tabClickHandler(evt, tabOptions.DETAILS)}>Details</a>
                     </li>
                     <li className={this.state.activeTab === tabOptions.REVIEWS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link " onClick={() => this._tabClickHandler(tabOptions.REVIEWS)}>Reviews</a>
+                      <a href="#" className="movie-nav__link " onClick={(evt) => this._tabClickHandler(evt, tabOptions.REVIEWS)}>Reviews</a>
                     </li>
                   </ul>
                 </nav>
@@ -127,7 +127,8 @@ class MovieInfo extends PureComponent {
     );
   }
 
-  _tabClickHandler(tab) {
+  _tabClickHandler(evt, tab) {
+    evt.preventDefault();
     this.setState({activeTab: tab});
   }
 }
