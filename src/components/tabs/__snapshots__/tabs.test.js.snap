@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Tabs match snapshots Details tab matches snapshot 1`] = `[Function]`;
+
+exports[`Tabs match snapshots Overview tab matches snapshot 1`] = `[Function]`;
+
+exports[`Tabs match snapshots Reviews tab matches snapshot 1`] = `[Function]`;
