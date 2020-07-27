@@ -37,7 +37,11 @@ class App extends PureComponent {
     const {activeMovie} = this.state;
 
     return activeMovie
-      ? <MovieInfo movie={this.state.activeMovie} />
+      ? <MovieInfo
+        movie={this.state.activeMovie}
+        moviesList={moviesList}
+        onCardClick={this._movieCardClickHandler}
+      />
       : <Main
         headerMovie={headerMovie}
         moviesList={moviesList}

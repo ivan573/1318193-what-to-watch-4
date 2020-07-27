@@ -6,6 +6,8 @@ test(`MovieInfo matches snapshot`, () => {
   const tree = renderer
     .create(<MovieInfo
       movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
+      moviesList={[]}
+      onCardClick={() => {}}
     />).toJSON;
 
   expect(tree).toMatchSnapshot();
