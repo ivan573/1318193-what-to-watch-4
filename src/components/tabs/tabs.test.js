@@ -1,12 +1,12 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import Tabs, {tabOptions} from "./tabs.jsx";
+import Tabs, {TabOption} from "./tabs.jsx";
 
 describe(`Tabs match snapshots`, () => {
   it(`Overview tab matches snapshot`, () => {
     const tree = renderer
       .create(<Tabs
-        activeTab={tabOptions.OVERVIEW}
+        activeTab={TabOption.OVERVIEW}
       />).toJSON;
 
     expect(tree).toMatchSnapshot();
@@ -15,7 +15,7 @@ describe(`Tabs match snapshots`, () => {
   it(`Details tab matches snapshot`, () => {
     const tree = renderer
       .create(<Tabs
-        activeTab={tabOptions.DETAILS}
+        activeTab={TabOption.DETAILS}
       />).toJSON;
 
     expect(tree).toMatchSnapshot();
@@ -24,7 +24,7 @@ describe(`Tabs match snapshots`, () => {
   it(`Reviews tab matches snapshot`, () => {
     const tree = renderer
       .create(<Tabs
-        activeTab={tabOptions.REVIEWS}
+        activeTab={TabOption.REVIEWS}
       />).toJSON;
 
     expect(tree).toMatchSnapshot();

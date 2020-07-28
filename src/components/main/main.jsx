@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import GenresList from "../genres-list/genres-list.jsx";
 import MoviesList, {modes} from "../movies-list/movies-list.jsx";
 
 const Main = (props) => {
-  const {headerMovie, moviesList, onTitleClick, onCardClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, activeGenre, onTitleClick, onCardClick, onGenreClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -73,7 +74,13 @@ const Main = (props) => {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <ul className="catalog__genres-list">
+          <GenresList
+            genres={uniqueGenres}
+            activeGenre={activeGenre}
+            onGenreClick={onGenreClick}
+          />
+
+          {/* <ul className="catalog__genres-list">
             <li className="catalog__genres-item catalog__genres-item--active">
               <a href="#" className="catalog__genres-link">All genres</a>
             </li>
@@ -104,7 +111,7 @@ const Main = (props) => {
             <li className="catalog__genres-item">
               <a href="#" className="catalog__genres-link">Thrillers</a>
             </li>
-          </ul>
+          </ul> */}
 
           <MoviesList
             moviesList = {moviesList}
@@ -151,8 +158,11 @@ Main.propTypes = {
         preview: PropTypes.string.isRequired
       })
   ).isRequired,
+  uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
+  activeGenre: PropTypes.string.isRequired,
   onTitleClick: PropTypes.func.isRequired,
-  onCardClick: PropTypes.func.isRequired
+  onCardClick: PropTypes.func.isRequired,
+  onGenreClick: PropTypes.func.isRequired
 };
 
 
