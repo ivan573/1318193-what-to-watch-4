@@ -1,4 +1,4 @@
-import {extend} from "./utils.js";
+// import {extend} from "./utils.js";
 import {moviesList} from "./mocks/movies.js";
 
 import {ALL_GENRES} from "./const.js";
@@ -25,7 +25,7 @@ const reducer = (state = initialState, action) => {
     case (ActionType.CHANGE_FILTER):
       const list = action.genre === ALL_GENRES ? moviesList : moviesList.filter(
           (movie) => movie.genre === action.genre);
-      return extend(state, {
+      return Object.assign({}, state, {
         genre: action.genre,
         moviesList: list
       });

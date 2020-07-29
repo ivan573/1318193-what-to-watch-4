@@ -1,9 +1,5 @@
 import {ALL_GENRES} from "./const.js";
 
-const extend = (a, b) => {
-  return Object.assign({}, a, b);
-};
-
 const getUniqueGenres = (movies) => {
 
   const genres = movies.reduce((unique, item) => {
@@ -15,4 +11,4 @@ const getUniqueGenres = (movies) => {
   return genres;
 };
 
-export {extend, getUniqueGenres};
+export {getUniqueGenres};
