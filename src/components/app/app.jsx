@@ -16,12 +16,10 @@ class App extends PureComponent {
     super(props);
 
     this.state = {
-      activeMovie: null,
-      // activeGenre: `All genres`
+      activeMovie: null
     };
 
     this._movieCardClickHandler = this._movieCardClickHandler.bind(this);
-    // this._genreClickHander = this._genreClickHander.bind(this);
   }
 
   render() {
@@ -62,11 +60,6 @@ class App extends PureComponent {
   _movieCardClickHandler(movie) {
     setTimeout(() => this.setState({activeMovie: movie}), PLAY_DELAY);
   }
-
-  // _genreClickHander(evt, genre) {
-  //   evt.preventDefault();
-  //   this.setState({activeGenre: genre});
-  // }
 }
 
 App.propTypes = {
@@ -91,15 +84,11 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  // activeMovie: state.activeMovie,
   moviesList: state.moviesList,
   genre: state.genre
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  // onCardClick(movie) {
-  //   dispatch(ActionCreator.incrementStep());
-  // },
   onGenreClick(evt, genre) {
     evt.preventDefault();
     dispatch(ActionCreator.changeFilter(genre));
