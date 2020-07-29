@@ -1,6 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {connect} from "react-redux";
+import {ActionCreator} from "../../reducer.js";
 
 import Main from "../main/main.jsx";
 import MovieInfo from "../movie-info/movie-info.jsx";
@@ -13,7 +15,9 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
-    this.state = {activeMovie: null};
+    this.state = {
+      activeMovie: null
+    };
 
     this._movieCardClickHandler = this._movieCardClickHandler.bind(this);
   }
@@ -33,8 +37,8 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {headerMovie, moviesList} = this.props;
-    const {activeMovie} = this.state;
+    const {headerMovie, moviesList, uniqueGenres, genre, onGenreClick} = this.props;
+    const {activeMovie/* , activeGenre*/} = this.state;
 
     return activeMovie
       ? <MovieInfo
@@ -45,8 +49,11 @@ class App extends PureComponent {
       : <Main
         headerMovie={headerMovie}
         moviesList={moviesList}
+        uniqueGenres={uniqueGenres}
+        activeGenre={genre}
         onTitleClick={titleClickHandler}
         onCardClick={this._movieCardClickHandler}
+        onGenreClick={onGenreClick}
       />;
   }
 
@@ -70,7 +77,23 @@ App.propTypes = {
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       }).isRequired
-  ).isRequired
+  ).isRequired,
+  uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
+  genre: PropTypes.string.isRequired,
+  onGenreClick: PropTypes.func.isRequired
 };
 
-export {App as default};
+const mapStateToProps = (state) => ({
+  moviesList: state.moviesList,
+  genre: state.genre
+});
+
+const mapDispatchToProps = (dispatch) => ({
+  onGenreClick(evt, genre) {
+    evt.preventDefault();
+    dispatch(ActionCreator.changeFilter(genre));
+  },
+});
+
+export {App};
+export default connect(mapStateToProps, mapDispatchToProps)(App);

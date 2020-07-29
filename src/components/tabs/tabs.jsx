@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const tabOptions = {
+const TabOption = {
   OVERVIEW: `OVERVIEW`,
   DETAILS: `DETAILS`,
   REVIEWS: `REVIEWS`
@@ -173,13 +173,13 @@ const Tabs = (props) => {
   let tab = null;
 
   switch (activeTab) {
-    case (tabOptions.OVERVIEW):
+    case (TabOption.OVERVIEW):
       tab = getOverviewTab();
       break;
-    case (tabOptions.DETAILS):
+    case (TabOption.DETAILS):
       tab = getDetailsTab();
       break;
-    case (tabOptions.REVIEWS):
+    case (TabOption.REVIEWS):
       tab = getReviewsTab();
       break;
   }
@@ -191,4 +191,4 @@ Tabs.propTypes = {
   activeTab: PropTypes.string.isRequired
 };
 
-export {Tabs as default, tabOptions};
+export {Tabs as default, TabOption};
