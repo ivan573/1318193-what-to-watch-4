@@ -38,7 +38,7 @@ class App extends PureComponent {
 
   _renderApp() {
     const {headerMovie, moviesList, uniqueGenres, genre, onGenreClick} = this.props;
-    const {activeMovie/* , activeGenre*/} = this.state;
+    const {activeMovie} = this.state;
 
     return activeMovie
       ? <MovieInfo

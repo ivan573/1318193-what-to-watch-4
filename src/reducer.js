@@ -1,4 +1,3 @@
-// import {extend} from "./utils.js";
 import {moviesList} from "./mocks/movies.js";
 
 import {ALL_GENRES} from "./const.js";
