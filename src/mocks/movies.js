@@ -44,7 +44,19 @@ const moviesList = [
     year: 2003,
     id: `johnny-english`,
     image: `img/johnny-english.jpg`,
-    preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`}
+    preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`},
+  // temporary copy of movies to test the show more button functionality
+  {title: `Fantastic Beasts: The Crimes of Grindelwald`,
+    genre: `Kids & Family`,
+    year: 2016, id: `fantastic-beasts-the-crimes-of-grindelwald2`,
+    image: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
+    preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`},
+  {title: `Bohemian Rhapsody`,
+    genre: `Drama`,
+    year: 2018, id: `bohemian-rhapsody2`,
+    image: `img/bohemian-rhapsody.jpg`,
+    preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`},
+
 ];
 
 export {moviesList};

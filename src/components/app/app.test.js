@@ -16,9 +16,17 @@ test(`App matches snapshot`, () => {
         {title: `Macbeth`, genre: `Drama`, year: 2015},
         {title: `Aviator`, genre: `Drama`, year: 2004}
       ]}
+      shownMovies={[
+        {title: `Fantastic Beasts: The Crimes of Grindelwald`, genre: `Kids & Family`, year: 2016},
+        {title: `Bohemian Rhapsody`, genre: `Drama`, year: 2018},
+        {title: `Macbeth`, genre: `Drama`, year: 2015},
+        {title: `Aviator`, genre: `Drama`, year: 2004}
+      ]}
       uniqueGenres={[`All genres`, `Kids & Family`, `Drama`]}
       genre={`All genres`}
+      areAllMoviesShown={true}
       onGenreClick={() => {}}
+      onShowMoreClick={() => {}}
     />).toJSON;
 
   expect(tree).toMatchSnapshot();

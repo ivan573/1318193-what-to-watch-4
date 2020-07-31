@@ -37,8 +37,8 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {headerMovie, moviesList, uniqueGenres, genre, onGenreClick} = this.props;
-    const {activeMovie/* , activeGenre*/} = this.state;
+    const {headerMovie, moviesList, shownMovies, uniqueGenres, genre, areAllMoviesShown, onGenreClick, onShowMoreClick} = this.props;
+    const {activeMovie} = this.state;
 
     return activeMovie
       ? <MovieInfo
@@ -48,12 +48,14 @@ class App extends PureComponent {
       />
       : <Main
         headerMovie={headerMovie}
-        moviesList={moviesList}
+        moviesList={shownMovies}
         uniqueGenres={uniqueGenres}
         activeGenre={genre}
+        areAllMoviesShown={areAllMoviesShown}
         onTitleClick={titleClickHandler}
         onCardClick={this._movieCardClickHandler}
         onGenreClick={onGenreClick}
+        onShowMoreClick={() => onShowMoreClick(moviesList)}
       />;
   }
 
@@ -78,14 +80,28 @@ App.propTypes = {
         preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired,
+  shownMovies: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+        id: PropTypes.string.isRequired,
+        image: PropTypes.string.isRequired,
+        preview: PropTypes.string.isRequired
+      }).isRequired
+  ),
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
   genre: PropTypes.string.isRequired,
-  onGenreClick: PropTypes.func.isRequired
+  areAllMoviesShown: PropTypes.bool.isRequired,
+  onGenreClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
-  genre: state.genre
+  genre: state.genre,
+  shownMovies: state.shownMovies,
+  areAllMoviesShown: state.areAllMoviesShown
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -93,6 +109,9 @@ const mapDispatchToProps = (dispatch) => ({
     evt.preventDefault();
     dispatch(ActionCreator.changeFilter(genre));
   },
+  onShowMoreClick(movies) {
+    dispatch(ActionCreator.showMore(movies));
+  }
 });
 
 export {App};
