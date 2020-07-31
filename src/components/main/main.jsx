@@ -6,7 +6,7 @@ import MoviesList, {modes} from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, activeGenre, onTitleClick, onCardClick, onGenreClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, activeGenre, areAllMoviesShown, onTitleClick, onCardClick, onGenreClick, onShowMoreClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -88,8 +88,8 @@ const Main = (props) => {
           />
 
           <ShowMore
-            areAllMoviesShown={true}
-            onShowMoreClick={() => {}}
+            areAllMoviesShown={areAllMoviesShown}
+            onShowMoreClick={onShowMoreClick}
           />
         </section>
 
@@ -129,9 +129,11 @@ Main.propTypes = {
   ).isRequired,
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeGenre: PropTypes.string.isRequired,
+  areAllMoviesShown: PropTypes.bool.isRequired,
   onTitleClick: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
-  onGenreClick: PropTypes.func.isRequired
+  onGenreClick: PropTypes.func.isRequired,
+  onShowMoreClick: PropTypes.func.isRequired
 };
 
 
