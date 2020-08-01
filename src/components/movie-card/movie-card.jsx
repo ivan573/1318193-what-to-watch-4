@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import VideoPlayer from "../video-player/video-player.jsx";
+// import VideoPlayer from "../video-player/video-player.jsx";
+import Player from "../video-player/video-player.jsx";
+import withVideo from "../../hocs/with-video/with-video.js";
+
+const VideoPlayer = withVideo(Player);
 
 const MovieCard = (props) => {
   const {movie, isActive, onMouseOverCard, onMouseOutOfCard, onCardClick} = props;
@@ -24,6 +28,7 @@ const MovieCard = (props) => {
           isMuted = {true}
           isAutoplayed = {true}
           isPlaying = {true}
+          // onPlayButtonClick={() => {}} // test
         /> :
         <React.Fragment>
           <div className="small-movie-card__image">

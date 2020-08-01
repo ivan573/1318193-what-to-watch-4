@@ -15,6 +15,7 @@ class App extends PureComponent {
   constructor(props) {
     super(props);
 
+    // я думаю, что это состояние какое-то бессмысленное и его нужно удалить
     this.state = {
       activeMovie: null
     };
