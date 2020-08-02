@@ -15,7 +15,13 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
         <MovieCard
           key={`aviator`}
           isActive={false}
-          movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
+          movie={
+            {title: `Aviator`,
+              genre: `Drama`,
+              year: 2004,
+              id: `aviator`,
+              image: `img/aviator.jpg`,
+              preview: ``}}
           onMouseOverCard={onMouseOver}
           onMouseOutOfCard={() => {}}
           onCardClick={() => {}}
@@ -34,7 +40,13 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
         <MovieCard
           key={`aviator`}
           isActive={false}
-          movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
+          movie={
+            {title: `Aviator`,
+              genre: `Drama`,
+              year: 2004,
+              id: `aviator`,
+              image: `img/aviator.jpg`,
+              preview: ``}}
           onMouseOverCard={() => {}}
           onMouseOutOfCard={onMouseOut}
           onCardClick={() => {}}
@@ -53,7 +65,13 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
         <MovieCard
           key={`aviator`}
           isActive={false}
-          movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
+          movie={
+            {title: `Aviator`,
+              genre: `Drama`,
+              year: 2004,
+              id: `aviator`,
+              image: `img/aviator.jpg`,
+              preview: ``}}
           onMouseOverCard={() => {}}
           onMouseOutOfCard={() => {}}
           onCardClick={onCardClick}

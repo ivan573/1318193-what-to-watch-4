@@ -5,9 +5,11 @@ import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer.js";
 
 import Main from "../main/main.jsx";
-import MovieInfo from "../movie-info/movie-info.jsx";
+import Info from "../movie-info/movie-info.jsx";
 
-const PLAY_DELAY = 1000;
+import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
+
+const MovieInfo = withMovieInfo(Info);
 
 const titleClickHandler = () => {};
 
@@ -16,6 +18,7 @@ class App extends PureComponent {
     super(props);
 
     // я думаю, что это состояние какое-то бессмысленное и его нужно удалить
+    // если дальше так и не понадибится, то удалю
     this.state = {
       activeMovie: null
     };
@@ -61,7 +64,7 @@ class App extends PureComponent {
   }
 
   _movieCardClickHandler(movie) {
-    setTimeout(() => this.setState({activeMovie: movie}), PLAY_DELAY);
+    this.setState({activeMovie: movie});
   }
 }
 

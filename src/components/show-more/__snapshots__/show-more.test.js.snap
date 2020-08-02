@@ -1,5 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Show more button matches snapshot Show more button does not render if all movies are displayed 1`] = `[Function]`;
+exports[`Show more button matches snapshot Show more button does not render if all movies are displayed 1`] = `null`;
 
 exports[`Show more button matches snapshot Show more button renders if not all movies are displayed 1`] = `[Function]`;

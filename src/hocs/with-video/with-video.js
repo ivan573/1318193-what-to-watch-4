@@ -69,15 +69,8 @@ const withVideo = (Component) => {
           {...this.props}
           isLoading={isLoading}
           isPlaying={isPlaying}
-          // onPlayButtonClick={() => {
-          //   this.setState({isPlaying: !isPlaying});
-          //   onPlayButtonClick();
-          // }}
-        >
-          <video
-            ref={this._videoRef}
-          />
-        </Component>
+          videoRef={this._videoRef}
+        />
       );
     }
   }

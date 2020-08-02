@@ -2,8 +2,12 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GenresList from "../genres-list/genres-list.jsx";
-import MoviesList, {modes} from "../movies-list/movies-list.jsx";
+import Movies, {modes} from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
+
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+
+const MoviesList = withMoviesList(Movies);
 
 const Main = (props) => {
   const {headerMovie, moviesList, uniqueGenres, activeGenre, areAllMoviesShown, onTitleClick, onCardClick, onGenreClick, onShowMoreClick} = props;

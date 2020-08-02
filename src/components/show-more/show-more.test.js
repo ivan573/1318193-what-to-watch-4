@@ -18,7 +18,7 @@ describe(`Show more button matches snapshot`, () => {
     .create(<ShowMore
       areAllMoviesShown={true}
       onShowMoreClick={() => {}}
-    />).toJSON;
+    />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });

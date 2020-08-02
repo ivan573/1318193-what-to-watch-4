@@ -26,7 +26,6 @@ const MovieCard = (props) => {
           src = {props.movie.preview}
           poster = {props.movie.image}
           isMuted = {true}
-          isAutoplayed = {true}
           isPlaying = {true}
           // onPlayButtonClick={() => {}} // test
         /> :

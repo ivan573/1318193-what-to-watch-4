@@ -8,7 +8,7 @@ test(`Genres list matches snapshot`, () => {
       genres={[`All genres`, `Kids & Family`, `Drama`, `Comedy`]}
       activeGenre={`All genres`}
       onGenreClick={() => {}}
-    />).toJSON;
+    />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

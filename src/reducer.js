@@ -19,28 +19,28 @@ const ActionType = {
 const ActionCreator = {
   changeFilter: (filterGenre) => ({
     type: ActionType.CHANGE_FILTER,
-    genre: filterGenre
+    payload: {genre: filterGenre}
   }),
   showMore: (movies) => ({
     type: ActionType.SHOW_MORE,
-    movies
+    payload: {movies}
   })
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, {type, payload}) => {
   let shownMovies;
 
-  switch (action.type) {
+  switch (type) {
 
     case (ActionType.CHANGE_FILTER):
 
-      const list = action.genre === ALL_GENRES ? moviesList : moviesList.filter(
-          (movie) => movie.genre === action.genre);
+      const list = payload.genre === ALL_GENRES ? moviesList : moviesList.filter(
+          (movie) => movie.genre === payload.genre);
 
       shownMovies = list.slice(0, MOVIES_TO_SHOW_AT_ONCE);
 
       return Object.assign({}, state, {
-        genre: action.genre,
+        genre: payload.genre,
         moviesList: list,
         shownMovies,
         areAllMoviesShown: list.length === shownMovies.length
@@ -48,7 +48,7 @@ const reducer = (state = initialState, action) => {
 
     case (ActionType.SHOW_MORE):
 
-      shownMovies = action.movies.concat(state.moviesList.slice(action.movies.length));
+      shownMovies = payload.movies.concat(state.moviesList.slice(payload.movies.length));
 
       return Object.assign({}, state, {
         shownMovies,

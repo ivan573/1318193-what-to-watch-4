@@ -17,7 +17,7 @@ it(`Reducer should change the genre and the movies list when gets a genre`, () =
     // moviesList
   }, {
     type: ActionType.CHANGE_FILTER,
-    genre: `Kids & Family`
+    payload: {genre: `Kids & Family`}
   })).toEqual({
     genre: `Kids & Family`,
     moviesList: [
@@ -53,7 +53,7 @@ it(`Reducer should change the genre and the movies list when gets a genre`, () =
 it(`Action creator returns new genre when the filter is changed`, () => {
   expect(ActionCreator.changeFilter(`Kids & Family`)).toEqual({
     type: ActionType.CHANGE_FILTER,
-    genre: `Kids & Family`
+    payload: {genre: `Kids & Family`}
   });
 });
 
@@ -63,7 +63,7 @@ it(`Reducer increases the number of movies displayed by a number up to 8 if ther
     shownMovies: moviesList.slice(0, 8)
   }, {
     type: ActionType.SHOW_MORE,
-    movies: moviesList.slice(0, 8)
+    payload: {movies: moviesList.slice(0, 8)}
   })).toEqual({
     moviesList,
     shownMovies: moviesList,
