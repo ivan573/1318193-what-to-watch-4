@@ -1,6 +1,6 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import MoviesList, {modes} from "./movies-list.jsx";
+import MoviesList from "./movies-list.jsx";
 
 const moviesList = [
   {title: `Fantastic Beasts: The Crimes of Grindelwald`,
@@ -34,7 +34,6 @@ test(`MovieCard matches snapshot`, () => {
     .create(<MoviesList
       moviesList={moviesList}
       activeCard={null}
-      mode={{mode: modes.ALL}}
       onCardClick={() => {}}
       onMouseOverCard={() => {}}
       onMouseOutOfCard={() => {}}

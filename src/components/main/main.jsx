@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import GenresComponent from "../genres-list/genres-list.jsx";
-import MoviesComponent, {modes} from "../movies-list/movies-list.jsx";
+import MoviesComponent from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
 
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
@@ -13,7 +13,7 @@ const GenresList = withActiveItem(GenresComponent);
 
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onTitleClick, onCardClick, onGenreClick, onShowMoreClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -50,7 +50,6 @@ const Main = (props) => {
             <div className="movie-card__desc">
               <h2
                 className="movie-card__title"
-                onClick={onTitleClick}
               >
                 {title}
               </h2>
@@ -90,7 +89,6 @@ const Main = (props) => {
           <MoviesList
             moviesList = {moviesList}
             onCardClick = {onCardClick}
-            mode={{mode: modes.ALL}}
           />
 
           <ShowMore
@@ -135,7 +133,6 @@ Main.propTypes = {
   ).isRequired,
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
   areAllMoviesShown: PropTypes.bool.isRequired,
-  onTitleClick: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired

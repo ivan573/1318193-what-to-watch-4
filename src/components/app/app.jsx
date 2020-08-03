@@ -5,26 +5,13 @@ import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer.js";
 
 import Main from "../main/main.jsx";
-import Info from "../movie-info/movie-info.jsx";
+import MovieInfoComponent from "../movie-info/movie-info.jsx";
 
 import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
-const MovieInfo = withMovieInfo(Info);
-
-const titleClickHandler = () => {};
+const MovieInfo = withMovieInfo(MovieInfoComponent);
 
 class App extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    // я думаю, что это состояние какое-то бессмысленное и его нужно удалить
-    // если дальше так и не понадибится, то удалю
-    this.state = {
-      activeMovie: null
-    };
-
-    this._movieCardClickHandler = this._movieCardClickHandler.bind(this);
-  }
 
   render() {
     return (
@@ -41,29 +28,24 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {headerMovie, moviesList, shownMovies, uniqueGenres, areAllMoviesShown, onGenreClick, onShowMoreClick} = this.props;
-    const {activeMovie} = this.state;
+    const {headerMovie, activeMovie, moviesList, shownMovies, uniqueGenres, areAllMoviesShown, onMovieCardClick, onGenreClick, onShowMoreClick} = this.props;
+    // const {activeMovie} = this.state;
 
     return activeMovie
       ? <MovieInfo
-        movie={this.state.activeMovie}
+        movie={activeMovie}
         moviesList={moviesList}
-        onCardClick={this._movieCardClickHandler}
+        onCardClick={onMovieCardClick}
       />
       : <Main
         headerMovie={headerMovie}
         moviesList={shownMovies}
         uniqueGenres={uniqueGenres}
         areAllMoviesShown={areAllMoviesShown}
-        onTitleClick={titleClickHandler}
-        onCardClick={this._movieCardClickHandler}
+        onCardClick={onMovieCardClick}
         onGenreClick={onGenreClick}
         onShowMoreClick={() => onShowMoreClick(moviesList)}
       />;
-  }
-
-  _movieCardClickHandler(movie) {
-    this.setState({activeMovie: movie});
   }
 }
 
@@ -72,6 +54,14 @@ App.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
+  }),
+  activeMovie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    preview: PropTypes.string.isRequired
   }),
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -95,17 +85,22 @@ App.propTypes = {
   ),
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
   areAllMoviesShown: PropTypes.bool.isRequired,
+  onMovieCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
+  activeMovie: state.activeMovie,
   moviesList: state.moviesList,
   shownMovies: state.shownMovies,
   areAllMoviesShown: state.areAllMoviesShown
 });
 
 const mapDispatchToProps = (dispatch) => ({
+  onMovieCardClick(movie) {
+    dispatch(ActionCreator.changeActiveMovie(movie));
+  },
   onGenreClick(evt, genre) {
     evt.preventDefault();
     dispatch(ActionCreator.changeFilter(genre));

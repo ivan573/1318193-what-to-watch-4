@@ -5,17 +5,23 @@ import {ALL_GENRES} from "./const.js";
 const MOVIES_TO_SHOW_AT_ONCE = 8;
 
 const initialState = {
+  activeMovie: null,
   moviesList,
   shownMovies: moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE),
   areAllMoviesShown: moviesList.length === moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE).length
 };
 
 const ActionType = {
+  CHANGE_ACTIVE_MOVIE: `CHANGE_ACTIVE_MOVIE`,
   CHANGE_FILTER: `CHANGE_FILTER`,
   SHOW_MORE: `SHOW_MORE`
 };
 
 const ActionCreator = {
+  changeActiveMovie: (movie) => ({
+    type: ActionType.CHANGE_ACTIVE_MOVIE,
+    payload: {activeMovie: movie}
+  }),
   changeFilter: (filterGenre) => ({
     type: ActionType.CHANGE_FILTER,
     payload: {genre: filterGenre}
@@ -30,6 +36,19 @@ const reducer = (state = initialState, {type, payload}) => {
   let shownMovies;
 
   switch (type) {
+
+    case (ActionType.CHANGE_ACTIVE_MOVIE):
+
+      const similarMovies = moviesList.filter((movie) => movie.genre === payload.activeMovie.genre && movie.title !== payload.activeMovie.title);
+
+      shownMovies = similarMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
+
+      return Object.assign({}, state, {
+        activeMovie: payload.activeMovie,
+        moviesList: similarMovies,
+        shownMovies,
+        areAllMoviesShown: similarMovies.length === shownMovies.length
+      });
 
     case (ActionType.CHANGE_FILTER):
 

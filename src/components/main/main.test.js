@@ -41,7 +41,6 @@ test(`Main matches snapshot`, () => {
       uniqueGenres={[`All genres`, `Kids & Family`, `Drama`]}
       activeGenre={`All genres`}
       areAllMoviesShown={true}
-      onTitleClick = {() => {}}
       onCardClick={() => {}}
       onGenreClick={() => {}}
       onShowMoreClick={() => {}}

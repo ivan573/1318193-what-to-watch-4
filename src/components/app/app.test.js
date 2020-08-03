@@ -42,6 +42,7 @@ test(`App matches snapshot`, () => {
       uniqueGenres={[`All genres`, `Kids & Family`, `Drama`]}
       genre={`All genres`}
       areAllMoviesShown={true}
+      onMovieCardClick={() => {}}
       onGenreClick={() => {}}
       onShowMoreClick={() => {}}
     />).toJSON();
