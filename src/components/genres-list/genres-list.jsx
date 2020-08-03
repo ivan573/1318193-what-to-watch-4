@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {ALL_GENRES} from "../../const";
 
 const GenresList = (props) => {
-  const {genres, activeItem = ALL_GENRES, onGenreClick, changeActiveItem} = props;
+  const {genres, activeItem, onGenreClick, changeActiveItem} = props;
 
   const activeGenre = activeItem || ALL_GENRES;
 
@@ -31,7 +31,7 @@ const GenresList = (props) => {
 
 GenresList.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeItem: PropTypes.string.isRequired,
+  activeItem: PropTypes.string,
   onGenreClick: PropTypes.func.isRequired,
   changeActiveItem: PropTypes.func.isRequired
 };

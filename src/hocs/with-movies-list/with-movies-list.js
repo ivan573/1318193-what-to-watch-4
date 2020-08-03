@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 const PLAY_DELAY = 1000;
 
@@ -9,7 +9,6 @@ const withMoviesList = (Component) => {
       super(props);
 
       this.state = {
-        activeCard: null,
         timeout: null
       };
 
@@ -18,8 +17,12 @@ const withMoviesList = (Component) => {
       // this._onCardClick = this._onCardClick.bind(this);
     }
 
+    componentWillUnmount() {
+      this._onMouseOutOfCard();
+    }
+
     render() {
-      const {activeCard} = this.state;
+      const activeCard = this.props.activeItem;
 
       return (
         <Component
@@ -33,15 +36,16 @@ const withMoviesList = (Component) => {
     }
 
     _onMouseOverCard(movie) {
-      if (!this.state.activeCard) {
-        const timeout = setTimeout(() => this.setState({activeCard: movie}), PLAY_DELAY);
+      if (!this.props.activeItem) {
+        const timeout = setTimeout(() => this.props.changeActiveItem(movie), PLAY_DELAY);
         this.setState({timeout});
       }
     }
 
     _onMouseOutOfCard() {
       clearTimeout(this.state.timeout);
-      this.setState({activeCard: null, timeout: null});
+      this.setState({timeout: null});
+      this.props.changeActiveItem();
     }
 
     // _onCardClick() {
@@ -50,7 +54,17 @@ const withMoviesList = (Component) => {
     // }
   }
 
-  // WithMoviesList.PropTypes = {};
+  WithMoviesList.propTypes = {
+    activeItem: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      genre: PropTypes.string.isRequired,
+      year: PropTypes.number.isRequired,
+      id: PropTypes.string.isRequired,
+      image: PropTypes.string.isRequired,
+      preview: PropTypes.string.isRequired
+    }),
+    changeActiveItem: PropTypes.func.isRequired
+  };
 
   return WithMoviesList;
 };

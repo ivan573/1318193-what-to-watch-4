@@ -1,11 +1,12 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import Tabs, {TabOption} from "../tabs/tabs.jsx";
-import Movies, {modes} from "../movies-list/movies-list.jsx";
+import MoviesComponent, {modes} from "../movies-list/movies-list.jsx";
 
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
-const MoviesList = withMoviesList(Movies);
+const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 
 class MovieInfo extends PureComponent {
 

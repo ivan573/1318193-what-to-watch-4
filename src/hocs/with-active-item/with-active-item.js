@@ -10,7 +10,7 @@ const withActiveItem = (Component) => {
         activeItem: null
       };
 
-      this.changeActiveItem = this.changeActiveItem.bind(this);
+      this._changeActiveItem = this._changeActiveItem.bind(this);
     }
 
     render() {
