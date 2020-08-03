@@ -5,7 +5,6 @@ import {ALL_GENRES} from "./const.js";
 const MOVIES_TO_SHOW_AT_ONCE = 8;
 
 const initialState = {
-  genre: ALL_GENRES,
   moviesList,
   shownMovies: moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE),
   areAllMoviesShown: moviesList.length === moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE).length
@@ -40,7 +39,6 @@ const reducer = (state = initialState, {type, payload}) => {
       shownMovies = list.slice(0, MOVIES_TO_SHOW_AT_ONCE);
 
       return Object.assign({}, state, {
-        genre: payload.genre,
         moviesList: list,
         shownMovies,
         areAllMoviesShown: list.length === shownMovies.length

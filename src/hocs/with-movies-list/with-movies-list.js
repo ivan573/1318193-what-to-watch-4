@@ -9,7 +9,8 @@ const withMoviesList = (Component) => {
       super(props);
 
       this.state = {
-        activeCard: null
+        activeCard: null,
+        timeout: null
       };
 
       this._onMouseOverCard = this._onMouseOverCard.bind(this);
@@ -32,12 +33,15 @@ const withMoviesList = (Component) => {
     }
 
     _onMouseOverCard(movie) {
-      setTimeout(() => this.setState({activeCard: movie}), PLAY_DELAY);
+      if (!this.state.activeCard) {
+        const timeout = setTimeout(() => this.setState({activeCard: movie}), PLAY_DELAY);
+        this.setState({timeout});
+      }
     }
 
     _onMouseOutOfCard() {
-      clearTimeout(this._onMouseOverCard());
-      this.setState({activeCard: null});
+      clearTimeout(this.state.timeout);
+      this.setState({activeCard: null, timeout: null});
     }
 
     // _onCardClick() {

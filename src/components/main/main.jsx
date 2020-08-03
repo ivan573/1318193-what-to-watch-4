@@ -1,16 +1,19 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import GenresList from "../genres-list/genres-list.jsx";
-import Movies, {modes} from "../movies-list/movies-list.jsx";
+import GenresComponent from "../genres-list/genres-list.jsx";
+import MoviesComponent, {modes} from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
 
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
-const MoviesList = withMoviesList(Movies);
+const MoviesList = withMoviesList(MoviesComponent);
+const GenresList = withActiveItem(GenresComponent);
+
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, activeGenre, areAllMoviesShown, onTitleClick, onCardClick, onGenreClick, onShowMoreClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onTitleClick, onCardClick, onGenreClick, onShowMoreClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -81,7 +84,6 @@ const Main = (props) => {
 
           <GenresList
             genres={uniqueGenres}
-            activeGenre={activeGenre}
             onGenreClick={onGenreClick}
           />
 
@@ -132,7 +134,6 @@ Main.propTypes = {
       })
   ).isRequired,
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeGenre: PropTypes.string.isRequired,
   areAllMoviesShown: PropTypes.bool.isRequired,
   onTitleClick: PropTypes.func.isRequired,
   onCardClick: PropTypes.func.isRequired,

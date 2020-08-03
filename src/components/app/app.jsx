@@ -41,7 +41,7 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {headerMovie, moviesList, shownMovies, uniqueGenres, genre, areAllMoviesShown, onGenreClick, onShowMoreClick} = this.props;
+    const {headerMovie, moviesList, shownMovies, uniqueGenres, areAllMoviesShown, onGenreClick, onShowMoreClick} = this.props;
     const {activeMovie} = this.state;
 
     return activeMovie
@@ -54,7 +54,6 @@ class App extends PureComponent {
         headerMovie={headerMovie}
         moviesList={shownMovies}
         uniqueGenres={uniqueGenres}
-        activeGenre={genre}
         areAllMoviesShown={areAllMoviesShown}
         onTitleClick={titleClickHandler}
         onCardClick={this._movieCardClickHandler}
@@ -95,7 +94,6 @@ App.propTypes = {
       }).isRequired
   ),
   uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  genre: PropTypes.string.isRequired,
   areAllMoviesShown: PropTypes.bool.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired
@@ -103,7 +101,6 @@ App.propTypes = {
 
 const mapStateToProps = (state) => ({
   moviesList: state.moviesList,
-  genre: state.genre,
   shownMovies: state.shownMovies,
   areAllMoviesShown: state.areAllMoviesShown
 });
