@@ -5,42 +5,59 @@ import {ALL_GENRES} from "./const.js";
 const MOVIES_TO_SHOW_AT_ONCE = 8;
 
 const initialState = {
-  genre: ALL_GENRES,
+  activeMovie: null,
   moviesList,
   shownMovies: moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE),
   areAllMoviesShown: moviesList.length === moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE).length
 };
 
 const ActionType = {
+  CHANGE_ACTIVE_MOVIE: `CHANGE_ACTIVE_MOVIE`,
   CHANGE_FILTER: `CHANGE_FILTER`,
   SHOW_MORE: `SHOW_MORE`
 };
 
 const ActionCreator = {
+  changeActiveMovie: (movie) => ({
+    type: ActionType.CHANGE_ACTIVE_MOVIE,
+    payload: {activeMovie: movie}
+  }),
   changeFilter: (filterGenre) => ({
     type: ActionType.CHANGE_FILTER,
-    genre: filterGenre
+    payload: {genre: filterGenre}
   }),
   showMore: (movies) => ({
     type: ActionType.SHOW_MORE,
-    movies
+    payload: {movies}
   })
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, {type, payload}) => {
   let shownMovies;
 
-  switch (action.type) {
+  switch (type) {
+
+    case (ActionType.CHANGE_ACTIVE_MOVIE):
+
+      const similarMovies = moviesList.filter((movie) => movie.genre === payload.activeMovie.genre && movie.title !== payload.activeMovie.title);
+
+      shownMovies = similarMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
+
+      return Object.assign({}, state, {
+        activeMovie: payload.activeMovie,
+        moviesList: similarMovies,
+        shownMovies,
+        areAllMoviesShown: similarMovies.length === shownMovies.length
+      });
 
     case (ActionType.CHANGE_FILTER):
 
-      const list = action.genre === ALL_GENRES ? moviesList : moviesList.filter(
-          (movie) => movie.genre === action.genre);
+      const list = payload.genre === ALL_GENRES ? moviesList : moviesList.filter(
+          (movie) => movie.genre === payload.genre);
 
       shownMovies = list.slice(0, MOVIES_TO_SHOW_AT_ONCE);
 
       return Object.assign({}, state, {
-        genre: action.genre,
         moviesList: list,
         shownMovies,
         areAllMoviesShown: list.length === shownMovies.length
@@ -48,7 +65,7 @@ const reducer = (state = initialState, action) => {
 
     case (ActionType.SHOW_MORE):
 
-      shownMovies = action.movies.concat(state.moviesList.slice(action.movies.length));
+      shownMovies = payload.movies.concat(state.moviesList.slice(payload.movies.length));
 
       return Object.assign({}, state, {
         shownMovies,

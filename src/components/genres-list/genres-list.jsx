@@ -1,33 +1,39 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-const GenresList = (props) => {
-  const {genres, activeGenre, onGenreClick} = props;
+import {ALL_GENRES} from "../../const";
 
-  const genresList = genres.map((it) => {
+const GenresList = (props) => {
+  const {genres, activeItem, onGenreClick, changeActiveItem} = props;
+
+  const activeGenre = activeItem || ALL_GENRES;
+
+  const genresList = genres.map((genre) => {
     return (
-      <li className={activeGenre === it ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item`}
-        onClick={(evt) => onGenreClick(evt, it)}
-        key={it}
+      <li className={activeGenre === genre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item`}
+        onClick={(evt) => {
+          onGenreClick(evt, genre);
+          changeActiveItem(genre);
+        }}
+        key={genre}
       >
-        <a href="#" className="catalog__genres-link">{it}</a>
+        <a href="#" className="catalog__genres-link">{genre}</a>
       </li>
     );
   });
 
   return (
-    <React.Fragment>
-      <ul className="catalog__genres-list">
-        {genresList}
-      </ul>
-    </React.Fragment>
+    <ul className="catalog__genres-list">
+      {genresList}
+    </ul>
   );
 };
 
 GenresList.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
-  activeGenre: PropTypes.string.isRequired,
-  onGenreClick: PropTypes.func.isRequired
+  activeItem: PropTypes.string,
+  onGenreClick: PropTypes.func.isRequired,
+  changeActiveItem: PropTypes.func.isRequired
 };
 
 export {GenresList as default};

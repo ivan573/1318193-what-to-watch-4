@@ -5,10 +5,18 @@ import MovieInfo from "./movie-info.jsx";
 test(`MovieInfo matches snapshot`, () => {
   const tree = renderer
     .create(<MovieInfo
-      movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
+      movie={
+        {title: `Aviator`,
+          genre: `Drama`,
+          year: 2004,
+          id: `aviator`,
+          image: `img/aviator.jpg`,
+          preview: ``}}
       moviesList={[]}
       onCardClick={() => {}}
-    />).toJSON;
+      activeTab={`OVERVIEW`}
+      onTabClick={() => {}}
+    />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

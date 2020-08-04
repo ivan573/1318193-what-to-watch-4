@@ -3,42 +3,19 @@ import PropTypes from "prop-types";
 
 import MovieCard from "../movie-card/movie-card.jsx";
 
-const modes = {
-  ALL: `ALL`,
-  BY_GENRE: `BY_GENRE`
-};
-
 class MoviesList extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      activeCard: null
-    };
-
-    this._onMouseOverCard = this._onMouseOverCard.bind(this);
-    this._onMouseOutOfCard = this._onMouseOutOfCard.bind(this);
-  }
 
   render() {
-    const {moviesList, onCardClick, mode} = this.props;
+    const {moviesList, activeCard, onCardClick, onMouseOverCard, onMouseOutOfCard} = this.props;
 
-    const activeCard = this.state.activeCard;
-
-    let movies = moviesList.slice();
-
-    if (mode.mode === modes.BY_GENRE) {
-      movies = movies.filter((movie) => movie.genre === mode.genre && movie.title !== mode.title);
-    }
-
-    const movieCards = movies.map((it) => {
+    const movieCards = moviesList.map((it) => {
       return (
         <MovieCard
           key={it.id}
           movie={it}
           isActive={it === activeCard}
-          onMouseOverCard={this._onMouseOverCard}
-          onMouseOutOfCard={this._onMouseOutOfCard}
+          onMouseOverCard={onMouseOverCard}
+          onMouseOutOfCard={onMouseOutOfCard}
           onCardClick={onCardClick}
         />);
     });
@@ -48,18 +25,6 @@ class MoviesList extends PureComponent {
         {movieCards}
       </div>
     );
-  }
-
-  _onMouseOverCard(movie) {
-    this.setState({
-      activeCard: movie
-    });
-  }
-
-  _onMouseOutOfCard() {
-    this.setState({
-      activeCard: null
-    });
   }
 }
 
@@ -74,12 +39,17 @@ MoviesList.propTypes = {
         preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired,
+  activeCard: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    preview: PropTypes.string.isRequired
+  }),
   onCardClick: PropTypes.func.isRequired,
-  mode: PropTypes.shape({
-    mode: PropTypes.string.isRequired,
-    title: PropTypes.string,
-    genre: PropTypes.string
-  }).isRequired
+  onMouseOverCard: PropTypes.func.isRequired,
+  onMouseOutOfCard: PropTypes.func.isRequired
 };
 
-export {MoviesList as default, modes};
+export {MoviesList as default};

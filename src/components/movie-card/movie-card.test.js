@@ -6,9 +6,18 @@ test(`MovieCard matches snapshot`, () => {
   const tree = renderer
     .create(<MovieCard
       key={`aviator`}
-      movie={{title: `Aviator`, genre: `Drama`, year: 2004}}
-      onCardHover={() => {}}
-    />).toJSON;
+      movie={
+        {title: `Aviator`,
+          genre: `Drama`,
+          year: 2004,
+          id: `aviator`,
+          image: `img/aviator.jpg`,
+          preview: ``}}
+      isActive={false}
+      onMouseOverCard={() => {}}
+      onMouseOutOfCard={() => {}}
+      onCardClick={() => {}}
+    />).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

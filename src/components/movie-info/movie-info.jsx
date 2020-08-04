@@ -1,17 +1,18 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import Tabs, {TabOption} from "../tabs/tabs.jsx";
-import MoviesList, {modes} from "../movies-list/movies-list.jsx";
+import MoviesComponent from "../movies-list/movies-list.jsx";
+
+import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
+import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
+
+const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 
 class MovieInfo extends PureComponent {
-  constructor(props) {
-    super(props);
-
-    this.state = {activeTab: TabOption.OVERVIEW};
-  }
 
   render() {
-    const {movie, moviesList, onCardClick} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick} = this.props;
+
     return (
       <React.Fragment>
         <section className="movie-card movie-card--full">
@@ -74,20 +75,20 @@ class MovieInfo extends PureComponent {
               <div className="movie-card__desc">
                 <nav className="movie-nav movie-card__nav">
                   <ul className="movie-nav__list">
-                    <li className={this.state.activeTab === TabOption.OVERVIEW ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link" onClick={(evt) => this._tabClickHandler(evt, TabOption.OVERVIEW)}>Overview</a>
+                    <li className={activeTab === TabOption.OVERVIEW ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                      <a href="#" className="movie-nav__link" onClick={(evt) => onTabClick(evt, TabOption.OVERVIEW)}>Overview</a>
                     </li>
-                    <li className={this.state.activeTab === TabOption.DETAILS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link" onClick={(evt) => this._tabClickHandler(evt, TabOption.DETAILS)}>Details</a>
+                    <li className={activeTab === TabOption.DETAILS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                      <a href="#" className="movie-nav__link" onClick={(evt) => onTabClick(evt, TabOption.DETAILS)}>Details</a>
                     </li>
-                    <li className={this.state.activeTab === TabOption.REVIEWS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
-                      <a href="#" className="movie-nav__link " onClick={(evt) => this._tabClickHandler(evt, TabOption.REVIEWS)}>Reviews</a>
+                    <li className={activeTab === TabOption.REVIEWS ? `movie-nav__item movie-nav__item--active` : `movie-nav__item`}>
+                      <a href="#" className="movie-nav__link " onClick={(evt) => onTabClick(evt, TabOption.REVIEWS)}>Reviews</a>
                     </li>
                   </ul>
                 </nav>
 
                 <Tabs
-                  activeTab={this.state.activeTab}
+                  activeTab={activeTab}
                 />
               </div>
             </div>
@@ -101,11 +102,6 @@ class MovieInfo extends PureComponent {
             <MoviesList
               moviesList = {moviesList}
               onCardClick = {onCardClick}
-              mode={{
-                mode: modes.BY_GENRE,
-                title: movie.title,
-                genre: movie.genre
-              }}
             />
           </section>
 
@@ -127,10 +123,6 @@ class MovieInfo extends PureComponent {
     );
   }
 
-  _tabClickHandler(evt, tab) {
-    evt.preventDefault();
-    this.setState({activeTab: tab});
-  }
 }
 
 MovieInfo.propTypes = {
@@ -151,7 +143,9 @@ MovieInfo.propTypes = {
         preview: PropTypes.string.isRequired
       }).isRequired
   ).isRequired,
-  onCardClick: PropTypes.func.isRequired
+  onCardClick: PropTypes.func.isRequired,
+  activeTab: PropTypes.string.isRequired,
+  onTabClick: PropTypes.func.isRequired
 };
 
 export {MovieInfo as default};

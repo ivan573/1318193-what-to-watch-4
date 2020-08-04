@@ -1,3 +1,32 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MovieCard matches snapshot 1`] = `[Function]`;
+exports[`MovieCard matches snapshot 1`] = `
+<article
+  className="small-movie-card catalog__movies-card"
+  onClick={[Function]}
+  onMouseOut={[Function]}
+  onMouseOver={[Function]}
+>
+  <div
+    className="small-movie-card__image"
+  >
+    <img
+      alt="Aviator"
+      height="175"
+      src="img/aviator.jpg"
+      width="280"
+    />
+  </div>
+  <h3
+    className="small-movie-card__title"
+  >
+    <a
+      className="small-movie-card__link"
+      href="movie-page.html"
+      onClick={[Function]}
+    >
+      Aviator
+    </a>
+  </h3>
+</article>
+`;

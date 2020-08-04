@@ -7,7 +7,7 @@ describe(`Tabs match snapshots`, () => {
     const tree = renderer
       .create(<Tabs
         activeTab={TabOption.OVERVIEW}
-      />).toJSON;
+      />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
@@ -16,7 +16,7 @@ describe(`Tabs match snapshots`, () => {
     const tree = renderer
       .create(<Tabs
         activeTab={TabOption.DETAILS}
-      />).toJSON;
+      />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
@@ -25,7 +25,7 @@ describe(`Tabs match snapshots`, () => {
     const tree = renderer
       .create(<Tabs
         activeTab={TabOption.REVIEWS}
-      />).toJSON;
+      />).toJSON();
 
     expect(tree).toMatchSnapshot();
   });
