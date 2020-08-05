@@ -6,9 +6,12 @@ import {ActionCreator} from "../../reducer.js";
 
 import Main from "../main/main.jsx";
 import MovieInfoComponent from "../movie-info/movie-info.jsx";
+import Player from "../video-player/video-player.jsx";
 
+import withVideo from "../../hocs/with-video/with-video.js";
 import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
+const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
 
 class App extends PureComponent {
@@ -28,14 +31,24 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {headerMovie, activeMovie, moviesList, shownMovies, uniqueGenres, areAllMoviesShown, onMovieCardClick, onGenreClick, onShowMoreClick} = this.props;
-    // const {activeMovie} = this.state;
+    const {playingMovie,
+      headerMovie,
+      activeMovie,
+      moviesList,
+      shownMovies,
+      uniqueGenres,
+      areAllMoviesShown,
+      onMovieCardClick,
+      onGenreClick,
+      onShowMoreClick,
+      onPlayMovieClick} = this.props;
 
-    return activeMovie
+    const main = activeMovie
       ? <MovieInfo
         movie={activeMovie}
         moviesList={moviesList}
         onCardClick={onMovieCardClick}
+        onPlayMovieClick={onPlayMovieClick}
       />
       : <Main
         headerMovie={headerMovie}
@@ -45,11 +58,31 @@ class App extends PureComponent {
         onCardClick={onMovieCardClick}
         onGenreClick={onGenreClick}
         onShowMoreClick={() => onShowMoreClick(moviesList)}
+        onPlayMovieClick={onPlayMovieClick}
       />;
+
+    return playingMovie ?
+      <VideoPlayer
+        src={playingMovie.preview}
+        title={playingMovie.title}
+        poster={playingMovie.image}
+        isMuted={false}
+        isPreviewMode={false}
+        // the played movie in the store sets to null thus the app receives to the state before the movie started playing
+        onExitClick={() => onPlayMovieClick(null)}
+      /> : main;
   }
 }
 
 App.propTypes = {
+  playingMovie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    genre: PropTypes.string.isRequired,
+    year: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
+    image: PropTypes.string.isRequired,
+    preview: PropTypes.string.isRequired
+  }),
   headerMovie: PropTypes.shape({
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
@@ -87,10 +120,12 @@ App.propTypes = {
   areAllMoviesShown: PropTypes.bool.isRequired,
   onMovieCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
-  onShowMoreClick: PropTypes.func.isRequired
+  onShowMoreClick: PropTypes.func.isRequired,
+  onPlayMovieClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
+  playingMovie: state.playingMovie,
   activeMovie: state.activeMovie,
   moviesList: state.moviesList,
   shownMovies: state.shownMovies,
@@ -107,6 +142,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onShowMoreClick(movies) {
     dispatch(ActionCreator.showMore(movies));
+  },
+  onPlayMovieClick(movie) {
+    dispatch(ActionCreator.changePlayingMovie(movie));
   }
 });
 

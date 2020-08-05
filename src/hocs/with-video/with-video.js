@@ -1,5 +1,10 @@
+import moment from "moment";
+import "moment-duration-format";
+
 import React, {createRef, PureComponent} from "react";
 import PropTypes from "prop-types";
+
+const PERCENTS = 100;
 
 const withVideo = (Component) => {
   class WithVideo extends PureComponent {
@@ -10,8 +15,9 @@ const withVideo = (Component) => {
 
       this.state = {
         progress: 0,
+        timeElapsed: 0,
         isLoading: true,
-        isPlaying: props.isPlaying
+        isPlaying: true
       };
     }
 
@@ -21,29 +27,22 @@ const withVideo = (Component) => {
 
       video.src = src;
 
-      video.oncanplaythrough = () => this.setState({
-        isLoading: false,
-      });
+      video.oncanplaythrough = () => this.setState({isLoading: false});
 
-      video.onplay = () => {
-        this.setState({
-          isPlaying: true,
-        });
-      };
+      video.onplay = () => this.setState({isPlaying: true});
 
-      video.onpause = () => this.setState({
-        isPlaying: false,
-      });
+      video.onpause = () => this.setState({isPlaying: false});
 
       video.ontimeupdate = () => this.setState({
-        progress: video.currentTime
+        progress: video.currentTime / video.duration * PERCENTS,
+        timeElapsed: video.duration - video.currentTime
       });
     }
 
     componentDidUpdate() {
       const video = this._videoRef.current;
 
-      if (this.props.isPlaying) {
+      if (this.state.isPlaying) {
         video.play();
       } else {
         video.pause();
@@ -62,22 +61,38 @@ const withVideo = (Component) => {
 
     render() {
       const {isLoading, isPlaying} = this.state;
-      // const {onPlayButtonClick} = this.props;
 
       return (
         <Component
           {...this.props}
           isLoading={isLoading}
           isPlaying={isPlaying}
+          progress={this._getProgress()}
+          timeValue={this._getTimeElapsed()}
           videoRef={this._videoRef}
+          onPlayButtonClick={() => this.setState({isPlaying: !isPlaying})}
         />
       );
+    }
+
+    _getProgress() {
+      if (this.state.progress) {
+        return Math.ceil(this.state.progress);
+      }
+      return 0;
+    }
+
+    _getTimeElapsed() {
+      if (this.state.timeElapsed) {
+        const seconds = Math.ceil(this.state.timeElapsed);
+        const duration = moment.duration(seconds, `seconds`).format(moment.TIME_SECONDS);
+        return duration;
+      }
+      return moment.duration(0).format(moment.TIME_SECONDS);
     }
   }
 
   WithVideo.propTypes = {
-    isPlaying: PropTypes.bool.isRequired,
-    // onPlayButtonClick: PropTypes.func.isRequired,
     src: PropTypes.string.isRequired,
   };
 

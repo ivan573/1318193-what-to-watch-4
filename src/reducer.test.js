@@ -3,6 +3,7 @@ import {moviesList} from "./mocks/movies.js";
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
+    playingMovie: null,
     activeMovie: null,
     moviesList,
     shownMovies: moviesList.slice(0, 8),
