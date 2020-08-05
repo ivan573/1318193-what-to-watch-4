@@ -11,7 +11,7 @@ const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick} = this.props;
 
     return (
       <React.Fragment>
@@ -48,7 +48,7 @@ class MovieInfo extends PureComponent {
                 </p>
 
                 <div className="movie-card__buttons">
-                  <button className="btn btn--play movie-card__button" type="button">
+                  <button className="btn btn--play movie-card__button" type="button" onClick={() => onPlayMovieClick(movie)}>
                     <svg viewBox="0 0 19 19" width="19" height="19">
                       <use xlinkHref="#play-s"></use>
                     </svg>
@@ -145,7 +145,8 @@ MovieInfo.propTypes = {
   ).isRequired,
   onCardClick: PropTypes.func.isRequired,
   activeTab: PropTypes.string.isRequired,
-  onTabClick: PropTypes.func.isRequired
+  onTabClick: PropTypes.func.isRequired,
+  onPlayMovieClick: PropTypes.func.isRequired
 };
 
 export {MovieInfo as default};

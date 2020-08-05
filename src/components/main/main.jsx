@@ -13,7 +13,7 @@ const GenresList = withActiveItem(GenresComponent);
 
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick, onPlayMovieClick} = props;
   const {title, genre, year} = headerMovie;
 
   return (
@@ -59,7 +59,7 @@ const Main = (props) => {
               </p>
 
               <div className="movie-card__buttons">
-                <button className="btn btn--play movie-card__button" type="button">
+                <button className="btn btn--play movie-card__button" type="button" onClick={() => onPlayMovieClick(headerMovie)}>
                   <svg viewBox="0 0 19 19" width="19" height="19">
                     <use xlinkHref="#play-s"></use>
                   </svg>
@@ -135,7 +135,8 @@ Main.propTypes = {
   areAllMoviesShown: PropTypes.bool.isRequired,
   onCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
-  onShowMoreClick: PropTypes.func.isRequired
+  onShowMoreClick: PropTypes.func.isRequired,
+  onPlayMovieClick: PropTypes.func.isRequired
 };
 
 

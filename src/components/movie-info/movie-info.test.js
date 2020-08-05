@@ -16,6 +16,7 @@ test(`MovieInfo matches snapshot`, () => {
       onCardClick={() => {}}
       activeTab={`OVERVIEW`}
       onTabClick={() => {}}
+      onPlayMovieClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

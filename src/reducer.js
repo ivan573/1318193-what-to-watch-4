@@ -5,6 +5,7 @@ import {ALL_GENRES} from "./const.js";
 const MOVIES_TO_SHOW_AT_ONCE = 8;
 
 const initialState = {
+  playingMovie: null,
   activeMovie: null,
   moviesList,
   shownMovies: moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE),
@@ -12,12 +13,17 @@ const initialState = {
 };
 
 const ActionType = {
+  CHANGE_PLAYING_MOVIE: `CHANGE_PLAYING_MOVIE`,
   CHANGE_ACTIVE_MOVIE: `CHANGE_ACTIVE_MOVIE`,
   CHANGE_FILTER: `CHANGE_FILTER`,
   SHOW_MORE: `SHOW_MORE`
 };
 
 const ActionCreator = {
+  changePlayingMovie: (movie) => ({
+    type: ActionType.CHANGE_PLAYING_MOVIE,
+    payload: {playingMovie: movie}
+  }),
   changeActiveMovie: (movie) => ({
     type: ActionType.CHANGE_ACTIVE_MOVIE,
     payload: {activeMovie: movie}
@@ -36,6 +42,10 @@ const reducer = (state = initialState, {type, payload}) => {
   let shownMovies;
 
   switch (type) {
+
+    case (ActionType.CHANGE_PLAYING_MOVIE):
+
+      return Object.assign({}, state, {playingMovie: payload.playingMovie});
 
     case (ActionType.CHANGE_ACTIVE_MOVIE):
 

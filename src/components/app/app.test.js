@@ -45,6 +45,7 @@ test(`App matches snapshot`, () => {
       onMovieCardClick={() => {}}
       onGenreClick={() => {}}
       onShowMoreClick={() => {}}
+      onPlayMovieClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

@@ -8,11 +8,7 @@ import {moviesList} from "./mocks/movies.js";
 import {reducer} from "./reducer.js";
 import {getUniqueGenres} from "./utils.js";
 
-const HEADER_MOVIE = {
-  title: `The Grand Budapest Hotel`,
-  genre: `Drama`,
-  year: 2014
-};
+const HEADER_MOVIE = moviesList[0];
 
 const store = createStore(
     reducer,

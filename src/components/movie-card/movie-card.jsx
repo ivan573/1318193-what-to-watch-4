@@ -1,7 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 
-// import VideoPlayer from "../video-player/video-player.jsx";
 import Player from "../video-player/video-player.jsx";
 import withVideo from "../../hocs/with-video/with-video.js";
 
@@ -25,10 +24,9 @@ class MovieCard extends PureComponent {
         {isActive ?
           <VideoPlayer
             src = {movie.preview}
-            poster = {movie.image}
-            isMuted = {true}
-            isPlaying = {true}
-            // onPlayButtonClick={() => {}} // test
+            poster={movie.image}
+            isMuted={true}
+            isPreviewMode={true}
           /> :
           <React.Fragment>
             <div className="small-movie-card__image">

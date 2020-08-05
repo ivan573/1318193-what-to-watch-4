@@ -3,10 +3,42 @@ import {moviesList} from "./mocks/movies.js";
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
+    playingMovie: null,
     activeMovie: null,
     moviesList,
     shownMovies: moviesList.slice(0, 8),
     areAllMoviesShown: false
+  });
+});
+
+it(`Reducer changes the playing movie`, () => {
+  expect(reducer({
+    moviesList,
+    shownMovies: moviesList,
+    areAllMoviesShown: true}, {
+    type: ActionType.CHANGE_PLAYING_MOVIE,
+    payload: {playingMovie:
+      {
+        title: `What We Do in the Shadows`,
+        genre: `Comedy`,
+        year: 2014,
+        id: `what-we-do-in-the-shadows`,
+        image: `img/what-we-do-in-the-shadows.jpg`,
+        preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+      }}
+  })).toEqual({
+    playingMovie:
+    {
+      title: `What We Do in the Shadows`,
+      genre: `Comedy`,
+      year: 2014,
+      id: `what-we-do-in-the-shadows`,
+      image: `img/what-we-do-in-the-shadows.jpg`,
+      preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+    },
+    moviesList,
+    shownMovies: moviesList,
+    areAllMoviesShown: true
   });
 });
 
@@ -97,6 +129,28 @@ it(`Reducer increases the number of movies displayed by a number up to 8 if ther
     areAllMoviesShown: true
   });
 });
+
+it(`Action creator changes the playing movie`, () => {
+  expect(ActionCreator.changePlayingMovie({
+    title: `What We Do in the Shadows`,
+    genre: `Comedy`,
+    year: 2014,
+    id: `what-we-do-in-the-shadows`,
+    image: `img/what-we-do-in-the-shadows.jpg`,
+    preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+  })).toEqual({
+    type: ActionType.CHANGE_PLAYING_MOVIE,
+    payload: {playingMovie: {
+      title: `What We Do in the Shadows`,
+      genre: `Comedy`,
+      year: 2014,
+      id: `what-we-do-in-the-shadows`,
+      image: `img/what-we-do-in-the-shadows.jpg`,
+      preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
+    }}
+  });
+});
+
 
 it(`Acion creator returns a new active movie`, () => {
   expect(ActionCreator.changeActiveMovie({
