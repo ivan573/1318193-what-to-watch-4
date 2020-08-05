@@ -43,7 +43,7 @@ class App extends PureComponent {
       onShowMoreClick,
       onPlayMovieClick} = this.props;
 
-    const main = activeMovie
+    const mainElement = activeMovie
       ? <MovieInfo
         movie={activeMovie}
         moviesList={moviesList}
@@ -70,7 +70,7 @@ class App extends PureComponent {
         isPreviewMode={false}
         // the played movie in the store sets to null thus the app receives to the state before the movie started playing
         onExitClick={() => onPlayMovieClick(null)}
-      /> : main;
+      /> : mainElement;
   }
 }
 

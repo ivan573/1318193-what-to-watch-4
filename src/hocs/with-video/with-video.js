@@ -76,10 +76,7 @@ const withVideo = (Component) => {
     }
 
     _getProgress() {
-      if (this.state.progress) {
-        return Math.ceil(this.state.progress);
-      }
-      return 0;
+      return this.state.progress ? Math.ceil(this.state.progress) : 0;
     }
 
     _getTimeElapsed() {

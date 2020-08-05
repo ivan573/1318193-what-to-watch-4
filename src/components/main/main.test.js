@@ -44,6 +44,7 @@ test(`Main matches snapshot`, () => {
       onCardClick={() => {}}
       onGenreClick={() => {}}
       onShowMoreClick={() => {}}
+      onPlayMovieClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

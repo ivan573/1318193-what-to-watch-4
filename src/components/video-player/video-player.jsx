@@ -6,7 +6,7 @@ class VideoPlayer extends PureComponent {
   render() {
     const {title, poster, isPlaying, isMuted, isPreviewMode, progress, timeValue, videoRef, onPlayButtonClick, onExitClick} = this.props;
 
-    const player = (
+    const playerElement = (
       <video
         src="#"
         className="player__video"
@@ -35,9 +35,9 @@ class VideoPlayer extends PureComponent {
       )
     };
 
-    return isPreviewMode ? player : (
+    return isPreviewMode ? playerElement : (
       <div className="player">
-        {player}
+        {playerElement}
 
         <button type="button" className="player__exit" onClick={onExitClick}>Exit</button>
 
