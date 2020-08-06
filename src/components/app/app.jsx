@@ -63,7 +63,7 @@ class App extends PureComponent {
 
     return playingMovie ?
       <VideoPlayer
-        src={playingMovie.preview}
+        src={playingMovie.video}
         title={playingMovie.title}
         poster={playingMovie.image}
         isMuted={false}
@@ -79,7 +79,7 @@ App.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired
   }),
@@ -92,7 +92,7 @@ App.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired
   }),
@@ -101,7 +101,7 @@ App.propTypes = {
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       }).isRequired
@@ -111,7 +111,7 @@ App.propTypes = {
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       }).isRequired

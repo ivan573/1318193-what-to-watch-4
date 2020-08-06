@@ -1,29 +1,64 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app.jsx";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
 
-import {moviesList} from "./mocks/movies.js";
-import {reducer} from "./reducer.js";
+// import {moviesList} from "./mocks/movies.js";
 import {getUniqueGenres} from "./utils.js";
 
-const HEADER_MOVIE = moviesList[0];
+import thunk from "redux-thunk";
+
+import {reducer} from "./reducer.js";
+import {Operation, ActionCreator, AuthorizationStatus} from "./reducer.js";
+import {createAPI} from "./api.js";
+
+const api = createAPI(() => {
+  store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+});
 
 const store = createStore(
     reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api))
+    )
 );
 
-const uniqueGenres = getUniqueGenres(moviesList);
+let moviesList;
+let headerMovie;
+let uniqueGenres;
 
-ReactDOM.render(
-    <Provider store={store}>
-      <App
-        headerMovie={HEADER_MOVIE}
-        moviesList={moviesList}
-        uniqueGenres={uniqueGenres}
-      />
-    </Provider>,
-    document.getElementById(`root`)
-);
+store.dispatch(Operation.loadMovies()).then(() => {
+  moviesList = store.getState().moviesList;
+  headerMovie = moviesList[0];
+  uniqueGenres = getUniqueGenres(moviesList);
+
+  ReactDOM.render(
+      <Provider store={store}>
+        <App
+          headerMovie={headerMovie}
+          moviesList={moviesList}
+          uniqueGenres={uniqueGenres}
+        />
+      </Provider>,
+      document.getElementById(`root`)
+  );
+});
+
+// const moviesList = store.getState().moviesList;
+
+// const HEADER_MOVIE = moviesList[0];
+
+// const uniqueGenres = getUniqueGenres(moviesList);
+
+// ReactDOM.render(
+//     <Provider store={store}>
+//       <App
+//         headerMovie={HEADER_MOVIE}
+//         moviesList={moviesList}
+//         uniqueGenres={uniqueGenres}
+//       />
+//     </Provider>,
+//     document.getElementById(`root`)
+// );

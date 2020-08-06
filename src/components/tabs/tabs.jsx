@@ -1,60 +1,82 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+const ACTORS_TO_SHOW = 3;
+
+const MINUTES_IN_AN_HOUR = 60;
+
 const TabOption = {
   OVERVIEW: `OVERVIEW`,
   DETAILS: `DETAILS`,
   REVIEWS: `REVIEWS`
 };
 
-const getOverviewTab = () => {
+const getRatingScore = (score) => {
+  if (score < 2) {
+    return `Very bad`;
+  } else if (score < 4) {
+    return `Bad`;
+  } else if (score < 6) {
+    return `Average`;
+  } else if (score < 8) {
+    return `Good`;
+  }
+  return `Very good`;
+};
+
+const getDuration = (duration) => {
+  const hours = Math.floor(duration / MINUTES_IN_AN_HOUR);
+  const minutes = duration % MINUTES_IN_AN_HOUR;
+
+  return hours.toString().concat(`h `, minutes, `m`);
+};
+
+const getOverviewTab = (movie) => {
+  const {rating, scoresCount, description, director, actors} = movie;
+
   return (
     <React.Fragment>
       <div className="movie-rating">
-        <div className="movie-rating__score">8,9</div>
+        <div className="movie-rating__score">{rating}</div>
         <p className="movie-rating__meta">
-          <span className="movie-rating__level">Very good</span>
-          <span className="movie-rating__count">240 ratings</span>
+          <span className="movie-rating__level">{getRatingScore(rating)}</span>
+          <span className="movie-rating__count">{scoresCount} ratings</span>
         </p>
       </div>
 
       <div className="movie-card__text">
-        <p>In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&#39s friend and protege.</p>
+        <p>{description}</p>
 
-        <p>Gustave prides himself on providing first-class service to the hotel&#39s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&#39s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.</p>
+        <p className="movie-card__director"><strong>Director: {director}</strong></p>
 
-        <p className="movie-card__director"><strong>Director: Wes Andreson</strong></p>
-
-        <p className="movie-card__starring"><strong>Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other</strong></p>
+        <p className="movie-card__starring"><strong>Starring: {actors.slice(0, ACTORS_TO_SHOW).join(`, `)} and other</strong></p>
       </div>
     </React.Fragment>
   );
 };
 
-const getDetailsTab = () => {
+const getDetailsTab = (movie) => {
+  const {director, actors, duration, genre, year} = movie;
+
   return (
     <React.Fragment>
       <div className="movie-card__text movie-card__row">
         <div className="movie-card__text-col">
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Director</strong>
-            <span className="movie-card__details-value">Wes Andreson</span>
+            <span className="movie-card__details-value">{director}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Starring</strong>
             <span className="movie-card__details-value">
-              Bill Murray, <br />
-              Edward Norton, <br />
-              Jude Law, <br />
-              Willem Dafoe, <br />
-              Saoirse Ronan, <br />
-              Tony Revoloru, <br />
-              Tilda Swinton, <br />
-              Tom Wilkinson, <br />
-              Owen Wilkinson, <br />
-              Adrien Brody, <br />
-              Ralph Fiennes, <br />
-              Jeff Goldblum
+              {actors.map((actor, i) => {
+                return (
+                  <React.Fragment key={actor}>
+                    {actor}
+                    {i === actors.length - 1 ? `` : (<>, <br /></>)}
+                  </React.Fragment>
+                );
+              })}
             </span>
           </p>
         </div>
@@ -62,15 +84,15 @@ const getDetailsTab = () => {
         <div className="movie-card__text-col">
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Run Time</strong>
-            <span className="movie-card__details-value">1h 39m</span>
+            <span className="movie-card__details-value">{getDuration(duration)}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Genre</strong>
-            <span className="movie-card__details-value">Comedy</span>
+            <span className="movie-card__details-value">{genre}</span>
           </p>
           <p className="movie-card__details-item">
             <strong className="movie-card__details-name">Released</strong>
-            <span className="movie-card__details-value">2014</span>
+            <span className="movie-card__details-value">{year}</span>
           </p>
         </div>
       </div>
@@ -168,19 +190,19 @@ const getReviewsTab = () => {
 };
 
 const Tabs = (props) => {
-  const {activeTab} = props;
+  const {activeTab, movie} = props;
 
   let tab = null;
 
   switch (activeTab) {
     case (TabOption.OVERVIEW):
-      tab = getOverviewTab();
+      tab = getOverviewTab(movie);
       break;
     case (TabOption.DETAILS):
-      tab = getDetailsTab();
+      tab = getDetailsTab(movie);
       break;
     case (TabOption.REVIEWS):
-      tab = getReviewsTab();
+      tab = getReviewsTab(movie);
       break;
   }
 

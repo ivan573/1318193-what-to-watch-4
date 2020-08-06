@@ -14,13 +14,13 @@ const GenresList = withActiveItem(GenresComponent);
 
 const Main = (props) => {
   const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick, onPlayMovieClick} = props;
-  const {title, genre, year} = headerMovie;
+  const {title, genre, year, poster, background} = headerMovie;
 
   return (
     <React.Fragment>
       <section className="movie-card">
         <div className="movie-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={background} alt={title} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -44,7 +44,7 @@ const Main = (props) => {
         <div className="movie-card__wrap">
           <div className="movie-card__info">
             <div className="movie-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={poster} alt={title} width="218" height="327" />
             </div>
 
             <div className="movie-card__desc">
@@ -126,7 +126,7 @@ Main.propTypes = {
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       })
