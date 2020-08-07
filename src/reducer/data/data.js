@@ -12,7 +12,7 @@ const ActionType = {
 const ActionCreator = {
   loadMovies: (movies) => ({
     type: ActionType.LOAD_MOVIES,
-    payload: {moviesList: movies}
+    payload: {allMovies: movies}
   })
 };
 
@@ -29,7 +29,7 @@ const reducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case (ActionType.LOAD_MOVIES):
 
-      const allMovies = adaptMovies(payload.moviesList);
+      const allMovies = adaptMovies(payload.allMovies);
       const shownMovies = allMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
 
       return Object.assign({}, state, {

@@ -71,8 +71,6 @@ class App extends PureComponent {
       onPlayMovieClick,
     } = this.props;
 
-    console.log(allMovies)
-
     const mainElement = activeMovie
       ? <MovieInfo
         movie={activeMovie}
