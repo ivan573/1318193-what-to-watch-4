@@ -12,16 +12,16 @@ const TabOption = {
 };
 
 const getRatingScore = (score) => {
-  if (score < 2) {
-    return `Very bad`;
-  } else if (score < 4) {
+  if (score < 3) {
     return `Bad`;
-  } else if (score < 6) {
-    return `Average`;
+  } else if (score < 5) {
+    return `Normal`;
   } else if (score < 8) {
     return `Good`;
+  } else if (score < 10) {
+    return `Very good`;
   }
-  return `Very good`;
+  return `Awesome`;
 };
 
 const getDuration = (duration) => {

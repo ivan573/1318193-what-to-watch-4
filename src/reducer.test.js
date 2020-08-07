@@ -3,11 +3,13 @@ import {moviesList} from "./mocks/movies.js";
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
+    authorizationStatus: `NO_AUTH`,
     playingMovie: null,
     activeMovie: null,
-    moviesList,
-    shownMovies: moviesList.slice(0, 8),
-    areAllMoviesShown: false
+    allMovies: [],
+    moviesList: [],
+    shownMovies: [],
+    areAllMoviesShown: true
   });
 });
 
@@ -43,7 +45,7 @@ it(`Reducer changes the playing movie`, () => {
 });
 
 it(`Reducer changes movies list and shown movies accordingly when a an active movie is received`, () => {
-  expect(reducer({moviesList}, {
+  expect(reducer({allMovies: moviesList, moviesList}, {
     type: ActionType.CHANGE_ACTIVE_MOVIE,
     payload: {activeMovie:
       {
@@ -55,6 +57,7 @@ it(`Reducer changes movies list and shown movies accordingly when a an active mo
         preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
       }}
   })).toEqual({
+    allMovies: moviesList,
     activeMovie: {
       title: `What We Do in the Shadows`,
       genre: `Comedy`,
@@ -82,10 +85,11 @@ it(`Reducer changes movies list and shown movies accordingly when a an active mo
 });
 
 it(`Reducer should change the movies list when gets a genre`, () => {
-  expect(reducer({moviesList}, {
+  expect(reducer({allMovies: moviesList}, {
     type: ActionType.CHANGE_FILTER,
     payload: {genre: `Kids & Family`}
   })).toEqual({
+    allMovies: moviesList,
     moviesList: [
       {title: `Fantastic Beasts: The Crimes of Grindelwald`,
         genre: `Kids & Family`,
@@ -118,13 +122,11 @@ it(`Reducer should change the movies list when gets a genre`, () => {
 
 it(`Reducer increases the number of movies displayed by a number up to 8 if there are more of them to display`, () => {
   expect(reducer({
-    moviesList,
     shownMovies: moviesList.slice(0, 8)
   }, {
     type: ActionType.SHOW_MORE,
-    payload: {movies: moviesList.slice(0, 8)}
+    payload: {movies: moviesList}
   })).toEqual({
-    moviesList,
     shownMovies: moviesList,
     areAllMoviesShown: true
   });

@@ -11,6 +11,28 @@ import Player from "../video-player/video-player.jsx";
 import withVideo from "../../hocs/with-video/with-video.js";
 import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
+import {getUniqueGenres} from "../../utils.js";
+
+// temporary solution
+const mockHeaderMovie = {
+  title: `Gangs of new york`,
+  genre: `Crime`,
+  year: 2002,
+  id: 1,
+  image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/gangs_of_new_york.jpg`,
+  poster: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Gangs_of_New_York_Poster.jpg`,
+  background: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/gangs_of_new_york.jpg`,
+  color: `#A6B7AC`,
+  description: `In 1862, Amsterdam Vallon returns to the Five Points area of New York City seeking revenge against Bill the Butcher, his father's killer.`,
+  rating: 8.8,
+  scoresCount: 370881,
+  director: `Martin Scorsese`,
+  duration: 167,
+  isFavorite: false,
+  preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+  video: `http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`
+};
+
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
 
@@ -31,17 +53,18 @@ class App extends PureComponent {
   }
 
   _renderApp() {
-    const {playingMovie,
-      headerMovie,
+    const {
+      playingMovie,
       activeMovie,
+      allMovies,
       moviesList,
       shownMovies,
-      uniqueGenres,
       areAllMoviesShown,
       onMovieCardClick,
       onGenreClick,
       onShowMoreClick,
-      onPlayMovieClick} = this.props;
+      onPlayMovieClick,
+    } = this.props;
 
     const mainElement = activeMovie
       ? <MovieInfo
@@ -51,9 +74,9 @@ class App extends PureComponent {
         onPlayMovieClick={onPlayMovieClick}
       />
       : <Main
-        headerMovie={headerMovie}
+        headerMovie={mockHeaderMovie}
         moviesList={shownMovies}
-        uniqueGenres={uniqueGenres}
+        uniqueGenres={getUniqueGenres(allMovies)}
         areAllMoviesShown={areAllMoviesShown}
         onCardClick={onMovieCardClick}
         onGenreClick={onGenreClick}
@@ -81,12 +104,8 @@ App.propTypes = {
     year: PropTypes.number.isRequired,
     id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    preview: PropTypes.string.isRequired
-  }),
-  headerMovie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
+    preview: PropTypes.string.isRequired,
+    video: PropTypes.string.isRequired
   }),
   activeMovie: PropTypes.shape({
     title: PropTypes.string.isRequired,
@@ -96,6 +115,16 @@ App.propTypes = {
     image: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired
   }),
+  allMovies: PropTypes.arrayOf(
+      PropTypes.shape({
+        title: PropTypes.string.isRequired,
+        genre: PropTypes.string.isRequired,
+        year: PropTypes.number.isRequired,
+        id: PropTypes.number.isRequired,
+        image: PropTypes.string.isRequired,
+        preview: PropTypes.string.isRequired
+      }).isRequired
+  ).isRequired,
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
@@ -116,7 +145,6 @@ App.propTypes = {
         preview: PropTypes.string.isRequired
       }).isRequired
   ),
-  uniqueGenres: PropTypes.arrayOf(PropTypes.string).isRequired,
   areAllMoviesShown: PropTypes.bool.isRequired,
   onMovieCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
@@ -125,6 +153,7 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
+  allMovies: state.allMovies,
   playingMovie: state.playingMovie,
   activeMovie: state.activeMovie,
   moviesList: state.moviesList,

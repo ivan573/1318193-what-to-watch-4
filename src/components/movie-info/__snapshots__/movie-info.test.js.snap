@@ -4,6 +4,11 @@ exports[`MovieInfo matches snapshot 1`] = `
 Array [
   <section
     className="movie-card movie-card--full"
+    style={
+      Object {
+        "backgroundColor": "#A6B7AC",
+      }
+    }
   >
     <div
       className="movie-card__hero"
@@ -12,8 +17,8 @@ Array [
         className="movie-card__bg"
       >
         <img
-          alt="The Grand Budapest Hotel"
-          src="img/bg-the-grand-budapest-hotel.jpg"
+          alt="Gangs of new york"
+          src="https://htmlacademy-react-3.appspot.com/wtw/static/film/background/gangs_of_new_york.jpg"
         />
       </div>
       <h1
@@ -72,7 +77,7 @@ Array [
           <h2
             className="movie-card__title"
           >
-            Aviator
+            Gangs of new york
           </h2>
           <p
             className="movie-card__meta"
@@ -80,12 +85,12 @@ Array [
             <span
               className="movie-card__genre"
             >
-              Drama
+              Crime
             </span>
             <span
               className="movie-card__year"
             >
-              2004
+              2002
             </span>
           </p>
           <div
@@ -146,9 +151,9 @@ Array [
           className="movie-card__poster movie-card__poster--big"
         >
           <img
-            alt="The Grand Budapest Hotel poster"
+            alt="Gangs of new york"
             height="327"
-            src="img/the-grand-budapest-hotel-poster.jpg"
+            src="https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Gangs_of_New_York_Poster.jpg"
             width="218"
           />
         </div>
@@ -202,7 +207,7 @@ Array [
             <div
               className="movie-rating__score"
             >
-              8,9
+              8.8
             </div>
             <p
               className="movie-rating__meta"
@@ -215,7 +220,8 @@ Array [
               <span
                 className="movie-rating__count"
               >
-                240 ratings
+                370881
+                 ratings
               </span>
             </p>
           </div>
@@ -223,23 +229,23 @@ Array [
             className="movie-card__text"
           >
             <p>
-              In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&#39s friend and protege.
-            </p>
-            <p>
-              Gustave prides himself on providing first-class service to the hotel&#39s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&#39s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
+              In 1862, Amsterdam Vallon returns to the Five Points area of New York City seeking revenge against Bill the Butcher, his father's killer.
             </p>
             <p
               className="movie-card__director"
             >
               <strong>
-                Director: Wes Andreson
+                Director: 
+                Martin Scorsese
               </strong>
             </p>
             <p
               className="movie-card__starring"
             >
               <strong>
-                Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other
+                Starring: 
+                Pupa, Lupa
+                 and other
               </strong>
             </p>
           </div>

@@ -132,7 +132,10 @@ MovieInfo.propTypes = {
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    preview: PropTypes.string.isRequired
+    preview: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    poster: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired
   }).isRequired,
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({

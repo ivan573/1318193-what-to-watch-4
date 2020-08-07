@@ -119,7 +119,9 @@ Main.propTypes = {
   headerMovie: PropTypes.shape({
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired
+    year: PropTypes.number.isRequired,
+    poster: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired
   }),
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({

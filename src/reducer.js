@@ -1,5 +1,3 @@
-// import {moviesList} from "./mocks/movies.js";
-
 import {adaptMovies} from "./utils.js";
 import {ALL_GENRES} from "./const.js";
 
@@ -16,8 +14,8 @@ const initialState = {
   activeMovie: null,
   allMovies: [],
   moviesList: [],
-  shownMovies: [], // moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE),
-  areAllMoviesShown: true // moviesList.length === moviesList.slice(0, MOVIES_TO_SHOW_AT_ONCE).length
+  shownMovies: [],
+  areAllMoviesShown: true
 };
 
 const ActionType = {
@@ -26,7 +24,7 @@ const ActionType = {
   CHANGE_ACTIVE_MOVIE: `CHANGE_ACTIVE_MOVIE`,
   CHANGE_FILTER: `CHANGE_FILTER`,
   SHOW_MORE: `SHOW_MORE`,
-  LOAD_MOVIES: `LOAD_MOVIES`
+  LOAD_MOVIES: `LOAD_MOVIES`,
 };
 
 const ActionCreator = {
@@ -49,7 +47,13 @@ const ActionCreator = {
   loadMovies: (movies) => ({
     type: ActionType.LOAD_MOVIES,
     payload: {moviesList: movies}
-  })
+  }),
+  requireAuthorization: (status) => {
+    return {
+      type: ActionType.REQUIRED_AUTHORIZATION,
+      payload: status,
+    };
+  }
 };
 
 const Operation = {
