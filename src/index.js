@@ -7,8 +7,9 @@ import {Provider} from "react-redux";
 
 import thunk from "redux-thunk";
 
-import {reducer} from "./reducer.js";
-import {Operation, ActionCreator, AuthorizationStatus} from "./reducer.js";
+import reducer from "./reducer/reducer.js";
+import {Operation as DataOperation} from "./reducer/data/data.js";
+import {ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
 
 const api = createAPI(() => {
@@ -22,7 +23,7 @@ const store = createStore(
     )
 );
 
-store.dispatch(Operation.loadMovies());
+store.dispatch(DataOperation.loadMovies());
 
 ReactDOM.render(
     <Provider store={store}>

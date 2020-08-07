@@ -2,7 +2,12 @@ import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, BrowserRouter} from "react-router-dom";
 import {connect} from "react-redux";
-import {ActionCreator} from "../../reducer.js";
+
+import {ActionCreator} from "../../reducer/movies/movies.js";
+
+import {getPlayingMovie, getActiveMovie, getMoviesList, getShownMovies, getAreAllMoviesShown} from "../../reducer/movies/selectors.js";
+import {getAllMovies} from "../../reducer/data/selectors.js";
+
 
 import Main from "../main/main.jsx";
 import MovieInfoComponent from "../movie-info/movie-info.jsx";
@@ -153,12 +158,12 @@ App.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  allMovies: state.allMovies,
-  playingMovie: state.playingMovie,
-  activeMovie: state.activeMovie,
-  moviesList: state.moviesList,
-  shownMovies: state.shownMovies,
-  areAllMoviesShown: state.areAllMoviesShown
+  allMovies: getAllMovies(state),
+  playingMovie: getPlayingMovie(state),
+  activeMovie: getActiveMovie(state),
+  moviesList: getMoviesList(state),
+  shownMovies: getShownMovies(state),
+  areAllMoviesShown: getAreAllMoviesShown(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
