@@ -1,6 +1,6 @@
 import NameSpace from "../name-space.js";
 
-const NAME_SPACE = NameSpace.USER;
+const NAME_SPACE = NameSpace.DATA;
 
 
 const getAllMovies = (state) => {
