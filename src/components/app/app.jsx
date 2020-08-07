@@ -16,7 +16,12 @@ import Player from "../video-player/video-player.jsx";
 import withVideo from "../../hocs/with-video/with-video.js";
 import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
+import SignIn from "../sign-in/sign-in.jsx";
+
 import {getUniqueGenres} from "../../utils.js";
+
+import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
+import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 
 // temporary solution
 const mockHeaderMovie = {
@@ -69,7 +74,15 @@ class App extends PureComponent {
       onGenreClick,
       onShowMoreClick,
       onPlayMovieClick,
+      authorizationStatus,
+      login
     } = this.props;
+
+    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+      return <SignIn
+        onSubmit={login}
+      />;
+    }
 
     const mainElement = activeMovie
       ? <MovieInfo
@@ -163,7 +176,8 @@ const mapStateToProps = (state) => ({
   activeMovie: getActiveMovie(state),
   moviesList: getMoviesList(state),
   shownMovies: getShownMovies(state),
-  areAllMoviesShown: getAreAllMoviesShown(state)
+  areAllMoviesShown: getAreAllMoviesShown(state),
+  authorizationStatus: getAuthorizationStatus(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -179,6 +193,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onPlayMovieClick(movie) {
     dispatch(ActionCreator.changePlayingMovie(movie));
+  },
+  login(authData) {
+    dispatch(UserOperation.login(authData));
   }
 });
 
