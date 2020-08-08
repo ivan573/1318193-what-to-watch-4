@@ -8,18 +8,18 @@ const VideoPlayer = withVideo(Player);
 
 class MovieCard extends PureComponent {
   render() {
-    const {movie, isActive, onMouseOverCard, onMouseOutOfCard, onCardClick} = this.props;
+    const {movie, isActive, onMouseOverCard, onMouseOutOfCard, onCardClick, allMovies} = this.props;
 
     const onTitleClick = (event) => {
       event.preventDefault();
-      onCardClick(movie);
+      onCardClick(movie, allMovies);
     };
 
     return (
       <article className="small-movie-card catalog__movies-card"
         onMouseOver={() => onMouseOverCard(movie)}
         onMouseOut={() => onMouseOutOfCard()}
-        onClick={() => onCardClick(movie)}
+        onClick={() => onCardClick(movie, allMovies)}
       >
         {isActive ?
           <VideoPlayer
@@ -53,7 +53,8 @@ MovieCard.propTypes = {
   isActive: PropTypes.bool.isRequired,
   onMouseOverCard: PropTypes.func.isRequired,
   onMouseOutOfCard: PropTypes.func.isRequired,
-  onCardClick: PropTypes.func.isRequired
+  onCardClick: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 export {MovieCard as default};

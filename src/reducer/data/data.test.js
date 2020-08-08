@@ -1,6 +1,7 @@
 import MockAdapter from "axios-mock-adapter";
 import {createAPI} from "../../api.js";
 import {reducer, ActionType, Operation} from "./data.js";
+import {ActionType as MoviesActionType} from "../movies/movies.js";
 
 import {adaptMovies} from "../../utils.js";
 
@@ -21,12 +22,9 @@ it(`Reducer should update movies by load movies`, () => {
     allMovies: [],
   }, {
     type: ActionType.LOAD_MOVIES,
-    payload: {allMovies: allMoviesUnadapted},
+    payload: {allMovies},
   })).toEqual({
-    allMovies,
-    moviesList: allMovies,
-    shownMovies: allMovies.slice(0, 8),
-    areAllMoviesShown: false
+    allMovies
   });
 });
 
@@ -42,10 +40,10 @@ describe(`Operation work correctly`, () => {
 
     return moviesLoader(dispatch, () => {}, api)
       .then(() => {
-        expect(dispatch).toHaveBeenCalledTimes(1);
-        expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: ActionType.LOAD_MOVIES,
-          payload: {allMovies: [{fake: true}]},
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: MoviesActionType.CHANGE_FILTER,
+          payload: {allMovies: adaptMovies([{fake: true}]), genre: `All genres`},
         });
       });
   });

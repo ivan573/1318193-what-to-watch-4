@@ -78,18 +78,18 @@ class App extends PureComponent {
       login
     } = this.props;
 
-    if (authorizationStatus === AuthorizationStatus.NO_AUTH) {
+    if (authorizationStatus !== AuthorizationStatus.AUTH) {
       return <SignIn
         onSubmit={login}
       />;
     }
-
     const mainElement = activeMovie
       ? <MovieInfo
         movie={activeMovie}
         moviesList={moviesList}
         onCardClick={onMovieCardClick}
         onPlayMovieClick={onPlayMovieClick}
+        allMovies={allMovies}
       />
       : <Main
         headerMovie={mockHeaderMovie}
@@ -100,6 +100,7 @@ class App extends PureComponent {
         onGenreClick={onGenreClick}
         onShowMoreClick={() => onShowMoreClick(moviesList)}
         onPlayMovieClick={onPlayMovieClick}
+        allMovies={allMovies}
       />;
 
     return playingMovie ?
@@ -167,7 +168,9 @@ App.propTypes = {
   onMovieCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onPlayMovieClick: PropTypes.func.isRequired
+  onPlayMovieClick: PropTypes.func.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  login: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -181,12 +184,12 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch) => ({
-  onMovieCardClick(movie) {
-    dispatch(ActionCreator.changeActiveMovie(movie));
+  onMovieCardClick(movie, allMovies) {
+    dispatch(ActionCreator.changeActiveMovie(movie, allMovies));
   },
-  onGenreClick(evt, genre) {
+  onGenreClick(evt, genre, allMovies) {
     evt.preventDefault();
-    dispatch(ActionCreator.changeFilter(genre));
+    dispatch(ActionCreator.changeFilter(genre, allMovies));
   },
   onShowMoreClick(movies) {
     dispatch(ActionCreator.showMore(movies));

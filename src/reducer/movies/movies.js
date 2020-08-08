@@ -20,13 +20,13 @@ const ActionCreator = {
     type: ActionType.CHANGE_PLAYING_MOVIE,
     payload: {playingMovie: movie}
   }),
-  changeActiveMovie: (movie) => ({
+  changeActiveMovie: (movie, allMovies) => ({
     type: ActionType.CHANGE_ACTIVE_MOVIE,
-    payload: {activeMovie: movie}
+    payload: {activeMovie: movie, allMovies}
   }),
-  changeFilter: (filterGenre) => ({
+  changeFilter: (filterGenre, allMovies) => ({
     type: ActionType.CHANGE_FILTER,
-    payload: {genre: filterGenre}
+    payload: {genre: filterGenre, allMovies}
   }),
   showMore: (movies) => ({
     type: ActionType.SHOW_MORE,
@@ -39,18 +39,13 @@ const reducer = (state = initialState, {type, payload}) => {
 
   switch (type) {
 
-    case ActionType.REQUIRED_AUTHORIZATION:
-      return Object.assign({}, state, {
-        authorizationStatus: payload,
-      });
-
     case (ActionType.CHANGE_PLAYING_MOVIE):
 
       return Object.assign({}, state, {playingMovie: payload.playingMovie});
 
     case (ActionType.CHANGE_ACTIVE_MOVIE):
 
-      const similarMovies = state.allMovies.filter((movie) => movie.genre === payload.activeMovie.genre && movie.title !== payload.activeMovie.title);
+      const similarMovies = payload.allMovies.filter((movie) => movie.genre === payload.activeMovie.genre && movie.title !== payload.activeMovie.title);
 
       shownMovies = similarMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
 
@@ -63,7 +58,7 @@ const reducer = (state = initialState, {type, payload}) => {
 
     case (ActionType.CHANGE_FILTER):
 
-      const list = payload.genre === ALL_GENRES ? state.allMovies : state.allMovies.filter(
+      const list = payload.genre === ALL_GENRES ? payload.allMovies : payload.allMovies.filter(
           (movie) => movie.genre === payload.genre);
 
       shownMovies = list.slice(0, MOVIES_TO_SHOW_AT_ONCE);
@@ -72,6 +67,15 @@ const reducer = (state = initialState, {type, payload}) => {
         moviesList: list,
         shownMovies,
         areAllMoviesShown: list.length === shownMovies.length
+      });
+
+    case (ActionType.SHOW_MORE):
+
+      shownMovies = state.shownMovies.concat(payload.movies.slice(state.shownMovies.length, state.shownMovies.length + MOVIES_TO_SHOW_AT_ONCE));
+
+      return Object.assign({}, state, {
+        shownMovies,
+        areAllMoviesShown: payload.movies.length === shownMovies.length
       });
   }
 

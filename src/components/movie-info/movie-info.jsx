@@ -11,7 +11,7 @@ const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies} = this.props;
 
     return (
       <React.Fragment>
@@ -101,8 +101,9 @@ class MovieInfo extends PureComponent {
             <h2 className="catalog__title">More like this</h2>
 
             <MoviesList
-              moviesList = {moviesList}
-              onCardClick = {onCardClick}
+              moviesList={moviesList}
+              onCardClick={onCardClick}
+              allMovies={allMovies}
             />
           </section>
 
@@ -150,7 +151,8 @@ MovieInfo.propTypes = {
   onCardClick: PropTypes.func.isRequired,
   activeTab: PropTypes.string.isRequired,
   onTabClick: PropTypes.func.isRequired,
-  onPlayMovieClick: PropTypes.func.isRequired
+  onPlayMovieClick: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 export {MovieInfo as default};

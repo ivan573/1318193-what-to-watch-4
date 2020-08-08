@@ -13,7 +13,7 @@ const GenresList = withActiveItem(GenresComponent);
 
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick, onPlayMovieClick} = props;
+  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick, onPlayMovieClick, allMovies} = props;
   const {title, genre, year, poster, background} = headerMovie;
 
   return (
@@ -84,11 +84,13 @@ const Main = (props) => {
           <GenresList
             genres={uniqueGenres}
             onGenreClick={onGenreClick}
+            allMovies={allMovies}
           />
 
           <MoviesList
             moviesList = {moviesList}
             onCardClick = {onCardClick}
+            allMovies={allMovies}
           />
 
           <ShowMore
@@ -138,7 +140,8 @@ Main.propTypes = {
   onCardClick: PropTypes.func.isRequired,
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
-  onPlayMovieClick: PropTypes.func.isRequired
+  onPlayMovieClick: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 

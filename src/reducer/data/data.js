@@ -1,5 +1,7 @@
-import {MOVIES_TO_SHOW_AT_ONCE} from "../../const.js";
+import {ALL_GENRES} from "../../const.js";
 import {adaptMovies} from "../../utils.js";
+
+import {ActionCreator as MovieActionCreator} from "../movies/movies.js";
 
 const initialState = {
   allMovies: []
@@ -20,7 +22,9 @@ const Operation = {
   loadMovies: () => (dispatch, getState, api) => {
     return api.get(`/films`)
       .then((response) => {
-        dispatch(ActionCreator.loadMovies(response.data));
+        const movies = adaptMovies(response.data);
+        dispatch(ActionCreator.loadMovies(movies));
+        dispatch(MovieActionCreator.changeFilter(ALL_GENRES, movies));
       });
   }
 };
@@ -29,14 +33,10 @@ const reducer = (state = initialState, {type, payload}) => {
   switch (type) {
     case (ActionType.LOAD_MOVIES):
 
-      const allMovies = adaptMovies(payload.allMovies);
-      const shownMovies = allMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
+      const allMovies = payload.allMovies;
 
       return Object.assign({}, state, {
-        allMovies,
-        moviesList: allMovies,
-        shownMovies,
-        areAllMoviesShown: allMovies.length === shownMovies.length
+        allMovies
       });
   }
 

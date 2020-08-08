@@ -30,6 +30,7 @@ test(`MovieInfo matches snapshot`, () => {
       activeTab={`OVERVIEW`}
       onTabClick={() => {}}
       onPlayMovieClick={() => {}}
+      allMovies={[]}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

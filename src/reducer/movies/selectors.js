@@ -20,7 +20,7 @@ const getShownMovies = (state) => {
 };
 
 const getAreAllMoviesShown = (state) => {
-  return state[NAME_SPACE].getAreAllMoviesShown;
+  return state[NAME_SPACE].areAllMoviesShown;
 };
 
 export {getPlayingMovie, getActiveMovie, getMoviesList, getShownMovies, getAreAllMoviesShown};

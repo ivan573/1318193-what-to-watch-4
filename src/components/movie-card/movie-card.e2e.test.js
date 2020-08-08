@@ -25,6 +25,7 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
           onMouseOverCard={onMouseOver}
           onMouseOutOfCard={() => {}}
           onCardClick={() => {}}
+          allMovies={[]}
         />
     );
 
@@ -50,6 +51,7 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
           onMouseOverCard={() => {}}
           onMouseOutOfCard={onMouseOut}
           onCardClick={() => {}}
+          allMovies={[]}
         />
     );
 
@@ -75,6 +77,7 @@ describe(`Intercations with the movie card are succesfully handeled`, () => {
           onMouseOverCard={() => {}}
           onMouseOutOfCard={() => {}}
           onCardClick={onCardClick}
+          allMovies={[]}
         />
     );
 

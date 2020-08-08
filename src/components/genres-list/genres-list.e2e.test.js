@@ -18,6 +18,7 @@ it(`Genres are clicked on`, () => {
         activeGenre={`All genres`}
         onGenreClick={onGenreClick}
         changeActiveItem={() => {}}
+        allMovies={[]}
       />
   );
 
