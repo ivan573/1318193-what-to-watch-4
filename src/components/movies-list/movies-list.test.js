@@ -6,25 +6,25 @@ const moviesList = [
   {title: `Fantastic Beasts: The Crimes of Grindelwald`,
     genre: `Kids & Family`,
     year: 2016,
-    id: `fantastic-beasts-the-crimes-of-grindelwald`,
+    id: 1,
     image: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`},
   {title: `Bohemian Rhapsody`,
     genre: `Drama`,
     year: 2018,
-    id: `bohemian-rhapsody`,
+    id: 2,
     image: `img/bohemian-rhapsody.jpg`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`},
   {title: `Macbeth`,
     genre: `Drama`,
     year: 2015,
-    id: `macbeth`,
+    id: 3,
     image: `img/macbeth.jpg`,
     preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`},
   {title: `Aviator`,
     genre: `Drama`,
     year: 2004,
-    id: `aviator`,
+    id: 4,
     image: `img/aviator.jpg`,
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`}
 ];
@@ -37,6 +37,7 @@ test(`MovieCard matches snapshot`, () => {
       onCardClick={() => {}}
       onMouseOverCard={() => {}}
       onMouseOutOfCard={() => {}}
+      allMovies={[]}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

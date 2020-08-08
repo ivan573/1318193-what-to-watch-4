@@ -1,12 +1,10 @@
-import {reducer, ActionCreator, ActionType} from "./reducer.js";
-import {moviesList} from "./mocks/movies.js";
+import {reducer, ActionCreator, ActionType} from "./movies.js";
+import {moviesList} from "../../mocks/movies.js";
 
 it(`Reducer without additional parameters should return initial state`, () => {
   expect(reducer(void 0, {})).toEqual({
-    authorizationStatus: `NO_AUTH`,
     playingMovie: null,
     activeMovie: null,
-    allMovies: [],
     moviesList: [],
     shownMovies: [],
     areAllMoviesShown: true
@@ -45,19 +43,20 @@ it(`Reducer changes the playing movie`, () => {
 });
 
 it(`Reducer changes movies list and shown movies accordingly when a an active movie is received`, () => {
-  expect(reducer({allMovies: moviesList, moviesList}, {
+  expect(reducer({}, {
     type: ActionType.CHANGE_ACTIVE_MOVIE,
-    payload: {activeMovie:
-      {
+    payload: {
+      activeMovie: {
         title: `What We Do in the Shadows`,
         genre: `Comedy`,
         year: 2014,
         id: `what-we-do-in-the-shadows`,
         image: `img/what-we-do-in-the-shadows.jpg`,
         preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`
-      }}
+      },
+      allMovies: moviesList
+    }
   })).toEqual({
-    allMovies: moviesList,
     activeMovie: {
       title: `What We Do in the Shadows`,
       genre: `Comedy`,
@@ -85,11 +84,10 @@ it(`Reducer changes movies list and shown movies accordingly when a an active mo
 });
 
 it(`Reducer should change the movies list when gets a genre`, () => {
-  expect(reducer({allMovies: moviesList}, {
+  expect(reducer({}, {
     type: ActionType.CHANGE_FILTER,
-    payload: {genre: `Kids & Family`}
+    payload: {genre: `Kids & Family`, allMovies: moviesList}
   })).toEqual({
-    allMovies: moviesList,
     moviesList: [
       {title: `Fantastic Beasts: The Crimes of Grindelwald`,
         genre: `Kids & Family`,

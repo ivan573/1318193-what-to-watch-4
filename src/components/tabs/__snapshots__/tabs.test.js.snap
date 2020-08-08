@@ -18,7 +18,7 @@ exports[`Tabs match snapshots Details tab matches snapshot 1`] = `
       <span
         className="movie-card__details-value"
       >
-        Wes Andreson
+        Martin Scorsese
       </span>
     </p>
     <p
@@ -32,29 +32,11 @@ exports[`Tabs match snapshots Details tab matches snapshot 1`] = `
       <span
         className="movie-card__details-value"
       >
-        Bill Murray, 
+        Pupa
+        , 
         <br />
-        Edward Norton, 
-        <br />
-        Jude Law, 
-        <br />
-        Willem Dafoe, 
-        <br />
-        Saoirse Ronan, 
-        <br />
-        Tony Revoloru, 
-        <br />
-        Tilda Swinton, 
-        <br />
-        Tom Wilkinson, 
-        <br />
-        Owen Wilkinson, 
-        <br />
-        Adrien Brody, 
-        <br />
-        Ralph Fiennes, 
-        <br />
-        Jeff Goldblum
+        Lupa
+        
       </span>
     </p>
   </div>
@@ -72,7 +54,7 @@ exports[`Tabs match snapshots Details tab matches snapshot 1`] = `
       <span
         className="movie-card__details-value"
       >
-        1h 39m
+        2h 47m
       </span>
     </p>
     <p
@@ -86,7 +68,7 @@ exports[`Tabs match snapshots Details tab matches snapshot 1`] = `
       <span
         className="movie-card__details-value"
       >
-        Comedy
+        Crime
       </span>
     </p>
     <p
@@ -100,7 +82,7 @@ exports[`Tabs match snapshots Details tab matches snapshot 1`] = `
       <span
         className="movie-card__details-value"
       >
-        2014
+        2002
       </span>
     </p>
   </div>
@@ -115,7 +97,7 @@ Array [
     <div
       className="movie-rating__score"
     >
-      8,9
+      8.8
     </div>
     <p
       className="movie-rating__meta"
@@ -128,7 +110,8 @@ Array [
       <span
         className="movie-rating__count"
       >
-        240 ratings
+        370881
+         ratings
       </span>
     </p>
   </div>,
@@ -136,23 +119,23 @@ Array [
     className="movie-card__text"
   >
     <p>
-      In the 1930s, the Grand Budapest Hotel is a popular European ski resort, presided over by concierge Gustave H. (Ralph Fiennes). Zero, a junior lobby boy, becomes Gustave&#39s friend and protege.
-    </p>
-    <p>
-      Gustave prides himself on providing first-class service to the hotel&#39s guests, including satisfying the sexual needs of the many elderly women who stay there. When one of Gustave&#39s lovers dies mysteriously, Gustave finds himself the recipient of a priceless painting and the chief suspect in her murder.
+      In 1862, Amsterdam Vallon returns to the Five Points area of New York City seeking revenge against Bill the Butcher, his father's killer.
     </p>
     <p
       className="movie-card__director"
     >
       <strong>
-        Director: Wes Andreson
+        Director: 
+        Martin Scorsese
       </strong>
     </p>
     <p
       className="movie-card__starring"
     >
       <strong>
-        Starring: Bill Murray, Edward Norton, Jude Law, Willem Dafoe and other
+        Starring: 
+        Pupa, Lupa
+         and other
       </strong>
     </p>
   </div>,

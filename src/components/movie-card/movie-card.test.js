@@ -17,6 +17,7 @@ test(`MovieCard matches snapshot`, () => {
       onMouseOverCard={() => {}}
       onMouseOutOfCard={() => {}}
       onCardClick={() => {}}
+      allMovies={[]}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import {ALL_GENRES} from "../../const";
 
 const GenresList = (props) => {
-  const {genres, activeItem, onGenreClick, changeActiveItem} = props;
+  const {genres, activeItem, onGenreClick, changeActiveItem, allMovies} = props;
 
   const activeGenre = activeItem || ALL_GENRES;
 
@@ -12,7 +12,7 @@ const GenresList = (props) => {
     return (
       <li className={activeGenre === genre ? `catalog__genres-item catalog__genres-item--active` : `catalog__genres-item`}
         onClick={(evt) => {
-          onGenreClick(evt, genre);
+          onGenreClick(evt, genre, allMovies);
           changeActiveItem(genre);
         }}
         key={genre}
@@ -33,7 +33,8 @@ GenresList.propTypes = {
   genres: PropTypes.arrayOf(PropTypes.string).isRequired,
   activeItem: PropTypes.string,
   onGenreClick: PropTypes.func.isRequired,
-  changeActiveItem: PropTypes.func.isRequired
+  changeActiveItem: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 export {GenresList as default};

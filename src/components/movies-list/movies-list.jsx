@@ -6,7 +6,7 @@ import MovieCard from "../movie-card/movie-card.jsx";
 class MoviesList extends PureComponent {
 
   render() {
-    const {moviesList, activeCard, onCardClick, onMouseOverCard, onMouseOutOfCard} = this.props;
+    const {moviesList, activeCard, onCardClick, onMouseOverCard, onMouseOutOfCard, allMovies} = this.props;
 
     const movieCards = moviesList.map((it) => {
       return (
@@ -17,6 +17,7 @@ class MoviesList extends PureComponent {
           onMouseOverCard={onMouseOverCard}
           onMouseOutOfCard={onMouseOutOfCard}
           onCardClick={onCardClick}
+          allMovies={allMovies}
         />);
     });
 
@@ -34,7 +35,7 @@ MoviesList.propTypes = {
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       }).isRequired
@@ -43,13 +44,14 @@ MoviesList.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
-    id: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired
   }),
   onCardClick: PropTypes.func.isRequired,
   onMouseOverCard: PropTypes.func.isRequired,
-  onMouseOutOfCard: PropTypes.func.isRequired
+  onMouseOutOfCard: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 export {MoviesList as default};

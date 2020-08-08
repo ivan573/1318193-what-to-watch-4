@@ -9,6 +9,7 @@ test(`Genres list matches snapshot`, () => {
       activeGenre={`All genres`}
       onGenreClick={() => {}}
       changeActiveItem={() => {}}
+      allMovies={[]}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

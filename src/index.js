@@ -1,29 +1,33 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./components/app/app.jsx";
-import {createStore} from "redux";
+import {createStore, applyMiddleware} from "redux";
+import {composeWithDevTools} from "redux-devtools-extension";
 import {Provider} from "react-redux";
 
-import {moviesList} from "./mocks/movies.js";
-import {reducer} from "./reducer.js";
-import {getUniqueGenres} from "./utils.js";
+import thunk from "redux-thunk";
 
-const HEADER_MOVIE = moviesList[0];
+import reducer from "./reducer/reducer.js";
+import {Operation as DataOperation} from "./reducer/data/data.js";
+import {ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
+import {createAPI} from "./api.js";
+
+const api = createAPI(() => {
+  store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+});
 
 const store = createStore(
     reducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ ? window.__REDUX_DEVTOOLS_EXTENSION__() : (f) => f
+    composeWithDevTools(
+        applyMiddleware(thunk.withExtraArgument(api))
+    )
 );
 
-const uniqueGenres = getUniqueGenres(moviesList);
+store.dispatch(DataOperation.loadMovies());
 
 ReactDOM.render(
     <Provider store={store}>
-      <App
-        headerMovie={HEADER_MOVIE}
-        moviesList={moviesList}
-        uniqueGenres={uniqueGenres}
-      />
+      <App/>
     </Provider>,
     document.getElementById(`root`)
 );

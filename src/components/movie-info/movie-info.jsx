@@ -11,14 +11,14 @@ const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies} = this.props;
 
     return (
       <React.Fragment>
-        <section className="movie-card movie-card--full">
+        <section className="movie-card movie-card--full" style={{backgroundColor: movie.color}}>
           <div className="movie-card__hero">
             <div className="movie-card__bg">
-              <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+              <img src={movie.background} alt={movie.title} />
             </div>
 
             <h1 className="visually-hidden">WTW</h1>
@@ -69,7 +69,7 @@ class MovieInfo extends PureComponent {
           <div className="movie-card__wrap movie-card__translate-top">
             <div className="movie-card__info">
               <div className="movie-card__poster movie-card__poster--big">
-                <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+                <img src={movie.poster} alt={movie.title} width="218" height="327" />
               </div>
 
               <div className="movie-card__desc">
@@ -89,6 +89,7 @@ class MovieInfo extends PureComponent {
 
                 <Tabs
                   activeTab={activeTab}
+                  movie={movie}
                 />
               </div>
             </div>
@@ -100,8 +101,9 @@ class MovieInfo extends PureComponent {
             <h2 className="catalog__title">More like this</h2>
 
             <MoviesList
-              moviesList = {moviesList}
-              onCardClick = {onCardClick}
+              moviesList={moviesList}
+              onCardClick={onCardClick}
+              allMovies={allMovies}
             />
           </section>
 
@@ -131,14 +133,17 @@ MovieInfo.propTypes = {
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
-    preview: PropTypes.string.isRequired
+    preview: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    poster: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired
   }).isRequired,
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
         title: PropTypes.string.isRequired,
         genre: PropTypes.string.isRequired,
         year: PropTypes.number.isRequired,
-        id: PropTypes.string.isRequired,
+        id: PropTypes.number.isRequired,
         image: PropTypes.string.isRequired,
         preview: PropTypes.string.isRequired
       }).isRequired
@@ -146,7 +151,8 @@ MovieInfo.propTypes = {
   onCardClick: PropTypes.func.isRequired,
   activeTab: PropTypes.string.isRequired,
   onTabClick: PropTypes.func.isRequired,
-  onPlayMovieClick: PropTypes.func.isRequired
+  onPlayMovieClick: PropTypes.func.isRequired,
+  allMovies: PropTypes.array.isRequired
 };
 
 export {MovieInfo as default};
