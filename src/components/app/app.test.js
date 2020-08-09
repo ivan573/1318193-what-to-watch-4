@@ -62,6 +62,7 @@ test(`App matches snapshot`, () => {
       onPlayMovieClick={() => {}}
       authorizationStatus={``}
       login={() => {}}
+      onSubmitClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

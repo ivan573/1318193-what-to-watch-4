@@ -31,5 +31,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById(`root`)
 );
-
-// module7-task2

@@ -1,0 +1,112 @@
+import React, {PureComponent, createRef} from "react";
+import PropTypes from "prop-types";
+
+const RATING_MULTIPLIER = 2;
+
+const REVIEW_BACKGROUND_COLOR = `#b7b3b2`;
+const BUTTON_TEXT_COLOR = `#252525`;
+
+const ratings = [1, 2, 3, 4, 5];
+
+class AddReview extends PureComponent {
+  constructor(props) {
+    super(props);
+
+    this.props.changeActiveItem(ratings.length);
+
+    this.textRef = createRef();
+  }
+
+  render() {
+    const {activeItem, changeActiveItem, movie} = this.props;
+
+    return (
+      <section className="movie-card movie-card--full" style={{backgroundColor: movie.color}}>
+        <div className="movie-card__header">
+          <div className="movie-card__bg">
+            <img src={movie.background} alt={movie.title} />
+          </div>
+
+          <h1 className="visually-hidden">WTW</h1>
+
+          <header className="page-header">
+            <div className="logo">
+              <a href="main.html" className="logo__link">
+                <span className="logo__letter logo__letter--1">W</span>
+                <span className="logo__letter logo__letter--2">T</span>
+                <span className="logo__letter logo__letter--3">W</span>
+              </a>
+            </div>
+
+            <nav className="breadcrumbs">
+              <ul className="breadcrumbs__list">
+                <li className="breadcrumbs__item">
+                  <a href="movie-page.html" className="breadcrumbs__link">{movie.title}</a>
+                </li>
+                <li className="breadcrumbs__item">
+                  <a className="breadcrumbs__link">Add review</a>
+                </li>
+              </ul>
+            </nav>
+
+            <div className="user-block">
+              <div className="user-block__avatar">
+                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+              </div>
+            </div>
+          </header>
+
+          <div className="movie-card__poster movie-card__poster--small">
+            <img src={movie.poster} alt={movie.title} width="218" height="327" />
+          </div>
+        </div>
+
+        <div className="add-review">
+          <form action="#" className="add-review__form">
+            <div className="rating">
+              <div className="rating__stars">
+                {ratings.map((it) => {
+                  return (
+                    <React.Fragment key={it}>
+                      <input className="rating__input" id={`star-${it}`} type="radio" name="rating" value={it}/>
+                      <label className="rating__label" htmlFor={`star-${it}`} onClick={() => changeActiveItem(it)}>Rating {it}</label>
+                    </React.Fragment>
+                  );
+                })}
+              </div>
+            </div>
+
+            <div className="add-review__text" style={{backgroundColor: REVIEW_BACKGROUND_COLOR}}>
+              <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" ref={this.textRef}></textarea>
+              <div className="add-review__submit">
+                <button className="add-review__btn" type="submit" onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value)} style={{color: BUTTON_TEXT_COLOR}}>Post</button>
+              </div>
+
+            </div>
+          </form>
+        </div>
+
+      </section>
+    );
+  }
+
+  _onSubmit(evt, id, rating, text) {
+    evt.preventDefault();
+    this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim());
+  }
+}
+
+AddReview.propTypes = {
+  activeItem: PropTypes.number,
+  changeActiveItem: PropTypes.func.isRequired,
+  onSubmitClick: PropTypes.func.isRequired,
+  movie: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    id: PropTypes.number.isRequired,
+    poster: PropTypes.string.isRequired,
+    background: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
+  })
+};
+
+export {AddReview as default};

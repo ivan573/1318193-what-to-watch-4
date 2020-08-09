@@ -18,10 +18,15 @@ import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
 import SignIn from "../sign-in/sign-in.jsx";
 
+import AddReviewComponent from "../add-review/add-review.jsx";
+import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
+
 import {getUniqueGenres} from "../../utils.js";
 
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
+
+import {Operation as DataOperation} from "../../reducer/data/data.js";
 
 // temporary solution
 const mockHeaderMovie = {
@@ -46,6 +51,8 @@ const mockHeaderMovie = {
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
 
+const AddReview = withActiveItem(AddReviewComponent);
+
 class App extends PureComponent {
 
   render() {
@@ -56,6 +63,12 @@ class App extends PureComponent {
             {this._renderApp()}
           </Route>
           <Route exact path="/dev-component">
+          </Route>
+          <Route exact path="/dev-review">
+            <AddReview
+              movie={mockHeaderMovie}
+              onSubmitClick={this.props.onSubmitClick}
+            />
           </Route>
         </Switch>
       </BrowserRouter>
@@ -75,7 +88,8 @@ class App extends PureComponent {
       onShowMoreClick,
       onPlayMovieClick,
       authorizationStatus,
-      login
+      login,
+      // onSubmitClick
     } = this.props;
 
     if (authorizationStatus !== AuthorizationStatus.AUTH) {
@@ -90,6 +104,7 @@ class App extends PureComponent {
         onCardClick={onMovieCardClick}
         onPlayMovieClick={onPlayMovieClick}
         allMovies={allMovies}
+        authorizationStatus={authorizationStatus}
       />
       : <Main
         headerMovie={mockHeaderMovie}
@@ -170,7 +185,8 @@ App.propTypes = {
   onShowMoreClick: PropTypes.func.isRequired,
   onPlayMovieClick: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  login: PropTypes.func.isRequired
+  login: PropTypes.func.isRequired,
+  onSubmitClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -199,6 +215,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   login(authData) {
     dispatch(UserOperation.login(authData));
+  },
+  onSubmitClick(id, rating, text) {
+    dispatch(DataOperation.postReview(id, rating, text));
   }
 });
 

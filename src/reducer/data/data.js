@@ -4,17 +4,23 @@ import {adaptMovies} from "../../utils.js";
 import {ActionCreator as MovieActionCreator} from "../movies/movies.js";
 
 const initialState = {
-  allMovies: []
+  allMovies: [],
+  reviews: {}
 };
 
 const ActionType = {
-  LOAD_MOVIES: `LOAD_MOVIES`
+  LOAD_MOVIES: `LOAD_MOVIES`,
+  POST_REVIEW: `POST_REVIEW`
 };
 
 const ActionCreator = {
   loadMovies: (movies) => ({
     type: ActionType.LOAD_MOVIES,
     payload: {allMovies: movies}
+  }),
+  getReview: (reviews, id) => ({
+    type: ActionType.POST_REVIEW,
+    payload: {reviews, id}
   })
 };
 
@@ -26,6 +32,12 @@ const Operation = {
         dispatch(ActionCreator.loadMovies(movies));
         dispatch(MovieActionCreator.changeFilter(ALL_GENRES, movies));
       });
+  },
+  postReview: (id, rating, comment) => (dispatch, getState, api) => {
+    return api.post(`/comments/${id}`, {rating, comment})
+    .then((response) => {
+      dispatch(ActionCreator.getReview(response.data, id));
+    });
   }
 };
 
@@ -35,9 +47,11 @@ const reducer = (state = initialState, {type, payload}) => {
 
       const allMovies = payload.allMovies;
 
-      return Object.assign({}, state, {
-        allMovies
-      });
+      return Object.assign({}, state, {allMovies});
+
+    case (ActionType.POST_REVIEW):
+
+      return Object.assign({}, state, {reviews: {[payload.id]: payload.reviews}});
   }
 
   return state;

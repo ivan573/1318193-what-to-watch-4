@@ -3,6 +3,8 @@ import PropTypes from "prop-types";
 import Tabs, {TabOption} from "../tabs/tabs.jsx";
 import MoviesComponent from "../movies-list/movies-list.jsx";
 
+import {AuthorizationStatus} from "../../reducer/user/user.js";
+
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
@@ -11,7 +13,9 @@ const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies, authorizationStatus} = this.props;
+
+    const addReviewButton = <a href="add-review.html" className="btn movie-card__button">Add review</a>;
 
     return (
       <React.Fragment>
@@ -60,7 +64,7 @@ class MovieInfo extends PureComponent {
                     </svg>
                     <span>My list</span>
                   </button>
-                  <a href="add-review.html" className="btn movie-card__button">Add review</a>
+                  {authorizationStatus === AuthorizationStatus.AUTH ? addReviewButton : ``}
                 </div>
               </div>
             </div>
@@ -152,7 +156,8 @@ MovieInfo.propTypes = {
   activeTab: PropTypes.string.isRequired,
   onTabClick: PropTypes.func.isRequired,
   onPlayMovieClick: PropTypes.func.isRequired,
-  allMovies: PropTypes.array.isRequired
+  allMovies: PropTypes.array.isRequired,
+  authorizationStatus: PropTypes.string.isRequired
 };
 
 export {MovieInfo as default};
