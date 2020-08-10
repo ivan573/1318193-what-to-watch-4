@@ -86,12 +86,15 @@ const reducer = (state = initialState, {type, payload}) => {
 
     case (ActionType.UPDATE_MOVIE):
 
-      if (state.activeMovie.id === payload.movie.id) {
-        return Object.assign({}, state, {
-          activeMovie: payload.movie,
-          moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id),
-          shownMovies: updateMovies(state.shownMovies, payload.movie, payload.movie.id)
-        });
+
+      if (state.activeMovie) {
+        if (state.activeMovie.id === payload.movie.id) {
+          return Object.assign({}, state, {
+            activeMovie: payload.movie,
+            moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id),
+            shownMovies: updateMovies(state.shownMovies, payload.movie, payload.movie.id)
+          });
+        }
       }
 
       const shownMoviesIds = state.shownMovies.map((movie) => {
@@ -112,6 +115,8 @@ const reducer = (state = initialState, {type, payload}) => {
       if (moviesListIds.includes(payload.movie.id)) {
         return Object.assign({}, state, {moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id)});
       }
+
+      return state;
   }
 
   return state;

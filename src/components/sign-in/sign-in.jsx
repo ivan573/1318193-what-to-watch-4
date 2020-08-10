@@ -1,4 +1,5 @@
 import React, {PureComponent, createRef} from "react";
+import {withRouter} from "react-router-dom";
 import PropTypes from "prop-types";
 
 class SignIn extends PureComponent {
@@ -12,6 +13,7 @@ class SignIn extends PureComponent {
   }
 
   render() {
+    console.log(`sign in render`);
     return (
       <React.Fragment>
         <div className="user-page">

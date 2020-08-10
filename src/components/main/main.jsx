@@ -34,7 +34,7 @@ const Main = (props) => {
     authorizationStatus,
     onAddToFavoritesClick
   } = props;
-  const {title, genre, year, poster, background} = headerMovie;
+  const {title, genre, year, id, poster, background} = headerMovie;
 
   const statusToSet = headerMovie.isFavorite ? IsFavoriteStatus.FALSE : IsFavoriteStatus.TRUE;
 
@@ -90,7 +90,7 @@ const Main = (props) => {
                   <span>Play</span>
                 </button>
                 {authorizationStatus === AuthorizationStatus.AUTH ?
-                  <button className="btn btn--list movie-card__button" type="button" onClick={() => onAddToFavoritesClick(headerMovie.id, statusToSet)}>
+                  <button className="btn btn--list movie-card__button" type="button" onClick={() => onAddToFavoritesClick(id, statusToSet)}>
                     {headerMovie.isFavorite ?
                       <svg viewBox="0 0 18 14" width="18" height="14">
                         <use xlinkHref="#in-list"></use>
@@ -148,13 +148,13 @@ const Main = (props) => {
 
 Main.propTypes = {
   headerMovie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    genre: PropTypes.string.isRequired,
-    year: PropTypes.number.isRequired,
-    id: PropTypes.number.isRequired,
-    poster: PropTypes.string.isRequired,
-    background: PropTypes.string.isRequired,
-    isFavorite: PropTypes.bool.isRequired
+    title: PropTypes.string,
+    genre: PropTypes.string,
+    year: PropTypes.number,
+    id: PropTypes.number,
+    poster: PropTypes.string,
+    background: PropTypes.string,
+    isFavorite: PropTypes.bool
   }),
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({

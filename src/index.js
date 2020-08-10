@@ -12,8 +12,12 @@ import {Operation as DataOperation} from "./reducer/data/data.js";
 import {ActionCreator, AuthorizationStatus} from "./reducer/user/user.js";
 import {createAPI} from "./api.js";
 
+import history from "./history.js";
+import {AppRoute} from "./const.js";
+
 const api = createAPI(() => {
   store.dispatch(ActionCreator.requireAuthorization(AuthorizationStatus.NO_AUTH));
+  history.push(AppRoute.LOGIN);
 });
 
 const store = createStore(
@@ -24,6 +28,7 @@ const store = createStore(
 );
 
 store.dispatch(DataOperation.loadMovies());
+store.dispatch(DataOperation.getPromoMovie());
 
 ReactDOM.render(
     <Provider store={store}>

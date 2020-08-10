@@ -4,7 +4,8 @@ import PropTypes from "prop-types";
 class VideoPlayer extends PureComponent {
 
   render() {
-    const {title, poster, isPlaying, isMuted, isPreviewMode, progress, timeValue, videoRef, onPlayButtonClick, onExitClick} = this.props;
+    const {movie, isPlaying, isMuted, isPreviewMode, progress, timeValue, videoRef, onPlayButtonClick, onExitClick} = this.props;
+    const {title, poster} = movie;
 
     const playerElement = (
       <video
@@ -12,7 +13,8 @@ class VideoPlayer extends PureComponent {
         className="player__video"
         poster={poster}
         muted={isMuted}
-        ref={videoRef}>
+        ref={videoRef}
+      >
       </video>
     );
 
@@ -81,8 +83,10 @@ class VideoPlayer extends PureComponent {
 }
 
 VideoPlayer.propTypes = {
-  title: PropTypes.string,
-  poster: PropTypes.string.isRequired,
+  movie: PropTypes.shape({
+    title: PropTypes.string,
+    poster: PropTypes.string.isRequired
+  }).isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isMuted: PropTypes.bool.isRequired,
   isPreviewMode: PropTypes.bool.isRequired,

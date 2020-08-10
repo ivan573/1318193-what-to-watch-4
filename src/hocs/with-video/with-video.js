@@ -17,12 +17,13 @@ const withVideo = (Component) => {
         progress: 0,
         timeElapsed: 0,
         isLoading: true,
-        isPlaying: true
+        isPlaying: true,
+        isFullScreen: false
       };
     }
 
     componentDidMount() {
-      const {src} = this.props;
+      const src = this.props.isPreviewMode ? this.props.movie.preview : this.props.movie.video;
       const video = this._videoRef.current;
 
       video.src = src;
@@ -37,15 +38,19 @@ const withVideo = (Component) => {
         progress: video.currentTime / video.duration * PERCENTS,
         timeElapsed: video.duration - video.currentTime
       });
+
+      video.onfullscreenchange = () => this.setState({isFullScreen: !this.state.isFullScreen});
     }
 
     componentDidUpdate() {
       const video = this._videoRef.current;
 
-      if (this.state.isPlaying) {
-        video.play();
-      } else {
-        video.pause();
+      if (!this.state.isFullScreen) {
+        if (this.state.isPlaying) {
+          video.play();
+        } else {
+          video.pause();
+        }
       }
     }
 
@@ -57,6 +62,7 @@ const withVideo = (Component) => {
       video.onpause = null;
       video.ontimeupdate = null;
       video.src = ``;
+      video.onfullscreenchange = null;
     }
 
     render() {
@@ -90,7 +96,11 @@ const withVideo = (Component) => {
   }
 
   WithVideo.propTypes = {
-    src: PropTypes.string.isRequired,
+    isPreviewMode: PropTypes.bool.isRequired,
+    movie: PropTypes.shape({
+      preview: PropTypes.string.isRequired,
+      video: PropTypes.string.isRequired
+    })
   };
 
   return WithVideo;

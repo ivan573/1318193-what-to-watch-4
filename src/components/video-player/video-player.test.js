@@ -11,8 +11,10 @@ describe(`Videoplayer renders in both modes`, () => {
     const tree = renderer
     .create(
         <VideoPlayer
-          title={`Fantastic Beasts: The Crimes of Grindelwald`}
-          poster={`img/fantastic-beasts-the-crimes-of-grindelwald.jpg`}
+          movie={{
+            title: `Fantastic Beasts: The Crimes of Grindelwald`,
+            poster: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+          }}
           isPlaying={true}
           isMuted={true}
           isPreviewMode={true}
@@ -31,8 +33,10 @@ describe(`Videoplayer renders in both modes`, () => {
     const tree = renderer
     .create(
         <VideoPlayer
-          title={`Fantastic Beasts: The Crimes of Grindelwald`}
-          poster={`img/fantastic-beasts-the-crimes-of-grindelwald.jpg`}
+          movie={{
+            title: `Fantastic Beasts: The Crimes of Grindelwald`,
+            poster: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+          }}
           isPlaying={true}
           isMuted={false}
           isPreviewMode={false}

@@ -19,7 +19,7 @@ const reviews = [{
   comment: `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.`,
   date: `2019-05-08T14:13:56.569Z`}];
 
-// const movie = allMoviesUnadapted[1];
+const movie = allMoviesUnadapted[1];
 
 const api = createAPI(() => {});
 
@@ -94,25 +94,25 @@ describe(`Operation work correctly`, () => {
       });
   });
 
-  //   it(`Should make a correct API call to /favorite`, function () {
-  //     const mockMovie = adaptMovies([movie])[0];
-  //     // eslint-disable-next-line no-console
-  //     console.log(mockMovie);
-  //     const apiMock = new MockAdapter(api);
-  //     const dispatch = jest.fn();
-  //     const toFavoriteAdder = Operation.addToFavorites(1, 1);
+  it(`Should make a correct API call to /favorite`, function () {
+    const mockMovie = adaptMovies([movie])[0];
+    // eslint-disable-next-line no-console
+    console.log(mockMovie);
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const toFavoriteAdder = Operation.addToFavorites(1, 1);
 
-  //     apiMock
-  //       .onPost(`/favorite/1/1`)
-  //       .reply(200, [{fake: true}]);
+    apiMock
+        .onPost(`/favorite/1/1`)
+        .reply(200, [{fake: true}]);
 
-//     return toFavoriteAdder(dispatch, () => {}, api)
-//       .then(() => {
-//         expect(dispatch).toHaveBeenCalledTimes(2);
-//         expect(dispatch).toHaveBeenNthCalledWith(2, {
-//           type: MoviesActionType.UPDATE_MOVIE,
-//           payload: {movie: mockMovie},
-//         });
-//       });
-//   });
+    return toFavoriteAdder(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(2);
+        expect(dispatch).toHaveBeenNthCalledWith(2, {
+          type: MoviesActionType.UPDATE_MOVIE,
+          payload: {movie: mockMovie},
+        });
+      });
+  });
 });

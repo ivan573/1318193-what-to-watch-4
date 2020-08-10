@@ -23,8 +23,7 @@ class MovieCard extends PureComponent {
       >
         {isActive ?
           <VideoPlayer
-            src = {movie.preview}
-            poster={movie.image}
+            movie={movie}
             isMuted={true}
             isPreviewMode={true}
           /> :

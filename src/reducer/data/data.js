@@ -5,13 +5,18 @@ import {ActionCreator as MovieActionCreator} from "../movies/movies.js";
 
 const initialState = {
   allMovies: [],
-  reviews: {}
+  favoriteMovies: [],
+  reviews: {},
+  promoMovie: {}
 };
 
 const ActionType = {
   LOAD_MOVIES: `LOAD_MOVIES`,
   POST_REVIEW: `POST_REVIEW`,
-  ADD_TO_FAVORITES: `ADD_TO_FAVORITES`
+  GET_REVIEWS: `GET_REVIEWS`,
+  ADD_TO_FAVORITES: `ADD_TO_FAVORITES`,
+  GET_FAVORITES: `GET_FAVORITES`,
+  GET_PROMO_MOVIE: `GET_PROMO_MOVIE`
 };
 
 const IsFavoriteStatus = {
@@ -24,13 +29,25 @@ const ActionCreator = {
     type: ActionType.LOAD_MOVIES,
     payload: {allMovies: movies}
   }),
-  getReview: (reviews, id) => ({
+  postReview: (review, id) => ({
     type: ActionType.POST_REVIEW,
-    payload: {reviews, id}
+    payload: {review, id}
+  }),
+  getReviews: (reviews) => ({
+    type: ActionType.GET_REVIEWS,
+    reviews
   }),
   addToFavorites: (movie, id) => ({
     type: ActionType.ADD_TO_FAVORITES,
     payload: {movie, id}
+  }),
+  getFavorites: (movies) => ({
+    type: ActionType.GET_FAVORITES,
+    payload: {movies}
+  }),
+  getPromoMovie: (movie) => ({
+    type: ActionType.GET_PROMO_MOVIE,
+    payload: {movie}
   })
 };
 
@@ -46,6 +63,12 @@ const Operation = {
   postReview: (id, rating, comment) => (dispatch, getState, api) => {
     return api.post(`/comments/${id}`, {rating, comment})
     .then((response) => {
+      dispatch(ActionCreator.postReview(response.data, id));
+    });
+  },
+  getReview: (id) => (dispatch, getState, api) => {
+    return api.get(`/comments/${id}`).
+    then((response) => {
       dispatch(ActionCreator.getReview(response.data, id));
     });
   },
@@ -55,6 +78,18 @@ const Operation = {
       const movie = adaptMovies([response.data])[0];
       dispatch(ActionCreator.addToFavorites(movie, id));
       dispatch(MovieActionCreator.updateMovie(movie));
+    });
+  },
+  getFavorites: () => (dispatch, getState, api) => {
+    return api.get(`/favorite`)
+    .then((response) => {
+      dispatch(ActionCreator.getFavorites(adaptMovies(response.data)));
+    });
+  },
+  getPromoMovie: () => (dispatch, getState, api) => {
+    return api.get(`/films/promo`)
+    .then((response) => {
+      dispatch(ActionCreator.getPromoMovie(adaptMovies([response.data])[0]));
     });
   }
 };
@@ -69,11 +104,29 @@ const reducer = (state = initialState, {type, payload}) => {
 
     case (ActionType.POST_REVIEW):
 
-      return Object.assign({}, state, {reviews: {[payload.id]: payload.reviews}});
+      return Object.assign({}, state, {reviews: {[payload.id]: payload.review}});
+
+    case (ActionType.GET_REVIEWS): // дописать
+
+      return Object.assign({}, state, {reviews: payload.reviews});
 
     case (ActionType.ADD_TO_FAVORITES):
 
-      return Object.assign({}, state, {allMovies: updateMovies(state.allMovies, payload.movie, payload.id)});
+      const newAllMovies = updateMovies(state.allMovies, payload.movie, payload.id);
+
+      if (payload.movie.id === state.promoMovie.id) {
+        return Object.assign({}, state, {allMovies: newAllMovies, promoMovie: payload.movie});
+      }
+
+      return Object.assign({}, state, {allMovies: newAllMovies});
+
+    case (ActionType.GET_FAVORITES):
+
+      return Object.assign({}, state, {favoriteMovies: payload.movies});
+
+    case (ActionType.GET_PROMO_MOVIE):
+
+      return Object.assign({}, state, {promoMovie: payload.movie});
   }
 
   return state;

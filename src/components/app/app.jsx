@@ -1,12 +1,13 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
 import {Switch, Route, Router} from "react-router-dom";
+import PrivateRoute from "../private-route/private-route.jsx";
 import {connect} from "react-redux";
 
 import {ActionCreator} from "../../reducer/movies/movies.js";
 
 import {getPlayingMovie, getActiveMovie, getMoviesList, getShownMovies, getAreAllMoviesShown} from "../../reducer/movies/selectors.js";
-import {getAllMovies} from "../../reducer/data/selectors.js";
+import {getAllMovies, getFavoriteMovies, getPromoMovie} from "../../reducer/data/selectors.js";
 
 
 import Main from "../main/main.jsx";
@@ -18,12 +19,14 @@ import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
 import SignIn from "../sign-in/sign-in.jsx";
 
-// import AddReviewComponent from "../add-review/add-review.jsx";
-// import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
+import AddReviewComponent from "../add-review/add-review.jsx";
+import MyListComponent from "../my-list/my-list.jsx";
+
+import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
 import {getUniqueGenres} from "../../utils.js";
 
-import {Operation as UserOperation/* , AuthorizationStatus*/} from "../../reducer/user/user.js";
+import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 
 import {Operation as DataOperation} from "../../reducer/data/data.js";
@@ -54,32 +57,13 @@ const mockHeaderMovie = {
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
 
-// const AddReview = withActiveItem(AddReviewComponent);
+const AddReview = withActiveItem(AddReviewComponent);
+
+const MyList = withActiveItem(MyListComponent);
 
 class App extends PureComponent {
 
   render() {
-    const {
-      login
-    } = this.props;
-
-    return (
-      <Router history={history}>
-        <Switch>
-          <Route exact path={AppRoute.ROOT}>
-            {this._renderApp()}
-          </Route>
-          <Route exact path={AppRoute.LOGIN}>
-            <SignIn
-              onSubmit={login}
-            />
-          </Route>
-        </Switch>
-      </Router>
-    );
-  }
-
-  _renderApp() {
     const {
       playingMovie,
       activeMovie,
@@ -92,51 +76,109 @@ class App extends PureComponent {
       onShowMoreClick,
       onPlayMovieClick,
       authorizationStatus,
-      // login,
+      login,
       onAddToFavoritesClick,
-      // onSubmitClick
+      onSubmitClick,
+      favoriteMovies,
+      promoMovie
+    } = this.props;
+
+    return (
+      <Router history={history}>
+        <Switch>
+          <Route exact path={AppRoute.LOGIN}
+            render={() =>
+              <SignIn
+                onSubmit={login}
+              />}/>
+          <Route exact path={AppRoute.ROOT} render={() => this._renderApp()}/>
+          <Route exact path={`/test`} component={() => `test`}/>
+          {/* <Route exact path={AppRoute.MOVIE_INFO} render={(props) => {
+            console.log(props);
+            return <MovieInfo
+              movie={activeMovie}
+              moviesList={moviesList}
+              onCardClick={onMovieCardClick}
+              onPlayMovieClick={onPlayMovieClick}
+              allMovies={allMovies}
+              authorizationStatus={authorizationStatus}
+              onAddToFavoritesClick={onAddToFavoritesClick}
+            />;
+          }}>
+          </Route>
+          <Route exact path={AppRoute.ADD_REVIEW}>
+            <AddReview
+              onSubmitClick={onSubmitClick}
+              // movie={{}}
+            />
+          </Route>
+          <Route exact path={AppRoute.VIDEO_PLAYER}>
+            <VideoPlayer
+              movie={playingMovie}
+              isMuted={false}
+              isPreviewMode={false}
+              // the played movie in the store sets to null thus the app receives to the state before the movie started playing
+              onExitClick={() => onPlayMovieClick(null)}
+            />
+          </Route>
+          <PrivateRoute exact path={AppRoute.MY_LIST}
+            render={() => {
+              return (
+                <MyList
+                  movies={favoriteMovies}
+                  allMovies={allMovies}
+                />
+              );
+            }}
+          /> */}
+        </Switch>
+      </ Router>
+    );
+  }
+
+  _renderApp() {
+
+    const {
+      playingMovie,
+      activeMovie,
+      allMovies,
+      moviesList,
+      shownMovies,
+      areAllMoviesShown,
+      onMovieCardClick,
+      onGenreClick,
+      onShowMoreClick,
+      onPlayMovieClick,
+      authorizationStatus,
+      onAddToFavoritesClick,
+      promoMovie
     } = this.props;
 
     // if (authorizationStatus !== AuthorizationStatus.AUTH) {
-    //   return <SignIn
-    //     onSubmit={login}
-    //   />;
+    //   return history.push((AppRoute.LOGIN));
     // }
 
-    const mainElement = activeMovie
-      ? <MovieInfo
-        movie={activeMovie}
-        moviesList={moviesList}
-        onCardClick={onMovieCardClick}
-        onPlayMovieClick={onPlayMovieClick}
-        allMovies={allMovies}
-        authorizationStatus={authorizationStatus}
-        onAddToFavoritesClick={onAddToFavoritesClick}
-      />
-      : <Main
-        headerMovie={mockHeaderMovie}
-        moviesList={shownMovies}
-        uniqueGenres={getUniqueGenres(allMovies)}
-        areAllMoviesShown={areAllMoviesShown}
-        onCardClick={onMovieCardClick}
-        onGenreClick={onGenreClick}
-        onShowMoreClick={() => onShowMoreClick(moviesList)}
-        onPlayMovieClick={onPlayMovieClick}
-        allMovies={allMovies}
-        authorizationStatus={authorizationStatus}
-        onAddToFavoritesClick={onAddToFavoritesClick}
-      />;
+    if (playingMovie) {
+      return history.push(AppRoute.getVideoPlayer(playingMovie.id));
+    }
 
-    return playingMovie ?
-      <VideoPlayer
-        src={playingMovie.video}
-        title={playingMovie.title}
-        poster={playingMovie.image}
-        isMuted={false}
-        isPreviewMode={false}
-        // the played movie in the store sets to null thus the app receives to the state before the movie started playing
-        onExitClick={() => onPlayMovieClick(null)}
-      /> : mainElement;
+    if (activeMovie) {
+      return history.push(AppRoute.getMovieInfo(activeMovie.id));
+    }
+
+    return <Main
+      headerMovie={promoMovie}
+      moviesList={shownMovies}
+      uniqueGenres={getUniqueGenres(allMovies)}
+      areAllMoviesShown={areAllMoviesShown}
+      onCardClick={onMovieCardClick}
+      onGenreClick={onGenreClick}
+      onShowMoreClick={() => onShowMoreClick(moviesList)}
+      onPlayMovieClick={onPlayMovieClick}
+      allMovies={allMovies}
+      authorizationStatus={authorizationStatus}
+      onAddToFavoritesClick={onAddToFavoritesClick}
+    />;
   }
 }
 
@@ -196,7 +238,9 @@ App.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
   onSubmitClick: PropTypes.func.isRequired,
-  onAddToFavoritesClick: PropTypes.func.isRequired
+  onAddToFavoritesClick: PropTypes.func.isRequired,
+  favoriteMovies: PropTypes.array,
+  promoMovie: PropTypes.object.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -206,7 +250,9 @@ const mapStateToProps = (state) => ({
   moviesList: getMoviesList(state),
   shownMovies: getShownMovies(state),
   areAllMoviesShown: getAreAllMoviesShown(state),
-  authorizationStatus: getAuthorizationStatus(state)
+  authorizationStatus: getAuthorizationStatus(state),
+  favoriteMovies: getFavoriteMovies(state),
+  promoMovie: getPromoMovie(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
