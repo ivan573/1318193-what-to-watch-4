@@ -35,4 +35,20 @@ const adaptMovies = (movies) => {
   });
 };
 
-export {getUniqueGenres, adaptMovies};
+const updateMovies = (movies, movie, id) => {
+  const movieIndex = movies.findIndex((it) => {
+    return it.id === id;
+  });
+
+  if (movieIndex >= 0) {
+    const newMovies = movies.slice();
+
+    newMovies[movieIndex] = movie;
+
+    return newMovies;
+  }
+
+  return movies;
+};
+
+export {getUniqueGenres, adaptMovies, updateMovies};

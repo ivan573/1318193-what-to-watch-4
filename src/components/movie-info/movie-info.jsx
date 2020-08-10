@@ -1,5 +1,8 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
+
+import {Link} from "react-router-dom";
+
 import Tabs, {TabOption} from "../tabs/tabs.jsx";
 import MoviesComponent from "../movies-list/movies-list.jsx";
 
@@ -8,12 +11,18 @@ import {AuthorizationStatus} from "../../reducer/user/user.js";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
+import {AppRoute} from "../../const.js";
+
+import {IsFavoriteStatus} from "../../reducer/data/data.js";
+
 const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies, authorizationStatus} = this.props;
+    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies, authorizationStatus, onAddToFavoritesClick} = this.props;
+
+    const statusToSet = movie.isFavorite ? IsFavoriteStatus.FALSE : IsFavoriteStatus.TRUE;
 
     const addReviewButton = <a href="add-review.html" className="btn movie-card__button">Add review</a>;
 
@@ -37,9 +46,11 @@ class MovieInfo extends PureComponent {
               </div>
 
               <div className="user-block">
-                <div className="user-block__avatar">
-                  <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-                </div>
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <div className="user-block__avatar">
+                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                  </div> :
+                  <Link to={AppRoute.LOGIN} className="user-block__link">Sign in</Link>}
               </div>
             </header>
 
@@ -58,12 +69,17 @@ class MovieInfo extends PureComponent {
                     </svg>
                     <span>Play</span>
                   </button>
-                  <button className="btn btn--list movie-card__button" type="button">
-                    <svg viewBox="0 0 19 20" width="19" height="20">
-                      <use xlinkHref="#add"></use>
-                    </svg>
-                    <span>My list</span>
-                  </button>
+                  {authorizationStatus === AuthorizationStatus.AUTH ?
+                    <button className="btn btn--list movie-card__button" type="button" onClick={() => onAddToFavoritesClick(movie.id, statusToSet)}>
+                      {movie.isFavorite ?
+                        <svg viewBox="0 0 18 14" width="18" height="14">
+                          <use xlinkHref="#in-list"></use>
+                        </svg> :
+                        <svg viewBox="0 0 19 20" width="19" height="20">
+                          <use xlinkHref="#add"></use>
+                        </svg>}
+                      <span>My list</span>
+                    </button> : ``}
                   {authorizationStatus === AuthorizationStatus.AUTH ? addReviewButton : ``}
                 </div>
               </div>
@@ -136,11 +152,13 @@ MovieInfo.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     image: PropTypes.string.isRequired,
     preview: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired,
     poster: PropTypes.string.isRequired,
-    background: PropTypes.string.isRequired
+    background: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired
   }).isRequired,
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -157,7 +175,8 @@ MovieInfo.propTypes = {
   onTabClick: PropTypes.func.isRequired,
   onPlayMovieClick: PropTypes.func.isRequired,
   allMovies: PropTypes.array.isRequired,
-  authorizationStatus: PropTypes.string.isRequired
+  authorizationStatus: PropTypes.string.isRequired,
+  onAddToFavoritesClick: PropTypes.func.isRequired
 };
 
 export {MovieInfo as default};

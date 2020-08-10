@@ -63,6 +63,7 @@ test(`App matches snapshot`, () => {
       authorizationStatus={``}
       login={() => {}}
       onSubmitClick={() => {}}
+      onAddToFavoritesClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

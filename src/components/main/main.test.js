@@ -60,6 +60,8 @@ test(`Main matches snapshot`, () => {
       onShowMoreClick={() => {}}
       onPlayMovieClick={() => {}}
       allMovies={[]}
+      authorizationStatus={`AUTH`}
+      onAddToFavoritesClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

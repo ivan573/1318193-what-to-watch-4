@@ -1,4 +1,5 @@
 import {ALL_GENRES, MOVIES_TO_SHOW_AT_ONCE} from "../../const.js";
+import {updateMovies} from "../../utils.js";
 
 const initialState = {
   playingMovie: null,
@@ -12,7 +13,8 @@ const ActionType = {
   CHANGE_PLAYING_MOVIE: `CHANGE_PLAYING_MOVIE`,
   CHANGE_ACTIVE_MOVIE: `CHANGE_ACTIVE_MOVIE`,
   CHANGE_FILTER: `CHANGE_FILTER`,
-  SHOW_MORE: `SHOW_MORE`
+  SHOW_MORE: `SHOW_MORE`,
+  UPDATE_MOVIE: `UPDATE_MOVIE`
 };
 
 const ActionCreator = {
@@ -31,6 +33,10 @@ const ActionCreator = {
   showMore: (movies) => ({
     type: ActionType.SHOW_MORE,
     payload: {movies}
+  }),
+  updateMovie: (movie) => ({
+    type: ActionType.UPDATE_MOVIE,
+    payload: {movie}
   })
 };
 
@@ -77,6 +83,35 @@ const reducer = (state = initialState, {type, payload}) => {
         shownMovies,
         areAllMoviesShown: payload.movies.length === shownMovies.length
       });
+
+    case (ActionType.UPDATE_MOVIE):
+
+      if (state.activeMovie.id === payload.movie.id) {
+        return Object.assign({}, state, {
+          activeMovie: payload.movie,
+          moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id),
+          shownMovies: updateMovies(state.shownMovies, payload.movie, payload.movie.id)
+        });
+      }
+
+      const shownMoviesIds = state.shownMovies.map((movie) => {
+        return movie.id;
+      });
+
+      if (shownMoviesIds.includes(payload.movie.id)) {
+        return Object.assign({}, state, {
+          shownMovies: updateMovies(state.shownMovies, payload.movie, payload.movie.id),
+          moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id)
+        });
+      }
+
+      const moviesListIds = state.moviesList.map((movie) => {
+        return movie.id;
+      });
+
+      if (moviesListIds.includes(payload.movie.id)) {
+        return Object.assign({}, state, {moviesList: updateMovies(state.moviesList, payload.movie, payload.movie.id)});
+      }
   }
 
   return state;

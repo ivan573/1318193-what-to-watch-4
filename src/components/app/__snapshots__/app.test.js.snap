@@ -1,134 +1,325 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`App matches snapshot 1`] = `
-<div
-  className="user-page"
->
-  <header
-    className="page-header user-page__head"
+Array [
+  <section
+    className="movie-card"
   >
     <div
-      className="logo"
+      className="movie-card__bg"
     >
-      <a
-        className="logo__link"
-        href="main.html"
-      >
-        <span
-          className="logo__letter logo__letter--1"
-        >
-          W
-        </span>
-        <span
-          className="logo__letter logo__letter--2"
-        >
-          T
-        </span>
-        <span
-          className="logo__letter logo__letter--3"
-        >
-          W
-        </span>
-      </a>
+      <img
+        alt="Gangs of new york"
+        src="https://htmlacademy-react-3.appspot.com/wtw/static/film/background/gangs_of_new_york.jpg"
+      />
     </div>
     <h1
-      className="page-title user-page__title"
+      className="visually-hidden"
     >
-      Sign in
+      WTW
     </h1>
-  </header>
-  <div
-    className="sign-in user-page__content"
-  >
-    <form
-      action="#"
-      className="sign-in__form"
-      onSubmit={[Function]}
+    <header
+      className="page-header movie-card__head"
     >
       <div
-        className="sign-in__fields"
+        className="logo"
       >
-        <div
-          className="sign-in__field"
+        <a
+          className="logo__link"
         >
-          <input
-            className="sign-in__input"
-            id="user-email"
-            name="user-email"
-            placeholder="Email address"
-            type="email"
-          />
-          <label
-            className="sign-in__label visually-hidden"
-            htmlFor="user-email"
+          <span
+            className="logo__letter logo__letter--1"
           >
-            Email address
-          </label>
-        </div>
-        <div
-          className="sign-in__field"
-        >
-          <input
-            className="sign-in__input"
-            id="user-password"
-            name="user-password"
-            placeholder="Password"
-            type="password"
-          />
-          <label
-            className="sign-in__label visually-hidden"
-            htmlFor="user-password"
+            W
+          </span>
+          <span
+            className="logo__letter logo__letter--2"
           >
-            Password
-          </label>
-        </div>
+            T
+          </span>
+          <span
+            className="logo__letter logo__letter--3"
+          >
+            W
+          </span>
+        </a>
       </div>
       <div
-        className="sign-in__submit"
+        className="user-block"
       >
-        <button
-          className="sign-in__btn"
-          type="submit"
+        <a
+          className="user-block__link"
+          href="/login"
+          onClick={[Function]}
         >
           Sign in
-        </button>
+        </a>
       </div>
-    </form>
-  </div>
-  <footer
-    className="page-footer"
-  >
+    </header>
     <div
-      className="logo"
+      className="movie-card__wrap"
     >
-      <a
-        className="logo__link logo__link--light"
-        href="main.html"
+      <div
+        className="movie-card__info"
       >
-        <span
-          className="logo__letter logo__letter--1"
+        <div
+          className="movie-card__poster"
         >
-          W
-        </span>
-        <span
-          className="logo__letter logo__letter--2"
+          <img
+            alt="Gangs of new york"
+            height="327"
+            src="https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Gangs_of_New_York_Poster.jpg"
+            width="218"
+          />
+        </div>
+        <div
+          className="movie-card__desc"
         >
-          T
-        </span>
-        <span
-          className="logo__letter logo__letter--3"
-        >
-          W
-        </span>
-      </a>
+          <h2
+            className="movie-card__title"
+          >
+            Gangs of new york
+          </h2>
+          <p
+            className="movie-card__meta"
+          >
+            <span
+              className="movie-card__genre"
+            >
+              Crime
+            </span>
+            <span
+              className="movie-card__year"
+            >
+              2002
+            </span>
+          </p>
+          <div
+            className="movie-card__buttons"
+          >
+            <button
+              className="btn btn--play movie-card__button"
+              onClick={[Function]}
+              type="button"
+            >
+              <svg
+                height="19"
+                viewBox="0 0 19 19"
+                width="19"
+              >
+                <use
+                  xlinkHref="#play-s"
+                />
+              </svg>
+              <span>
+                Play
+              </span>
+            </button>
+            
+          </div>
+        </div>
+      </div>
     </div>
-    <div
-      className="copyright"
+  </section>,
+  <div
+    className="page-content"
+  >
+    <section
+      className="catalog"
     >
-      <p>
-        © 2019 What to watch Ltd.
-      </p>
-    </div>
-  </footer>
-</div>
+      <h2
+        className="catalog__title visually-hidden"
+      >
+        Catalog
+      </h2>
+      <ul
+        className="catalog__genres-list"
+      >
+        <li
+          className="catalog__genres-item catalog__genres-item--active"
+          onClick={[Function]}
+        >
+          <a
+            className="catalog__genres-link"
+            href="#"
+          >
+            All genres
+          </a>
+        </li>
+        <li
+          className="catalog__genres-item"
+          onClick={[Function]}
+        >
+          <a
+            className="catalog__genres-link"
+            href="#"
+          >
+            Kids & Family
+          </a>
+        </li>
+        <li
+          className="catalog__genres-item"
+          onClick={[Function]}
+        >
+          <a
+            className="catalog__genres-link"
+            href="#"
+          >
+            Drama
+          </a>
+        </li>
+      </ul>
+      <div
+        className="catalog__movies-list"
+      >
+        <article
+          className="small-movie-card catalog__movies-card"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="small-movie-card__image"
+          >
+            <img
+              alt="Fantastic Beasts: The Crimes of Grindelwald"
+              height="175"
+              src="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
+              width="280"
+            />
+          </div>
+          <h3
+            className="small-movie-card__title"
+          >
+            <a
+              className="small-movie-card__link"
+              href="movie-page.html"
+              onClick={[Function]}
+            >
+              Fantastic Beasts: The Crimes of Grindelwald
+            </a>
+          </h3>
+        </article>
+        <article
+          className="small-movie-card catalog__movies-card"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="small-movie-card__image"
+          >
+            <img
+              alt="Bohemian Rhapsody"
+              height="175"
+              src="img/bohemian-rhapsody.jpg"
+              width="280"
+            />
+          </div>
+          <h3
+            className="small-movie-card__title"
+          >
+            <a
+              className="small-movie-card__link"
+              href="movie-page.html"
+              onClick={[Function]}
+            >
+              Bohemian Rhapsody
+            </a>
+          </h3>
+        </article>
+        <article
+          className="small-movie-card catalog__movies-card"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="small-movie-card__image"
+          >
+            <img
+              alt="Macbeth"
+              height="175"
+              src="img/macbeth.jpg"
+              width="280"
+            />
+          </div>
+          <h3
+            className="small-movie-card__title"
+          >
+            <a
+              className="small-movie-card__link"
+              href="movie-page.html"
+              onClick={[Function]}
+            >
+              Macbeth
+            </a>
+          </h3>
+        </article>
+        <article
+          className="small-movie-card catalog__movies-card"
+          onClick={[Function]}
+          onMouseOut={[Function]}
+          onMouseOver={[Function]}
+        >
+          <div
+            className="small-movie-card__image"
+          >
+            <img
+              alt="Aviator"
+              height="175"
+              src="img/aviator.jpg"
+              width="280"
+            />
+          </div>
+          <h3
+            className="small-movie-card__title"
+          >
+            <a
+              className="small-movie-card__link"
+              href="movie-page.html"
+              onClick={[Function]}
+            >
+              Aviator
+            </a>
+          </h3>
+        </article>
+      </div>
+    </section>
+    <footer
+      className="page-footer"
+    >
+      <div
+        className="logo"
+      >
+        <a
+          className="logo__link logo__link--light"
+        >
+          <span
+            className="logo__letter logo__letter--1"
+          >
+            W
+          </span>
+          <span
+            className="logo__letter logo__letter--2"
+          >
+            T
+          </span>
+          <span
+            className="logo__letter logo__letter--3"
+          >
+            W
+          </span>
+        </a>
+      </div>
+      <div
+        className="copyright"
+      >
+        <p>
+          © 2019 What to watch Ltd.
+        </p>
+      </div>
+    </footer>
+  </div>,
+]
 `;

@@ -31,6 +31,8 @@ test(`MovieInfo matches snapshot`, () => {
       onTabClick={() => {}}
       onPlayMovieClick={() => {}}
       allMovies={[]}
+      authorizationStatus={`AUTH`}
+      onAddToFavoritesClick={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

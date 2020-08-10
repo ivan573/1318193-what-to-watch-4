@@ -1,6 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 
+import {Link} from "react-router-dom";
+
 import GenresComponent from "../genres-list/genres-list.jsx";
 import MoviesComponent from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
@@ -8,13 +10,33 @@ import ShowMore from "../show-more/show-more.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
+import {AuthorizationStatus} from "../../reducer/user/user.js";
+
+import {AppRoute} from "../../const.js";
+
+import {IsFavoriteStatus} from "../../reducer/data/data.js";
+
 const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 const GenresList = withActiveItem(GenresComponent);
 
 
 const Main = (props) => {
-  const {headerMovie, moviesList, uniqueGenres, areAllMoviesShown, onCardClick, onGenreClick, onShowMoreClick, onPlayMovieClick, allMovies} = props;
+  const {
+    headerMovie,
+    moviesList,
+    uniqueGenres,
+    areAllMoviesShown,
+    onCardClick,
+    onGenreClick,
+    onShowMoreClick,
+    onPlayMovieClick,
+    allMovies,
+    authorizationStatus,
+    onAddToFavoritesClick
+  } = props;
   const {title, genre, year, poster, background} = headerMovie;
+
+  const statusToSet = headerMovie.isFavorite ? IsFavoriteStatus.FALSE : IsFavoriteStatus.TRUE;
 
   return (
     <React.Fragment>
@@ -35,9 +57,11 @@ const Main = (props) => {
           </div>
 
           <div className="user-block">
-            <div className="user-block__avatar">
-              <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-            </div>
+            {authorizationStatus === AuthorizationStatus.AUTH ?
+              <div className="user-block__avatar">
+                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+              </div> :
+              <Link to={AppRoute.LOGIN} className="user-block__link">Sign in</Link>}
           </div>
         </header>
 
@@ -65,12 +89,17 @@ const Main = (props) => {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list movie-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                </button>
+                {authorizationStatus === AuthorizationStatus.AUTH ?
+                  <button className="btn btn--list movie-card__button" type="button" onClick={() => onAddToFavoritesClick(headerMovie.id, statusToSet)}>
+                    {headerMovie.isFavorite ?
+                      <svg viewBox="0 0 18 14" width="18" height="14">
+                        <use xlinkHref="#in-list"></use>
+                      </svg> :
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>}
+                    <span>My list</span>
+                  </button> : ``}
               </div>
             </div>
           </div>
@@ -122,8 +151,10 @@ Main.propTypes = {
     title: PropTypes.string.isRequired,
     genre: PropTypes.string.isRequired,
     year: PropTypes.number.isRequired,
+    id: PropTypes.number.isRequired,
     poster: PropTypes.string.isRequired,
-    background: PropTypes.string.isRequired
+    background: PropTypes.string.isRequired,
+    isFavorite: PropTypes.bool.isRequired
   }),
   moviesList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -141,7 +172,9 @@ Main.propTypes = {
   onGenreClick: PropTypes.func.isRequired,
   onShowMoreClick: PropTypes.func.isRequired,
   onPlayMovieClick: PropTypes.func.isRequired,
-  allMovies: PropTypes.array.isRequired
+  allMovies: PropTypes.array.isRequired,
+  authorizationStatus: PropTypes.string.isRequired,
+  onAddToFavoritesClick: PropTypes.func.isRequired
 };
 
 

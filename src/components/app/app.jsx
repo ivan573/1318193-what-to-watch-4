@@ -1,6 +1,6 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-import {Switch, Route, BrowserRouter} from "react-router-dom";
+import {Switch, Route, Router} from "react-router-dom";
 import {connect} from "react-redux";
 
 import {ActionCreator} from "../../reducer/movies/movies.js";
@@ -18,15 +18,18 @@ import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
 
 import SignIn from "../sign-in/sign-in.jsx";
 
-import AddReviewComponent from "../add-review/add-review.jsx";
-import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
+// import AddReviewComponent from "../add-review/add-review.jsx";
+// import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
 import {getUniqueGenres} from "../../utils.js";
 
-import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
+import {Operation as UserOperation/* , AuthorizationStatus*/} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 
 import {Operation as DataOperation} from "../../reducer/data/data.js";
+
+import history from "../../history.js";
+import {AppRoute} from "../../const.js";
 
 // temporary solution
 const mockHeaderMovie = {
@@ -51,27 +54,28 @@ const mockHeaderMovie = {
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
 
-const AddReview = withActiveItem(AddReviewComponent);
+// const AddReview = withActiveItem(AddReviewComponent);
 
 class App extends PureComponent {
 
   render() {
+    const {
+      login
+    } = this.props;
+
     return (
-      <BrowserRouter>
+      <Router history={history}>
         <Switch>
-          <Route exact path="/">
+          <Route exact path={AppRoute.ROOT}>
             {this._renderApp()}
           </Route>
-          <Route exact path="/dev-component">
-          </Route>
-          <Route exact path="/dev-review">
-            <AddReview
-              movie={mockHeaderMovie}
-              onSubmitClick={this.props.onSubmitClick}
+          <Route exact path={AppRoute.LOGIN}>
+            <SignIn
+              onSubmit={login}
             />
           </Route>
         </Switch>
-      </BrowserRouter>
+      </Router>
     );
   }
 
@@ -88,15 +92,17 @@ class App extends PureComponent {
       onShowMoreClick,
       onPlayMovieClick,
       authorizationStatus,
-      login,
+      // login,
+      onAddToFavoritesClick,
       // onSubmitClick
     } = this.props;
 
-    if (authorizationStatus !== AuthorizationStatus.AUTH) {
-      return <SignIn
-        onSubmit={login}
-      />;
-    }
+    // if (authorizationStatus !== AuthorizationStatus.AUTH) {
+    //   return <SignIn
+    //     onSubmit={login}
+    //   />;
+    // }
+
     const mainElement = activeMovie
       ? <MovieInfo
         movie={activeMovie}
@@ -105,6 +111,7 @@ class App extends PureComponent {
         onPlayMovieClick={onPlayMovieClick}
         allMovies={allMovies}
         authorizationStatus={authorizationStatus}
+        onAddToFavoritesClick={onAddToFavoritesClick}
       />
       : <Main
         headerMovie={mockHeaderMovie}
@@ -116,6 +123,8 @@ class App extends PureComponent {
         onShowMoreClick={() => onShowMoreClick(moviesList)}
         onPlayMovieClick={onPlayMovieClick}
         allMovies={allMovies}
+        authorizationStatus={authorizationStatus}
+        onAddToFavoritesClick={onAddToFavoritesClick}
       />;
 
     return playingMovie ?
@@ -186,7 +195,8 @@ App.propTypes = {
   onPlayMovieClick: PropTypes.func.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
   login: PropTypes.func.isRequired,
-  onSubmitClick: PropTypes.func.isRequired
+  onSubmitClick: PropTypes.func.isRequired,
+  onAddToFavoritesClick: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -218,6 +228,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onSubmitClick(id, rating, text) {
     dispatch(DataOperation.postReview(id, rating, text));
+  },
+  onAddToFavoritesClick(id, status) {
+    dispatch(DataOperation.addToFavorites(id, status));
   }
 });
 
