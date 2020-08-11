@@ -57,6 +57,8 @@ const withVideo = (Component) => {
     componentWillUnmount() {
       const video = this._videoRef.current;
 
+      video.pause();
+
       video.oncanplaythrough = null;
       video.onplay = null;
       video.onpause = null;

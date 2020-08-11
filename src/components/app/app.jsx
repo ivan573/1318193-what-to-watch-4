@@ -251,6 +251,7 @@ const mapDispatchToProps = (dispatch) => ({
   onSubmitClick(id, rating, text) {
     dispatch(DataOperation.postReview(id, rating, text));
     history.push(AppRoute.getMovieInfo(id));
+    return true;
   },
   onAddToFavoritesClick(id, status) {
     dispatch(DataOperation.addToFavorites(id, status));

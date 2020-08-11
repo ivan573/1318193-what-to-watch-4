@@ -26,9 +26,9 @@ class AddReview extends PureComponent {
     this.buttonRef = createRef();
   }
 
-  // componentDidMount() {
-  //   this.textRef.current.setCustomValidity(`The review should contain at least ${MINIMUM_LENGTH} characters`);
-  // }
+  componentDidMount() {
+    this.textRef.current.setCustomValidity(`The review should contain from ${MINIMUM_LENGTH} to ${MAXIMUM_LENGTH} characters`);
+  }
 
   render() {
     const {activeItem, changeActiveItem, movie, restoreMovies} = this.props;
@@ -100,7 +100,7 @@ class AddReview extends PureComponent {
                 minLength={MINIMUM_LENGTH}
                 maxLength={MAXIMUM_LENGTH}
                 ref={this.textRef}
-                onInput={() => this._checkTextLength(this.textRef.current.value, this.buttonRef.current)}>
+              >
               </textarea>
               <div className="add-review__submit">
                 <button
@@ -108,7 +108,7 @@ class AddReview extends PureComponent {
                   type="submit"
                   ref={this.buttonRef}
                   onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value, this.buttonRef.current)}
-                  disabled
+                  // disabled
                   style={{color: BUTTON_TEXT_COLOR}}>Post</button>
               </div>
 
@@ -120,21 +120,17 @@ class AddReview extends PureComponent {
     );
   }
 
-  _checkTextLength(text, button) {
-    if (text.length < MINIMUM_LENGTH || text.length > MAXIMUM_LENGTH) {
-      button.setAttribute(`disabled`, `disabled`);
-    } else {
-      button.removeAttribute(`disabled`);
-    }
-  }
-
   _onSubmit(evt, id, rating, text, button) {
+
+    if (text.length < MINIMUM_LENGTH || text.length > MAXIMUM_LENGTH) {
+      return;
+    }
+
     evt.preventDefault();
 
-    button.setAttribute(`disabled`, `disabled`);
+    // button.setAttribute(`disabled`, `disabled`);
 
-    this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim())
-    .then(() => button.removeAttribute(`disabled`));
+    this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim());
   }
 }
 
