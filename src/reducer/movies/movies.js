@@ -86,7 +86,6 @@ const reducer = (state = initialState, {type, payload}) => {
 
     case (ActionType.UPDATE_MOVIE):
 
-
       if (state.activeMovie) {
         if (state.activeMovie.id === payload.movie.id) {
           return Object.assign({}, state, {

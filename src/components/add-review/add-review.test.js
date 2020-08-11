@@ -2,6 +2,9 @@ import React from "react";
 import renderer from "react-test-renderer";
 import AddReview from "./add-review.jsx";
 
+import {Router} from "react-router-dom";
+import history from "../../history.js";
+
 const movie = {
   title: `Gangs of new york`,
   id: 1,
@@ -12,12 +15,17 @@ const movie = {
 
 test(`Add review page matches snapshot`, () => {
   const tree = renderer
-    .create(<AddReview
-      activeItem={5}
-      changeActiveItem={() => {}}
-      onSubmitClick={() => {}}
-      movie={movie}
-    />).toJSON();
+    .create(<Router
+      history={history}
+    >
+      <AddReview
+        activeItem={5}
+        changeActiveItem={() => {}}
+        onSubmitClick={() => {}}
+        movie={movie}
+        restoreMovies={() => {}}
+      />
+    </Router>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

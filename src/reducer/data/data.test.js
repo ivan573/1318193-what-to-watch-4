@@ -19,40 +19,75 @@ const reviews = [{
   comment: `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.`,
   date: `2019-05-08T14:13:56.569Z`}];
 
-const movie = allMoviesUnadapted[1];
-
 const api = createAPI(() => {});
 
-it(`Reducer without additional parameters should return initial state`, () => {
-  expect(reducer(void 0, {})).toEqual({
-    allMovies: [],
-    reviews: {}
+describe(`Reducer works correctly`, () => {
+
+  it(`Reducer without additional parameters should return initial state`, () => {
+    expect(reducer(void 0, {})).toEqual({
+      allMovies: [],
+      favoriteMovies: [],
+      promoMovie: {},
+      reviews: {}
+    });
   });
+
+  it(`Reducer should update movies by load movies`, () => {
+    expect(reducer({
+      allMovies: []
+    }, {
+      type: ActionType.LOAD_MOVIES,
+      payload: {allMovies},
+    })).toEqual({
+      allMovies
+    });
+  });
+
+  it(`Reducer should update reviews by post/get reviews`, () => {
+    expect(reducer({
+      allMovies
+    }, {
+      type: ActionType.POST_REVIEW,
+      payload: {movie: allMovies[0], id: 1}
+    })).toEqual({
+      allMovies
+    });
+  });
+
+  it(`Reducer should update movies on add to favorites request`, () => {
+    const id = 1;
+    expect(reducer({
+      allMovies, reviews, promoMovie: allMovies[0]
+    }, {
+      type: ActionType.ADD_TO_FAVORITES,
+      payload: {movie: allMovies[0], reviews, id}
+    })).toEqual({
+      allMovies, reviews, promoMovie: allMovies[0]
+    });
+  });
+
+  it(`Reducer should update favourite movies`, () => {
+    expect(reducer({
+    }, {
+      type: ActionType.GET_FAVORITES,
+      payload: {movies: allMovies}
+    })).toEqual({
+      favoriteMovies: allMovies
+    });
+  });
+
+  it(`Reducer should update promo movie`, () => {
+    expect(reducer({
+    }, {
+      type: ActionType.GET_PROMO_MOVIE,
+      payload: {movie: allMovies[1]}
+    })).toEqual({
+      promoMovie: allMovies[1]
+    });
+  });
+
 });
 
-it(`Reducer should update movies by load movies`, () => {
-  expect(reducer({
-    allMovies: []
-  }, {
-    type: ActionType.LOAD_MOVIES,
-    payload: {allMovies},
-  })).toEqual({
-    allMovies
-  });
-});
-
-it(`Reducer should update reviews by load reviews`, () => {
-  expect(reducer({
-    reviews: {}
-  }, {
-    type: ActionType.POST_REVIEW,
-    payload: {reviews, id: 1}
-  })).toEqual({
-    reviews: {
-      1: reviews
-    }
-  });
-});
 
 describe(`Operation work correctly`, () => {
   it(`Should make a correct API call to /films`, function () {
@@ -82,37 +117,97 @@ describe(`Operation work correctly`, () => {
 
     apiMock
       .onPost(`/comments/${id}`)
-      .reply(200, [{fake: true}]);
+      .reply(200, reviews);
 
     return reviewPoster(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(1);
         expect(dispatch).toHaveBeenNthCalledWith(1, {
-          type: ActionType.POST_REVIEW,
-          payload: {reviews: [{fake: true}], id},
+          type: `GET_REVIEWS`,
+          payload: {reviews, id},
         });
       });
   });
 
   it(`Should make a correct API call to /favorite`, function () {
-    const mockMovie = adaptMovies([movie])[0];
-    // eslint-disable-next-line no-console
-    console.log(mockMovie);
     const apiMock = new MockAdapter(api);
     const dispatch = jest.fn();
     const toFavoriteAdder = Operation.addToFavorites(1, 1);
 
     apiMock
         .onPost(`/favorite/1/1`)
-        .reply(200, [{fake: true}]);
+        .reply(200, allMoviesUnadapted[1]);
 
     return toFavoriteAdder(dispatch, () => {}, api)
       .then(() => {
         expect(dispatch).toHaveBeenCalledTimes(2);
         expect(dispatch).toHaveBeenNthCalledWith(2, {
-          type: MoviesActionType.UPDATE_MOVIE,
-          payload: {movie: mockMovie},
+          payload: {
+            movie: {
+              actors: [
+                `Jared Gilman`,
+                `Kara Hayward`,
+                `Bruce Willis`
+              ],
+              background: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/Moonrise_Kingdom.jpg`,
+              color: `#D8E3E5`,
+              description: `A pair of young lovers flee their New England town, which causes a local search party to fan out to find them.`,
+              director: `Wes Anderson`,
+              duration: 94,
+              genre: `Adventure`,
+              id: 2,
+              image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/moonrise-kingdom.jpg`,
+              isFavorite: false,
+              poster: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Moonrise_Kingdom.jpg`,
+              preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
+              rating: 7.9,
+              scoresCount: 291183,
+              title: `Moonrise Kingdom`,
+              video: `http://media.xiph.org/mango/tears_of_steel_1080p.webm`,
+              year: 2012
+            }
+          },
+          type: `UPDATE_MOVIE`
         });
       });
   });
+
+  it(`Should make a correct API call to /favorite`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const favoritesGetter = Operation.getFavorites();
+
+    apiMock
+      .onGet(`/favorite`)
+      .reply(200, allMoviesUnadapted);
+
+    return favoritesGetter(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: `GET_FAVORITES`,
+          payload: {movies: allMovies},
+        });
+      });
+  });
+
+  it(`Should make a correct API call to /films/promo`, function () {
+    const apiMock = new MockAdapter(api);
+    const dispatch = jest.fn();
+    const promoGetter = Operation.getPromoMovie();
+
+    apiMock
+      .onGet(`/films/promo`)
+      .reply(200, allMoviesUnadapted[0]);
+
+    return promoGetter(dispatch, () => {}, api)
+      .then(() => {
+        expect(dispatch).toHaveBeenCalledTimes(1);
+        expect(dispatch).toHaveBeenNthCalledWith(1, {
+          type: `GET_PROMO_MOVIE`,
+          payload: {movie: allMovies[0]},
+        });
+      });
+  });
+
 });

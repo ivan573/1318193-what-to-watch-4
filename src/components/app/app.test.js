@@ -33,7 +33,7 @@ test(`App matches snapshot`, () => {
   const tree = renderer
     .create(<App
       allMovies={moviesList}
-      headerMovie={{
+      promoMovie={{
         title: `Gangs of new york`,
         genre: `Crime`,
         year: 2002,
@@ -64,6 +64,8 @@ test(`App matches snapshot`, () => {
       login={() => {}}
       onSubmitClick={() => {}}
       onAddToFavoritesClick={() => {}}
+      reviews={{}}
+      getMovieComments={() => {}}
     />).toJSON();
 
   expect(tree).toMatchSnapshot();

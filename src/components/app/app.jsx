@@ -26,7 +26,7 @@ import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
 import {getUniqueGenres, getMovieById, getMovieReviews} from "../../utils.js";
 
-import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
+import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 
 import {Operation as DataOperation} from "../../reducer/data/data.js";
@@ -45,7 +45,6 @@ class App extends PureComponent {
 
   render() {
     const {
-      playingMovie,
       activeMovie,
       allMovies,
       moviesList,
@@ -139,10 +138,10 @@ class App extends PureComponent {
               restoreMovies={restoreMovies}
             />;
           }}/>
-          <PrivateRoute exact path={AppRoute.ADD_REVIEW} render={(props) => {
+          <PrivateRoute exact path={AppRoute.ADD_REVIEW} render={(/* props*/) => {
             return <AddReview
               onSubmitClick={onSubmitClick}
-              movie={getMovieById(props.match.params.id, allMovies)}
+              movie={activeMovie} // getMovieById(props.match.params.id, allMovies)}
               restoreMovies={restoreMovies}
             />;
           }}/>

@@ -1,6 +1,9 @@
 import React from "react";
 import renderer from "react-test-renderer";
-import MoviesList from "./movies-list.jsx";
+import MyList from "./my-list.jsx";
+
+import {Router} from "react-router-dom";
+import history from "../../history.js";
 
 const moviesList = [
   {title: `Fantastic Beasts: The Crimes of Grindelwald`,
@@ -29,16 +32,19 @@ const moviesList = [
     preview: `https://upload.wikimedia.org/wikipedia/commons/transcoded/b/b3/Big_Buck_Bunny_Trailer_400p.ogv/Big_Buck_Bunny_Trailer_400p.ogv.360p.webm`}
 ];
 
-test(`Movies list matches snapshot`, () => {
+test(`My list matches snapshot`, () => {
   const tree = renderer
-    .create(<MoviesList
-      moviesList={moviesList}
-      activeCard={null}
-      onCardClick={() => {}}
-      onMouseOverCard={() => {}}
-      onMouseOutOfCard={() => {}}
-      allMovies={[]}
-    />).toJSON();
+    .create(<Router
+      history={history}
+    >
+      <MyList
+        moviesList={moviesList}
+        onCardClick={() => {}}
+        allMovies={moviesList}
+        restoreMovies={() => {}}
+        movies={moviesList}
+      />
+    </Router>).toJSON();
 
   expect(tree).toMatchSnapshot();
 });

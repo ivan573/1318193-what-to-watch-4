@@ -11,6 +11,9 @@ const RATING_MULTIPLIER = 2;
 const REVIEW_BACKGROUND_COLOR = `#b7b3b2`;
 const BUTTON_TEXT_COLOR = `#252525`;
 
+const MINIMUM_LENGTH = 50;
+const MAXIMUM_LENGTH = 400;
+
 const ratings = [1, 2, 3, 4, 5];
 
 class AddReview extends PureComponent {
@@ -20,7 +23,12 @@ class AddReview extends PureComponent {
     this.props.changeActiveItem(ratings.length);
 
     this.textRef = createRef();
+    this.buttonRef = createRef();
   }
+
+  // componentDidMount() {
+  //   this.textRef.current.setCustomValidity(`The review should contain at least ${MINIMUM_LENGTH} characters`);
+  // }
 
   render() {
     const {activeItem, changeActiveItem, movie, restoreMovies} = this.props;
@@ -84,9 +92,24 @@ class AddReview extends PureComponent {
             </div>
 
             <div className="add-review__text" style={{backgroundColor: REVIEW_BACKGROUND_COLOR}}>
-              <textarea className="add-review__textarea" name="review-text" id="review-text" placeholder="Review text" ref={this.textRef}></textarea>
+              <textarea
+                className="add-review__textarea"
+                name="review-text"
+                id="review-text"
+                placeholder="Review text"
+                minLength={MINIMUM_LENGTH}
+                maxLength={MAXIMUM_LENGTH}
+                ref={this.textRef}
+                onInput={() => this._checkTextLength(this.textRef.current.value, this.buttonRef.current)}>
+              </textarea>
               <div className="add-review__submit">
-                <button className="add-review__btn" type="submit" onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value)} style={{color: BUTTON_TEXT_COLOR}}>Post</button>
+                <button
+                  className="add-review__btn"
+                  type="submit"
+                  ref={this.buttonRef}
+                  onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value, this.buttonRef.current)}
+                  disabled
+                  style={{color: BUTTON_TEXT_COLOR}}>Post</button>
               </div>
 
             </div>
@@ -97,9 +120,21 @@ class AddReview extends PureComponent {
     );
   }
 
-  _onSubmit(evt, id, rating, text) {
+  _checkTextLength(text, button) {
+    if (text.length < MINIMUM_LENGTH || text.length > MAXIMUM_LENGTH) {
+      button.setAttribute(`disabled`, `disabled`);
+    } else {
+      button.removeAttribute(`disabled`);
+    }
+  }
+
+  _onSubmit(evt, id, rating, text, button) {
     evt.preventDefault();
-    this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim());
+
+    button.setAttribute(`disabled`, `disabled`);
+
+    this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim())
+    .then(() => button.removeAttribute(`disabled`));
   }
 }
 

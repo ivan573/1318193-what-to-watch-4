@@ -10,6 +10,7 @@ class SignIn extends PureComponent {
 
     this.loginRef = createRef();
     this.passwordRef = createRef();
+    this.messageRef = createRef();
 
     this._handleSubmit = this._handleSubmit.bind(this);
   }
@@ -34,9 +35,12 @@ class SignIn extends PureComponent {
 
           <div className="sign-in user-page__content">
             <form action="#" className="sign-in__form" onSubmit={this._handleSubmit}>
+              <div className="sign-in__message">
+                <p ref={this.messageRef}></p>
+              </div>
               <div className="sign-in__fields">
                 <div className="sign-in__field">
-                  <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" ref={this.loginRef}/>
+                  <input className="sign-in__input" type="text" placeholder="Email address" name="user-email" id="user-email" ref={this.loginRef}/>
                   <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
                 </div>
                 <div className="sign-in__field">
@@ -73,9 +77,25 @@ class SignIn extends PureComponent {
 
     evt.preventDefault();
 
+    const login = this.loginRef.current.value;
+    const password = this.passwordRef.current.value;
+    const message = this.messageRef.current;
+
+    if (!login && !password || !login || !password) {
+      message.innerHTML = `Please enter login and password`;
+      return;
+    }
+
+    const reg = /^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
+
+    if (!reg.test(login)) {
+      message.innerHTML = `Please enter a valid email`;
+      return;
+    }
+
     onSubmit({
-      login: this.loginRef.current.value,
-      password: this.passwordRef.current.value,
+      login,
+      password,
     });
   }
 }

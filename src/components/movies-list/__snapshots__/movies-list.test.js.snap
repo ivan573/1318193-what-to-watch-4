@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`MovieCard matches snapshot 1`] = `
+exports[`Movies list matches snapshot 1`] = `
 <div
   className="catalog__movies-list"
 >

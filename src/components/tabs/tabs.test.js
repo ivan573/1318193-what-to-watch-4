@@ -22,12 +22,26 @@ const movie = {
   video: `http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`
 };
 
+const reviews = [{
+  "id": 1,
+  "user": {
+    "id": 4,
+    "name": `Kate Muir`
+  },
+  "rating": 8.9,
+  "comment": `Discerning travellers and Wes Anderson fans will luxuriate in the glorious Mittel-European kitsch of one of the director's funniest and most exquisitely designed movies in years.`,
+  "date": `2019-05-08T14:13:56.569Z`
+}];
+
 describe(`Tabs match snapshots`, () => {
   it(`Overview tab matches snapshot`, () => {
     const tree = renderer
       .create(<Tabs
         activeTab={TabOption.OVERVIEW}
         movie={movie}
+        getReviews={() => {
+          return reviews;
+        }}
       />).toJSON();
 
     expect(tree).toMatchSnapshot();
@@ -38,6 +52,9 @@ describe(`Tabs match snapshots`, () => {
       .create(<Tabs
         activeTab={TabOption.DETAILS}
         movie={movie}
+        getReviews={() => {
+          return reviews;
+        }}
       />).toJSON();
 
     expect(tree).toMatchSnapshot();
@@ -48,6 +65,9 @@ describe(`Tabs match snapshots`, () => {
       .create(<Tabs
         activeTab={TabOption.REVIEWS}
         movie={movie}
+        getReviews={() => {
+          return reviews;
+        }}
       />).toJSON();
 
     expect(tree).toMatchSnapshot();

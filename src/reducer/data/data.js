@@ -12,7 +12,6 @@ const initialState = {
 
 const ActionType = {
   LOAD_MOVIES: `LOAD_MOVIES`,
-  // POST_REVIEW: `POST_REVIEW`,
   GET_REVIEWS: `GET_REVIEWS`,
   ADD_TO_FAVORITES: `ADD_TO_FAVORITES`,
   GET_FAVORITES: `GET_FAVORITES`,
@@ -29,10 +28,6 @@ const ActionCreator = {
     type: ActionType.LOAD_MOVIES,
     payload: {allMovies: movies}
   }),
-  // postReview: (reviews, id) => ({
-  //   type: ActionType.POST_REVIEW,
-  //   payload: {reviews, id}
-  // }),
   getReviews: (reviews, id) => ({
     type: ActionType.GET_REVIEWS,
     payload: {reviews, id}
@@ -101,10 +96,6 @@ const reducer = (state = initialState, {type, payload}) => {
       const allMovies = payload.allMovies;
 
       return Object.assign({}, state, {allMovies});
-
-      // case (ActionType.POST_REVIEW):
-
-      //   return Object.assign({}, state, {reviews: {[payload.id]: payload.reviews}});
 
     case (ActionType.GET_REVIEWS):
 

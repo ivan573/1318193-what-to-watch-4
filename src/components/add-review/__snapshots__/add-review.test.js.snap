@@ -33,7 +33,8 @@ exports[`Add review page matches snapshot 1`] = `
       >
         <a
           className="logo__link"
-          href="main.html"
+          href="/"
+          onClick={[Function]}
         >
           <span
             className="logo__letter logo__letter--1"
@@ -63,7 +64,8 @@ exports[`Add review page matches snapshot 1`] = `
           >
             <a
               className="breadcrumbs__link"
-              href="movie-page.html"
+              href="/films/1"
+              onClick={[Function]}
             >
               Gangs of new york
             </a>
@@ -85,12 +87,17 @@ exports[`Add review page matches snapshot 1`] = `
         <div
           className="user-block__avatar"
         >
-          <img
-            alt="User avatar"
-            height="63"
-            src="img/avatar.jpg"
-            width="63"
-          />
+          <a
+            href="/mylist"
+            onClick={[Function]}
+          >
+            <img
+              alt="User avatar"
+              height="63"
+              src="test-file-stub"
+              width="63"
+            />
+          </a>
         </div>
       </div>
     </header>
@@ -206,7 +213,10 @@ exports[`Add review page matches snapshot 1`] = `
         <textarea
           className="add-review__textarea"
           id="review-text"
+          maxLength={400}
+          minLength={50}
           name="review-text"
+          onInput={[Function]}
           placeholder="Review text"
         />
         <div
@@ -214,6 +224,7 @@ exports[`Add review page matches snapshot 1`] = `
         >
           <button
             className="add-review__btn"
+            disabled={true}
             onClick={[Function]}
             style={
               Object {
