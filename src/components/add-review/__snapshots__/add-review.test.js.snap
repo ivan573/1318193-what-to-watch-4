@@ -216,7 +216,6 @@ exports[`Add review page matches snapshot 1`] = `
           maxLength={400}
           minLength={50}
           name="review-text"
-          onInput={[Function]}
           placeholder="Review text"
         />
         <div
@@ -224,7 +223,6 @@ exports[`Add review page matches snapshot 1`] = `
         >
           <button
             className="add-review__btn"
-            disabled={true}
             onClick={[Function]}
             style={
               Object {

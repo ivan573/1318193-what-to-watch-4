@@ -1,5 +1,4 @@
 import React, {PureComponent} from "react";
-// import PropTypes from "prop-types";
 
 const withActiveItem = (Component) => {
   class WithActiveItem extends PureComponent {
@@ -28,8 +27,6 @@ const withActiveItem = (Component) => {
       this.setState({activeItem});
     }
   }
-
-  // WithActiveItem.propTypes: {};
 
   return WithActiveItem;
 };

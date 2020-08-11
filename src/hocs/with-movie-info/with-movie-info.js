@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-
 import {TabOption} from "../../components/tabs/tabs.jsx";
 
 const withMovieInfo = (Component) => {

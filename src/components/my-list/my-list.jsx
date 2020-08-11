@@ -1,10 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import MoviesComponent from "../movies-list/movies-list.jsx";
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
-
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../const.js";
 

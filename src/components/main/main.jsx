@@ -1,24 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {Link} from "react-router-dom";
-
 import GenresComponent from "../genres-list/genres-list.jsx";
 import MoviesComponent from "../movies-list/movies-list.jsx";
 import ShowMore from "../show-more/show-more.jsx";
-
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
-
 import {AuthorizationStatus} from "../../reducer/user/user.js";
-
 import {AppRoute} from "../../const.js";
-
 import {IsFavoriteStatus} from "../../reducer/data/data.js";
 
 const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 const GenresList = withActiveItem(GenresComponent);
-
 
 const Main = (props) => {
   const {
@@ -177,6 +170,5 @@ Main.propTypes = {
   authorizationStatus: PropTypes.string.isRequired,
   onAddToFavoritesClick: PropTypes.func.isRequired
 };
-
 
 export {Main as default};

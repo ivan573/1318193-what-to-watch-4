@@ -7,7 +7,6 @@ exports[`Videoplayer renders in both modes Videoplayer renders in movie playback
   <video
     className="player__video"
     muted={false}
-    poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
     src="#"
   />
   <button
@@ -101,7 +100,6 @@ exports[`Videoplayer renders in both modes Videoplayer renders in preview mode 1
 <video
   className="player__video"
   muted={true}
-  poster="img/fantastic-beasts-the-crimes-of-grindelwald.jpg"
   src="#"
 />
 `;

@@ -1,6 +1,5 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-
 import Player from "../video-player/video-player.jsx";
 import withVideo from "../../hocs/with-video/with-video.js";
 

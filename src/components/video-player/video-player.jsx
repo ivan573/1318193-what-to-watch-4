@@ -5,13 +5,11 @@ class VideoPlayer extends PureComponent {
 
   render() {
     const {movie, isPlaying, isMuted, isPreviewMode, progress, timeValue, videoRef, onPlayButtonClick, onExitClick} = this.props;
-    const {title, poster} = movie;
 
     const playerElement = (
       <video
         src="#"
         className="player__video"
-        poster={poster}
         muted={isMuted}
         ref={videoRef}
       >
@@ -54,7 +52,7 @@ class VideoPlayer extends PureComponent {
 
           <div className="player__controls-row">
             {isPlaying ? button.PAUSE : button.PLAY}
-            <div className="player__name">{title}</div>
+            <div className="player__name">{movie.title}</div>
 
             <button type="button" className="player__full-screen" onClick={() => this._setFullScreen()}>
               <svg viewBox="0 0 27 27" width="27" height="27">
@@ -84,8 +82,7 @@ class VideoPlayer extends PureComponent {
 
 VideoPlayer.propTypes = {
   movie: PropTypes.shape({
-    title: PropTypes.string,
-    poster: PropTypes.string.isRequired
+    title: PropTypes.string.isRequired,
   }).isRequired,
   isPlaying: PropTypes.bool.isRequired,
   isMuted: PropTypes.bool.isRequired,

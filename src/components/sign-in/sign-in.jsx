@@ -1,6 +1,5 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
-
 import {AppRoute} from "../../const.js";
 import {Link} from "react-router-dom";
 

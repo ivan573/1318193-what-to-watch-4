@@ -12,8 +12,7 @@ describe(`Videoplayer renders in both modes`, () => {
     .create(
         <VideoPlayer
           movie={{
-            title: `Fantastic Beasts: The Crimes of Grindelwald`,
-            poster: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+            title: `Fantastic Beasts: The Crimes of Grindelwald`
           }}
           isPlaying={true}
           isMuted={true}
@@ -34,8 +33,7 @@ describe(`Videoplayer renders in both modes`, () => {
     .create(
         <VideoPlayer
           movie={{
-            title: `Fantastic Beasts: The Crimes of Grindelwald`,
-            poster: `img/fantastic-beasts-the-crimes-of-grindelwald.jpg`
+            title: `Fantastic Beasts: The Crimes of Grindelwald`
           }}
           isPlaying={true}
           isMuted={false}

@@ -1,9 +1,7 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
-
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../const.js";
-
 import avatar from "../../../public/img/avatar.jpg";
 
 const RATING_MULTIPLIER = 2;
@@ -23,11 +21,13 @@ class AddReview extends PureComponent {
     this.props.changeActiveItem(ratings.length);
 
     this.textRef = createRef();
-    this.buttonRef = createRef();
   }
 
   componentDidMount() {
-    this.textRef.current.setCustomValidity(`The review should contain from ${MINIMUM_LENGTH} to ${MAXIMUM_LENGTH} characters`);
+    const inputElement = this.textRef.current;
+    if (inputElement) {
+      inputElement.setCustomValidity(`The review should contain from ${MINIMUM_LENGTH} to ${MAXIMUM_LENGTH} characters`);
+    }
   }
 
   render() {
@@ -106,9 +106,7 @@ class AddReview extends PureComponent {
                 <button
                   className="add-review__btn"
                   type="submit"
-                  ref={this.buttonRef}
-                  onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value, this.buttonRef.current)}
-                  // disabled
+                  onClick={(evt) => this._onSubmit(evt, movie.id, activeItem, this.textRef.current.value)}
                   style={{color: BUTTON_TEXT_COLOR}}>Post</button>
               </div>
 
@@ -120,15 +118,13 @@ class AddReview extends PureComponent {
     );
   }
 
-  _onSubmit(evt, id, rating, text, button) {
+  _onSubmit(evt, id, rating, text) {
 
     if (text.length < MINIMUM_LENGTH || text.length > MAXIMUM_LENGTH) {
       return;
     }
 
     evt.preventDefault();
-
-    // button.setAttribute(`disabled`, `disabled`);
 
     this.props.onSubmitClick(id, rating * RATING_MULTIPLIER, text.trim());
   }

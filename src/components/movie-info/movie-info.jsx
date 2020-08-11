@@ -1,20 +1,13 @@
 import React, {PureComponent} from "react";
 import PropTypes from "prop-types";
-
 import {Link} from "react-router-dom";
-
 import Tabs, {TabOption} from "../tabs/tabs.jsx";
 import MoviesComponent from "../movies-list/movies-list.jsx";
-
 import {AuthorizationStatus} from "../../reducer/user/user.js";
-
 import withMoviesList from "../../hocs/with-movies-list/with-movies-list.js";
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
-
 import {AppRoute} from "../../const.js";
-
 import {IsFavoriteStatus} from "../../reducer/data/data.js";
-
 import avatar from "../../../public/img/avatar.jpg";
 
 const MoviesList = withActiveItem(withMoviesList(MoviesComponent));

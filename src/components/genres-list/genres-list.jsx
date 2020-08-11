@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-
 import {ALL_GENRES} from "../../const";
 
 const GENRES_TO_SHOW = 10;

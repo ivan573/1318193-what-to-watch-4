@@ -1,6 +1,5 @@
 import {ALL_GENRES} from "../../const.js";
 import {adaptMovies, updateMovies} from "../../utils.js";
-
 import {ActionCreator as MovieActionCreator} from "../movies/movies.js";
 
 const initialState = {

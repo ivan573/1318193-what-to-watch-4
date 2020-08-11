@@ -3,34 +3,22 @@ import PropTypes from "prop-types";
 import {Switch, Route, Router} from "react-router-dom";
 import PrivateRoute from "../private-route/private-route.jsx";
 import {connect} from "react-redux";
-
 import {ActionCreator} from "../../reducer/movies/movies.js";
-
 import {getPlayingMovie, getActiveMovie, getMoviesList, getShownMovies, getAreAllMoviesShown} from "../../reducer/movies/selectors.js";
 import {getAllMovies, getFavoriteMovies, getPromoMovie, getReviews} from "../../reducer/data/selectors.js";
-
-
 import Main from "../main/main.jsx";
 import MovieInfoComponent from "../movie-info/movie-info.jsx";
 import Player from "../video-player/video-player.jsx";
-
 import withVideo from "../../hocs/with-video/with-video.js";
 import withMovieInfo from "../../hocs/with-movie-info/with-movie-info.js";
-
 import SignIn from "../sign-in/sign-in.jsx";
-
 import AddReviewComponent from "../add-review/add-review.jsx";
 import MyListComponent from "../my-list/my-list.jsx";
-
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
-
 import {getUniqueGenres, getMovieById, getMovieReviews} from "../../utils.js";
-
 import {Operation as UserOperation} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
-
 import {Operation as DataOperation} from "../../reducer/data/data.js";
-
 import history from "../../history.js";
 import {ALL_GENRES, AppRoute} from "../../const.js";
 
@@ -138,10 +126,10 @@ class App extends PureComponent {
               restoreMovies={restoreMovies}
             />;
           }}/>
-          <PrivateRoute exact path={AppRoute.ADD_REVIEW} render={(/* props*/) => {
+          <PrivateRoute exact path={AppRoute.ADD_REVIEW} render={(props) => {
             return <AddReview
               onSubmitClick={onSubmitClick}
-              movie={activeMovie} // getMovieById(props.match.params.id, allMovies)}
+              movie={getMovieById(props.match.params.id, allMovies)}
               restoreMovies={restoreMovies}
             />;
           }}/>
