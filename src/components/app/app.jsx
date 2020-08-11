@@ -7,7 +7,7 @@ import {connect} from "react-redux";
 import {ActionCreator} from "../../reducer/movies/movies.js";
 
 import {getPlayingMovie, getActiveMovie, getMoviesList, getShownMovies, getAreAllMoviesShown} from "../../reducer/movies/selectors.js";
-import {getAllMovies, getFavoriteMovies, getPromoMovie} from "../../reducer/data/selectors.js";
+import {getAllMovies, getFavoriteMovies, getPromoMovie, getReviews} from "../../reducer/data/selectors.js";
 
 
 import Main from "../main/main.jsx";
@@ -24,7 +24,7 @@ import MyListComponent from "../my-list/my-list.jsx";
 
 import withActiveItem from "../../hocs/with-active-item/with-active-item.js";
 
-import {getUniqueGenres} from "../../utils.js";
+import {getUniqueGenres, getMovieById, getMovieReviews} from "../../utils.js";
 
 import {Operation as UserOperation, AuthorizationStatus} from "../../reducer/user/user.js";
 import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
@@ -33,26 +33,6 @@ import {Operation as DataOperation} from "../../reducer/data/data.js";
 
 import history from "../../history.js";
 import {AppRoute} from "../../const.js";
-
-// temporary solution
-const mockHeaderMovie = {
-  title: `Gangs of new york`,
-  genre: `Crime`,
-  year: 2002,
-  id: 1,
-  image: `https://htmlacademy-react-3.appspot.com/wtw/static/film/preview/gangs_of_new_york.jpg`,
-  poster: `https://htmlacademy-react-3.appspot.com/wtw/static/film/poster/Gangs_of_New_York_Poster.jpg`,
-  background: `https://htmlacademy-react-3.appspot.com/wtw/static/film/background/gangs_of_new_york.jpg`,
-  color: `#A6B7AC`,
-  description: `In 1862, Amsterdam Vallon returns to the Five Points area of New York City seeking revenge against Bill the Butcher, his father's killer.`,
-  rating: 8.8,
-  scoresCount: 370881,
-  director: `Martin Scorsese`,
-  duration: 167,
-  isFavorite: false,
-  preview: `https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4`,
-  video: `http://peach.themazzone.com/durian/movies/sintel-1024-surround.mp4`
-};
 
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
@@ -80,7 +60,9 @@ class App extends PureComponent {
       onAddToFavoritesClick,
       onSubmitClick,
       favoriteMovies,
-      promoMovie
+      promoMovie,
+      reviews,
+      getReviews
     } = this.props;
 
     return (
@@ -92,25 +74,25 @@ class App extends PureComponent {
                 onSubmit={login}
               />}/>
           <Route exact path={AppRoute.ROOT} render={() => this._renderApp()}/>
-          <Route exact path={`/test`} component={() => `test`}/>
-          {/* <Route exact path={AppRoute.MOVIE_INFO} render={(props) => {
-            console.log(props);
+          <Route exact path={AppRoute.MOVIE_INFO} render={(props) => {
             return <MovieInfo
-              movie={activeMovie}
+              movie={getMovieById(props.match.params.id, allMovies)}
               moviesList={moviesList}
               onCardClick={onMovieCardClick}
               onPlayMovieClick={onPlayMovieClick}
               allMovies={allMovies}
               authorizationStatus={authorizationStatus}
               onAddToFavoritesClick={onAddToFavoritesClick}
+              reviews={getMovieReviews(props.match.params.id, reviews, getReviews)} //getReviews(props.match.params.id)}
             />;
           }}>
           </Route>
-          <Route exact path={AppRoute.ADD_REVIEW}>
-            <AddReview
+          <Route exact path={AppRoute.ADD_REVIEW} render={(props) => {
+            return <AddReview
               onSubmitClick={onSubmitClick}
-              // movie={{}}
-            />
+              movie={getMovieById(props.match.params.id, allMovies)}
+            />;
+          }}>
           </Route>
           <Route exact path={AppRoute.VIDEO_PLAYER}>
             <VideoPlayer
@@ -127,10 +109,11 @@ class App extends PureComponent {
                 <MyList
                   movies={favoriteMovies}
                   allMovies={allMovies}
+                  onCardClick={onMovieCardClick}
                 />
               );
             }}
-          /> */}
+          />
         </Switch>
       </ Router>
     );
@@ -158,13 +141,13 @@ class App extends PureComponent {
     //   return history.push((AppRoute.LOGIN));
     // }
 
-    if (playingMovie) {
-      return history.push(AppRoute.getVideoPlayer(playingMovie.id));
-    }
+    // if (playingMovie) {
+    //   return history.push(AppRoute.getVideoPlayer(playingMovie.id));
+    // }
 
-    if (activeMovie) {
-      return history.push(AppRoute.getMovieInfo(activeMovie.id));
-    }
+    // if (activeMovie) {
+    //   return history.push(AppRoute.getMovieInfo(activeMovie.id));
+    // }
 
     return <Main
       headerMovie={promoMovie}
@@ -179,6 +162,10 @@ class App extends PureComponent {
       authorizationStatus={authorizationStatus}
       onAddToFavoritesClick={onAddToFavoritesClick}
     />;
+  }
+
+  _onAvatarClick() {
+    history.push();
   }
 }
 
@@ -240,7 +227,8 @@ App.propTypes = {
   onSubmitClick: PropTypes.func.isRequired,
   onAddToFavoritesClick: PropTypes.func.isRequired,
   favoriteMovies: PropTypes.array,
-  promoMovie: PropTypes.object.isRequired
+  promoMovie: PropTypes.object.isRequired,
+  getReviews: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -252,7 +240,8 @@ const mapStateToProps = (state) => ({
   areAllMoviesShown: getAreAllMoviesShown(state),
   authorizationStatus: getAuthorizationStatus(state),
   favoriteMovies: getFavoriteMovies(state),
-  promoMovie: getPromoMovie(state)
+  promoMovie: getPromoMovie(state),
+  reviews: getReviews(state)
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -277,6 +266,9 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onAddToFavoritesClick(id, status) {
     dispatch(DataOperation.addToFavorites(id, status));
+  },
+  getReviews(id) {
+    dispatch(DataOperation.getReviews(id));
   }
 });
 

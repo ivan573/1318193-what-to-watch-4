@@ -51,4 +51,21 @@ const updateMovies = (movies, movie, id) => {
   return movies;
 };
 
-export {getUniqueGenres, adaptMovies, updateMovies};
+const getMovieById = (id, movies) => {
+  const idToFind = Number(id);
+  return movies.find((it) => {
+    return it.id === idToFind;
+  });
+};
+
+const getMovieReviews = (id, reviews, getReviews) => {
+  const movieReviews = reviews[id];
+
+  if (movieReviews) {
+    return movieReviews;
+  }
+
+  return getReviews(id);
+};
+
+export {getUniqueGenres, adaptMovies, updateMovies, getMovieById, getMovieReviews};

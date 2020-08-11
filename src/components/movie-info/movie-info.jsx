@@ -20,11 +20,22 @@ const MoviesList = withActiveItem(withMoviesList(MoviesComponent));
 class MovieInfo extends PureComponent {
 
   render() {
-    const {movie, moviesList, onCardClick, activeTab, onTabClick, onPlayMovieClick, allMovies, authorizationStatus, onAddToFavoritesClick} = this.props;
+    const {
+      movie,
+      moviesList,
+      onCardClick,
+      activeTab,
+      onTabClick,
+      onPlayMovieClick,
+      allMovies,
+      authorizationStatus,
+      onAddToFavoritesClick,
+      reviews
+    } = this.props;
 
     const statusToSet = movie.isFavorite ? IsFavoriteStatus.FALSE : IsFavoriteStatus.TRUE;
 
-    const addReviewButton = <a href="add-review.html" className="btn movie-card__button">Add review</a>;
+    const addReviewButton = <Link to={AppRoute.getAddReview(movie.id)} className="btn movie-card__button">Add review</Link>;
 
     return (
       <React.Fragment>
@@ -38,17 +49,19 @@ class MovieInfo extends PureComponent {
 
             <header className="page-header movie-card__head">
               <div className="logo">
-                <a href="main.html" className="logo__link">
+                <Link to={AppRoute.ROOT} className="logo__link">
                   <span className="logo__letter logo__letter--1">W</span>
                   <span className="logo__letter logo__letter--2">T</span>
                   <span className="logo__letter logo__letter--3">W</span>
-                </a>
+                </Link>
               </div>
 
               <div className="user-block">
                 {authorizationStatus === AuthorizationStatus.AUTH ?
                   <div className="user-block__avatar">
-                    <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
+                    <Link to={AppRoute.MY_LIST}>
+                      <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" onClick={() => console.log(`ava`)}/>
+                    </Link>
                   </div> :
                   <Link to={AppRoute.LOGIN} className="user-block__link">Sign in</Link>}
               </div>
@@ -110,6 +123,7 @@ class MovieInfo extends PureComponent {
                 <Tabs
                   activeTab={activeTab}
                   movie={movie}
+                  reviews={reviews}
                 />
               </div>
             </div>
@@ -129,11 +143,11 @@ class MovieInfo extends PureComponent {
 
           <footer className="page-footer">
             <div className="logo">
-              <a href="main.html" className="logo__link logo__link--light">
+              <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
-              </a>
+              </Link>
             </div>
 
             <div className="copyright">
@@ -176,7 +190,8 @@ MovieInfo.propTypes = {
   onPlayMovieClick: PropTypes.func.isRequired,
   allMovies: PropTypes.array.isRequired,
   authorizationStatus: PropTypes.string.isRequired,
-  onAddToFavoritesClick: PropTypes.func.isRequired
+  onAddToFavoritesClick: PropTypes.func.isRequired,
+  reviews: PropTypes.array.isRequired
 };
 
 export {MovieInfo as default};

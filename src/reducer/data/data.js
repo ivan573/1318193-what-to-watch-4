@@ -12,7 +12,7 @@ const initialState = {
 
 const ActionType = {
   LOAD_MOVIES: `LOAD_MOVIES`,
-  POST_REVIEW: `POST_REVIEW`,
+  // POST_REVIEW: `POST_REVIEW`,
   GET_REVIEWS: `GET_REVIEWS`,
   ADD_TO_FAVORITES: `ADD_TO_FAVORITES`,
   GET_FAVORITES: `GET_FAVORITES`,
@@ -29,13 +29,13 @@ const ActionCreator = {
     type: ActionType.LOAD_MOVIES,
     payload: {allMovies: movies}
   }),
-  postReview: (review, id) => ({
-    type: ActionType.POST_REVIEW,
-    payload: {review, id}
-  }),
-  getReviews: (reviews) => ({
+  // postReview: (reviews, id) => ({
+  //   type: ActionType.POST_REVIEW,
+  //   payload: {reviews, id}
+  // }),
+  getReviews: (reviews, id) => ({
     type: ActionType.GET_REVIEWS,
-    reviews
+    payload: {reviews, id}
   }),
   addToFavorites: (movie, id) => ({
     type: ActionType.ADD_TO_FAVORITES,
@@ -63,13 +63,13 @@ const Operation = {
   postReview: (id, rating, comment) => (dispatch, getState, api) => {
     return api.post(`/comments/${id}`, {rating, comment})
     .then((response) => {
-      dispatch(ActionCreator.postReview(response.data, id));
+      dispatch(ActionCreator.getReviews(response.data, id));
     });
   },
-  getReview: (id) => (dispatch, getState, api) => {
+  getReviews: (id) => (dispatch, getState, api) => {
     return api.get(`/comments/${id}`).
     then((response) => {
-      dispatch(ActionCreator.getReview(response.data, id));
+      dispatch(ActionCreator.getReviews(response.data, id));
     });
   },
   addToFavorites: (id, status) => (dispatch, getState, api) => {
@@ -102,13 +102,13 @@ const reducer = (state = initialState, {type, payload}) => {
 
       return Object.assign({}, state, {allMovies});
 
-    case (ActionType.POST_REVIEW):
+      // case (ActionType.POST_REVIEW):
 
-      return Object.assign({}, state, {reviews: {[payload.id]: payload.review}});
+      //   return Object.assign({}, state, {reviews: {[payload.id]: payload.reviews}});
 
-    case (ActionType.GET_REVIEWS): // дописать
+    case (ActionType.GET_REVIEWS):
 
-      return Object.assign({}, state, {reviews: payload.reviews});
+      return Object.assign({}, state, {reviews: {[payload.id]: payload.reviews}});
 
     case (ActionType.ADD_TO_FAVORITES):
 

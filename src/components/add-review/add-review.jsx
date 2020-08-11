@@ -1,6 +1,9 @@
 import React, {PureComponent, createRef} from "react";
 import PropTypes from "prop-types";
 
+import {Link} from "react-router-dom";
+import {AppRoute} from "../../const.js";
+
 const RATING_MULTIPLIER = 2;
 
 const REVIEW_BACKGROUND_COLOR = `#b7b3b2`;
@@ -31,17 +34,17 @@ class AddReview extends PureComponent {
 
           <header className="page-header">
             <div className="logo">
-              <a href="main.html" className="logo__link">
+              <Link to={AppRoute.ROOT} className="logo__link">
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
-              </a>
+              </Link>
             </div>
 
             <nav className="breadcrumbs">
               <ul className="breadcrumbs__list">
                 <li className="breadcrumbs__item">
-                  <a href="movie-page.html" className="breadcrumbs__link">{movie.title}</a>
+                  <Link to={AppRoute.getMovieInfo(movie.id)} className="breadcrumbs__link">{movie.title}</Link>
                 </li>
                 <li className="breadcrumbs__item">
                   <a className="breadcrumbs__link">Add review</a>
@@ -50,9 +53,9 @@ class AddReview extends PureComponent {
             </nav>
 
             <div className="user-block">
-              <div className="user-block__avatar">
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
-              </div>
+              <Link to={AppRoute.MY_LIST}>
+                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" onClick={() => console.log(`ava`)}/>
+              </Link>
             </div>
           </header>
 
