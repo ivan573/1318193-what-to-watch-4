@@ -1,6 +1,7 @@
 const ALL_GENRES = `All genres`;
 
 const MOVIES_TO_SHOW_AT_ONCE = 8;
+const SIMILAR_MOVIES_TO_SHOW = 4;
 
 const AppRoute = {
   ROOT: `/`,
@@ -15,4 +16,4 @@ const AppRoute = {
   getVideoPlayer: (id) => `/films/${id}/player`
 };
 
-export {ALL_GENRES, MOVIES_TO_SHOW_AT_ONCE, AppRoute};
+export {ALL_GENRES, MOVIES_TO_SHOW_AT_ONCE, SIMILAR_MOVIES_TO_SHOW, AppRoute};

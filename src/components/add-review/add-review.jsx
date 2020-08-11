@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import {Link} from "react-router-dom";
 import {AppRoute} from "../../const.js";
 
+import avatar from "../../../public/img/avatar.jpg";
+
 const RATING_MULTIPLIER = 2;
 
 const REVIEW_BACKGROUND_COLOR = `#b7b3b2`;
@@ -21,7 +23,7 @@ class AddReview extends PureComponent {
   }
 
   render() {
-    const {activeItem, changeActiveItem, movie} = this.props;
+    const {activeItem, changeActiveItem, movie, restoreMovies} = this.props;
 
     return (
       <section className="movie-card movie-card--full" style={{backgroundColor: movie.color}}>
@@ -34,7 +36,7 @@ class AddReview extends PureComponent {
 
           <header className="page-header">
             <div className="logo">
-              <Link to={AppRoute.ROOT} className="logo__link">
+              <Link to={AppRoute.ROOT} className="logo__link" onClick={restoreMovies}>
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -53,9 +55,11 @@ class AddReview extends PureComponent {
             </nav>
 
             <div className="user-block">
-              <Link to={AppRoute.MY_LIST}>
-                <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" onClick={() => console.log(`ava`)}/>
-              </Link>
+              <div className="user-block__avatar">
+                <Link to={AppRoute.MY_LIST}>
+                  <img src={avatar} alt="User avatar" width="63" height="63" />
+                </Link>
+              </div>
             </div>
           </header>
 
@@ -109,7 +113,8 @@ AddReview.propTypes = {
     poster: PropTypes.string.isRequired,
     background: PropTypes.string.isRequired,
     color: PropTypes.string.isRequired
-  })
+  }),
+  restoreMovies: PropTypes.func.isRequired
 };
 
 export {AddReview as default};

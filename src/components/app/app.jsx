@@ -32,7 +32,7 @@ import {getAuthorizationStatus} from "../../reducer/user/selectors.js";
 import {Operation as DataOperation} from "../../reducer/data/data.js";
 
 import history from "../../history.js";
-import {AppRoute} from "../../const.js";
+import {ALL_GENRES, AppRoute} from "../../const.js";
 
 const VideoPlayer = withVideo(Player);
 const MovieInfo = withMovieInfo(MovieInfoComponent);
@@ -62,111 +62,95 @@ class App extends PureComponent {
       favoriteMovies,
       promoMovie,
       reviews,
-      getReviews
+      getMovieComments
     } = this.props;
+
+    const returnBack = () => {
+      if (activeMovie) {
+        history.push(AppRoute.getMovieInfo(activeMovie.id));
+        return;
+      }
+      history.push(AppRoute.ROOT);
+    };
+
+    const restoreMovies = () => {
+      onGenreClick(ALL_GENRES, allMovies);
+    };
 
     return (
       <Router history={history}>
         <Switch>
-          <Route exact path={AppRoute.LOGIN}
-            render={() =>
-              <SignIn
-                onSubmit={login}
-              />}/>
-          <Route exact path={AppRoute.ROOT} render={() => this._renderApp()}/>
+          <Route exact path={AppRoute.LOGIN} render={() => {
+            return <SignIn
+              onSubmit={(data) => {
+                login(data);
+                returnBack();
+              }}
+              restoreMovies={restoreMovies}
+            />;
+          }}/>
+          <Route exact path={AppRoute.ROOT} render={() => {
+            return <Main
+              headerMovie={promoMovie}
+              moviesList={shownMovies}
+              uniqueGenres={getUniqueGenres(allMovies)}
+              areAllMoviesShown={areAllMoviesShown}
+              onCardClick={onMovieCardClick}
+              onGenreClick={(evt, genre) => {
+                evt.preventDefault();
+                onGenreClick(genre, allMovies);
+              }}
+              onShowMoreClick={() => onShowMoreClick(moviesList)}
+              onPlayMovieClick={onPlayMovieClick}
+              allMovies={allMovies}
+              authorizationStatus={authorizationStatus}
+              onAddToFavoritesClick={onAddToFavoritesClick}
+            />;
+          }}/>
           <Route exact path={AppRoute.MOVIE_INFO} render={(props) => {
             return <MovieInfo
               movie={getMovieById(props.match.params.id, allMovies)}
-              moviesList={moviesList}
+              moviesList={shownMovies}
               onCardClick={onMovieCardClick}
               onPlayMovieClick={onPlayMovieClick}
               allMovies={allMovies}
               authorizationStatus={authorizationStatus}
               onAddToFavoritesClick={onAddToFavoritesClick}
-              reviews={getMovieReviews(props.match.params.id, reviews, getReviews)} //getReviews(props.match.params.id)}
+              getReviews={(id) => getMovieReviews(id, reviews, getMovieComments)}
+              restoreMovies={restoreMovies}
             />;
-          }}>
-          </Route>
-          <Route exact path={AppRoute.ADD_REVIEW} render={(props) => {
+          }}/>
+          <Route exact path={AppRoute.VIDEO_PLAYER} render={(props) => {
+            return <VideoPlayer
+              movie={getMovieById(props.match.params.id, allMovies)}
+              isMuted={false}
+              isPreviewMode={false}
+              onExitClick={() => {
+                onPlayMovieClick(null);
+                returnBack();
+              }}
+            />;
+          }}/>
+          <PrivateRoute exact path={AppRoute.MY_LIST} render={() => {
+            return <MyList
+              movies={favoriteMovies}
+              allMovies={allMovies}
+              onCardClick={onMovieCardClick}
+              restoreMovies={restoreMovies}
+            />;
+          }}/>
+          <PrivateRoute exact path={AppRoute.ADD_REVIEW} render={(props) => {
             return <AddReview
               onSubmitClick={onSubmitClick}
               movie={getMovieById(props.match.params.id, allMovies)}
+              restoreMovies={restoreMovies}
             />;
-          }}>
-          </Route>
-          <Route exact path={AppRoute.VIDEO_PLAYER}>
-            <VideoPlayer
-              movie={playingMovie}
-              isMuted={false}
-              isPreviewMode={false}
-              // the played movie in the store sets to null thus the app receives to the state before the movie started playing
-              onExitClick={() => onPlayMovieClick(null)}
-            />
-          </Route>
-          <PrivateRoute exact path={AppRoute.MY_LIST}
-            render={() => {
-              return (
-                <MyList
-                  movies={favoriteMovies}
-                  allMovies={allMovies}
-                  onCardClick={onMovieCardClick}
-                />
-              );
-            }}
-          />
+          }}/>
         </Switch>
-      </ Router>
+      </Router>
     );
   }
 
-  _renderApp() {
-
-    const {
-      playingMovie,
-      activeMovie,
-      allMovies,
-      moviesList,
-      shownMovies,
-      areAllMoviesShown,
-      onMovieCardClick,
-      onGenreClick,
-      onShowMoreClick,
-      onPlayMovieClick,
-      authorizationStatus,
-      onAddToFavoritesClick,
-      promoMovie
-    } = this.props;
-
-    // if (authorizationStatus !== AuthorizationStatus.AUTH) {
-    //   return history.push((AppRoute.LOGIN));
-    // }
-
-    // if (playingMovie) {
-    //   return history.push(AppRoute.getVideoPlayer(playingMovie.id));
-    // }
-
-    // if (activeMovie) {
-    //   return history.push(AppRoute.getMovieInfo(activeMovie.id));
-    // }
-
-    return <Main
-      headerMovie={promoMovie}
-      moviesList={shownMovies}
-      uniqueGenres={getUniqueGenres(allMovies)}
-      areAllMoviesShown={areAllMoviesShown}
-      onCardClick={onMovieCardClick}
-      onGenreClick={onGenreClick}
-      onShowMoreClick={() => onShowMoreClick(moviesList)}
-      onPlayMovieClick={onPlayMovieClick}
-      allMovies={allMovies}
-      authorizationStatus={authorizationStatus}
-      onAddToFavoritesClick={onAddToFavoritesClick}
-    />;
-  }
-
-  _onAvatarClick() {
-    history.push();
-  }
 }
 
 App.propTypes = {
@@ -228,7 +212,8 @@ App.propTypes = {
   onAddToFavoritesClick: PropTypes.func.isRequired,
   favoriteMovies: PropTypes.array,
   promoMovie: PropTypes.object.isRequired,
-  getReviews: PropTypes.func.isRequired
+  reviews: PropTypes.object.isRequired,
+  getMovieComments: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (state) => ({
@@ -247,9 +232,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   onMovieCardClick(movie, allMovies) {
     dispatch(ActionCreator.changeActiveMovie(movie, allMovies));
+    history.push(AppRoute.getMovieInfo(movie.id));
   },
-  onGenreClick(evt, genre, allMovies) {
-    evt.preventDefault();
+  onGenreClick(genre, allMovies) {
     dispatch(ActionCreator.changeFilter(genre, allMovies));
   },
   onShowMoreClick(movies) {
@@ -257,17 +242,21 @@ const mapDispatchToProps = (dispatch) => ({
   },
   onPlayMovieClick(movie) {
     dispatch(ActionCreator.changePlayingMovie(movie));
+    if (movie) {
+      history.push(AppRoute.getVideoPlayer(movie.id));
+    }
   },
   login(authData) {
     dispatch(UserOperation.login(authData));
   },
   onSubmitClick(id, rating, text) {
     dispatch(DataOperation.postReview(id, rating, text));
+    history.push(AppRoute.getMovieInfo(id));
   },
   onAddToFavoritesClick(id, status) {
     dispatch(DataOperation.addToFavorites(id, status));
   },
-  getReviews(id) {
+  getMovieComments(id) {
     dispatch(DataOperation.getReviews(id));
   }
 });

@@ -1,5 +1,5 @@
 import React, {PureComponent} from "react";
-// import PropTypes from "prop-types";
+import PropTypes from "prop-types";
 
 import {TabOption} from "../../components/tabs/tabs.jsx";
 
@@ -13,7 +13,14 @@ const withMovieInfo = (Component) => {
       this._tabClickHandler = this._tabClickHandler.bind(this);
     }
 
+    componentDidUpdate(prevProps) {
+      if (prevProps.movie.id !== this.props.movie.id) {
+        this.setState({activeTab: TabOption.OVERVIEW});
+      }
+    }
+
     render() {
+
       const {activeTab} = this.state;
       return (
         <Component
@@ -30,7 +37,11 @@ const withMovieInfo = (Component) => {
     }
   }
 
-  // WithMoviesList.PropTypes = {};
+  WithMovieInfo.propTypes = {
+    movie: PropTypes.shape({
+      id: PropTypes.number.isRequired
+    }).isRequired
+  };
 
   return WithMovieInfo;
 };

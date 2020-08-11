@@ -125,8 +125,10 @@ const getReviewsTab = (reviews) => {
     });
   };
 
-  const firstColumn = reviews.slice(0, COLUMN_LENGTH);
-  const secondColumn = reviews.slice(COLUMN_LENGTH, REVIEWS_TO_SHOW);
+  const movieReviews = reviews ? reviews : [];
+
+  const firstColumn = movieReviews.slice(0, COLUMN_LENGTH);
+  const secondColumn = movieReviews.slice(COLUMN_LENGTH, REVIEWS_TO_SHOW);
 
   return (
     <div className="movie-card__reviews movie-card__row">
@@ -141,7 +143,9 @@ const getReviewsTab = (reviews) => {
 };
 
 const Tabs = (props) => {
-  const {activeTab, movie, reviews} = props;
+  const {activeTab, movie, getReviews} = props;
+
+  const reviews = getReviews(movie.id);
 
   let tab = null;
 
@@ -162,15 +166,10 @@ const Tabs = (props) => {
 
 Tabs.propTypes = {
   activeTab: PropTypes.string.isRequired,
-  reviews: arrayOf({
-    id: PropTypes.number.isRequired,
-    user: PropTypes.shape({
-      name: PropTypes.string.isRequired
-    }).isRequired,
-    rating: PropTypes.number.isRequired,
-    comment: PropTypes.string.isRequired,
-    date: PropTypes.string.isRequired
-  })
+  movie: PropTypes.shape({
+
+  }).isRequired,
+  getReviews: PropTypes.func.isRequired
 };
 
 export {Tabs as default, TabOption};

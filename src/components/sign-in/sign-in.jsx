@@ -15,12 +15,14 @@ class SignIn extends PureComponent {
   }
 
   render() {
+    const {restoreMovies} = this.props;
+
     return (
       <React.Fragment>
         <div className="user-page">
           <header className="page-header user-page__head">
             <div className="logo">
-              <Link to={AppRoute.ROOT} className="logo__link">
+              <Link to={AppRoute.ROOT} className="logo__link" onClick={restoreMovies}>
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -50,7 +52,7 @@ class SignIn extends PureComponent {
 
           <footer className="page-footer">
             <div className="logo">
-              <Link to={AppRoute.ROOT} className="logo__link logo__link--light">
+              <Link to={AppRoute.ROOT} className="logo__link logo__link--light" onClick={restoreMovies}>
                 <span className="logo__letter logo__letter--1">W</span>
                 <span className="logo__letter logo__letter--2">T</span>
                 <span className="logo__letter logo__letter--3">W</span>
@@ -79,7 +81,8 @@ class SignIn extends PureComponent {
 }
 
 SignIn.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  onSubmit: PropTypes.func.isRequired,
+  restoreMovies: PropTypes.func.isRequired
 };
 
 export {SignIn as default};

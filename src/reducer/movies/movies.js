@@ -1,4 +1,4 @@
-import {ALL_GENRES, MOVIES_TO_SHOW_AT_ONCE} from "../../const.js";
+import {ALL_GENRES, MOVIES_TO_SHOW_AT_ONCE, SIMILAR_MOVIES_TO_SHOW} from "../../const.js";
 import {updateMovies} from "../../utils.js";
 
 const initialState = {
@@ -53,7 +53,7 @@ const reducer = (state = initialState, {type, payload}) => {
 
       const similarMovies = payload.allMovies.filter((movie) => movie.genre === payload.activeMovie.genre && movie.title !== payload.activeMovie.title);
 
-      shownMovies = similarMovies.slice(0, MOVIES_TO_SHOW_AT_ONCE);
+      shownMovies = similarMovies.slice(0, SIMILAR_MOVIES_TO_SHOW);
 
       return Object.assign({}, state, {
         activeMovie: payload.activeMovie,
